@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <array name="add_menu">
+
+        <item>@drawable/add_fab</item>
+        <item>@drawable/abc_vector_test</item>
+
+    </array>
+
+    <array name="menu_back_colors">
+        <item>@android:color/holo_blue_light</item>
+        <item>@android:color/holo_green_dark</item>
+    </array>
+
+
+</resources>

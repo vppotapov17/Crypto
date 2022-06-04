@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_15sdp"
+    app:cardCornerRadius="@dimen/_20sdp"
+    app:cardBackgroundColor="#F6F6F6"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="28dp"
+        android:paddingTop="12dp"
+        android:paddingRight="28dp"
+        android:paddingBottom="12dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/author"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textColor="@color/colorAccent"
+            android:text="vppotapov17"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/grade"
+            android:fontFamily="@font/ubuntu_light"
+            android:textColor="@color/Black"
+            android:text="Плохо"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+
+            />
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:id="@+id/gradeImage"
+            app:layout_constraintRight_toLeftOf="@id/grade"
+            app:layout_constraintTop_toTopOf="@id/grade"
+            app:layout_constraintBottom_toBottomOf="@id/grade"
+            android:layout_marginRight="6dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/answerText"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="16sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="14dp"
+            android:text="Текст ответа"
+            app:layout_constraintTop_toBottomOf="@id/author"
+            />
+
+        <ImageButton
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:scaleType="fitCenter"
+            android:id="@+id/like"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/answerText"
+            android:tint="@color/MainColorOrange"
+            android:layout_gravity="center"
+            android:layout_marginTop="12dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_like_outlined"
+            />
+
+        <TextView
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:id="@+id/rating"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="16sp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="@id/like"
+            app:layout_constraintLeft_toRightOf="@id/like"
+            app:layout_constraintBottom_toBottomOf="@id/like"
+            android:layout_marginLeft="6dp"
+            android:textColor="@color/Black"
+            android:text="-3"
+            />
+
+        <ImageButton
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
+            android:id="@+id/dislike"
+            android:tint="@color/MainColorOrange"
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="@id/rating"
+            app:layout_constraintBottom_toBottomOf="@id/rating"
+            app:layout_constraintLeft_toRightOf="@id/rating"
+            android:layout_marginLeft="6dp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_dislike_outlined"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateTitle"
+            android:text="15.07.2021"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/ubuntu_light"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/answerText"
+            android:layout_marginRight="@dimen/_15sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

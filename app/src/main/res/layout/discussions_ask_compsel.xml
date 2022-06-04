@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/app_bar"
+        android:theme="@style/AppBarWhite2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center">
+
+                <ImageView
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/MainColorOrange"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="@dimen/_15ssp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Подбор комплектующих"
+                    />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/budgetTitle"
+        android:fontFamily="@font/circe_bold"
+        android:textColor="@color/Black"
+        android:gravity="center"
+        android:textSize="@dimen/_15ssp"
+
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:text="Бюджет сборки"/>
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:id="@+id/budgetValue"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:fontFamily="@font/circe_bold"
+        android:paddingLeft="@dimen/_7sdp"
+        android:paddingRight="@dimen/_7sdp"
+        android:gravity="center"
+        android:maxLength="6"
+        android:inputType="number"
+        android:background="@drawable/text_input"
+        android:layout_marginRight="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintEnd_toStartOf="@id/currency"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_30sdp"
+        android:id="@+id/currency"
+        android:layout_marginTop="@dimen/_20sdp"
+        app:layout_constraintTop_toBottomOf="@id/app_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="@font/circe_bold"
+        android:textSize="@dimen/_15ssp"
+        android:gravity="center"
+        android:textColor="@color/Black"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:text="₽"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/details"
+        android:fontFamily="@font/circe_bold"
+        android:text="Подробнее о сборке"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/_15ssp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/budgetTitle" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_220sdp"
+        android:scrollbars="vertical"
+        android:background="@drawable/text_input"
+        android:hint="Расскажите подообно о желаемой конфигурации"
+        android:id="@+id/commentText"
+        app:layout_constraintTop_toBottomOf="@id/details"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:textSize="@dimen/_12ssp"
+        android:fontFamily="@font/inter_regular"
+        android:lineHeight="@dimen/_20sdp"
+        android:paddingRight="@dimen/_20sdp"
+        android:paddingLeft="@dimen/_20sdp"
+        android:paddingTop="@dimen/_15sdp"
+        android:paddingBottom="@dimen/_15sdp"
+        android:textColor="@color/colorAccent"/>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/publication"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:fontFamily="@font/inter_black"
+        android:text="ОПУБЛИКОВАТЬ"
+        android:textSize="@dimen/_10ssp"
+        app:cornerRadius="@dimen/_10sdp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_30sdp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

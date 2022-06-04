@@ -1,0 +1,70 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="navigation_guide">Гайд по сборке</string>
+    <string name="navigation_my">Мои сборки</string>
+    <string name="navigation_createhelper">Помощник</string>
+    <string name="my_configurations">Сохранённые конфигурации</string>
+    <string name="chooseproc">Процессор</string>
+    <string name="choosemotherboard">Материнская плата</string>
+    <string name="continue_create">Продолжить выбор</string>
+    <string name="add">ДОБАВИТЬ</string>
+    <string name="buy">КУПИТЬ</string>
+
+    <!--Характеристики комплектующих-->
+    <string name="general_info">Общая информация</string>
+    <string name="price_quality">Цена/качество (0-100)</string>
+    <string name="tests">Тест в 3DMark</string>
+    <string name="specifications">Характеристики</string>
+    <string name="socket">Сокет</string>
+    <string name="cores_streams">Количество ядер/потоков</string>
+    <string name="base_frequency">Базовая частота</string>
+    <string name="turbo_frequency">Максимальная частота</string>
+    <string name="cache_l3">Кэш L3</string>
+    <string name="tech_process">Техпроцесс</string>
+    <string name="TDP">Тепловыделение</string>
+    <string name="type_of_ram">Тип памяти</string>
+    <string name="video">Интегрированное видеоядро</string>
+    <string name="ff">Форм-фактор</string>
+    <string name="chipset">Чипсет</string>
+    <string name="release_year">Год релиза</string>
+    <string name="max_ramFrequency">Максимальая частота</string>
+    <string name="quantity_of_slots">Количество слотов</string>
+    <string name="max_sizeRam">Максимальный объём</string>
+    <string name="connectors_slots">Разъёмы и слоты расширения</string>
+    <string name="usb">Внешние USB</string>
+    <string name="ps2">Разъёмов PS/2</string>
+    <string name="pcie_x16">PCI-E 3.0 x16</string>
+    <string name="pcie_x1">PCI-E x1</string>
+
+    <!--Виды комплектующих-->
+    <string name="cpu">Процессор</string>
+    <string name="mb">Материнская плата</string>
+    <string name="ozu">Оперативная память</string>
+    <string name="gpu">Видеокарта</string>
+    <string name="hdd">Жёсткий диск</string>
+    <string name="bp">Блок питания</string>
+    <string name="storage">Накопители</string>
+    <string name="ssd">SSD-диск</string>
+    <string name="cooler">Охлаждение</string>
+    <string name="pcCase">Корпус</string>
+
+    <!--Виды комплектующих CAPS-->
+    <string name="CPU">ПРОЦЕССОР</string>
+    <string name="MB">МАТЕРИНСКАЯ ПЛАТА</string>
+    <string name="OZU">ОПЕРАТИВНАЯ ПАМЯТЬ</string>
+    <string name="GPU">ВИДЕОКАРТА</string>
+    <string name="HDD">ЖЁСТКИЙ ДИСК</string>
+    <string name="BP">БЛОК ПИТАНИЯ</string>
+    <string name="STORAGE">НАКОПИТЕЛИ</string>
+    <string name="SSD">SSD-ДИСК</string>
+    <string name="COOLER">ОХЛАЖДЕНИЕ</string>
+    <string name="PCCASE">КОРПУС</string>
+
+
+    <string name="cancel_action">ОТМЕНА</string>
+    <string name="ok_action">ОК</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="ad_banner_id">ca-app-pub-8806973627819279/5056620057</string>
+</resources>

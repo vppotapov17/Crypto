@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/_15sdp"
+    app:cardCornerRadius="@dimen/_20sdp"
+    app:cardBackgroundColor="#F6F6F6"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/author"
+            android:fontFamily="@font/ubuntu_bold"
+            android:textColor="@color/colorAccent"
+            android:text="vppotapov17"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/answerText"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="не разбираешься - не лезь в железо, блаблабла - блаблабла"
+            app:layout_constraintTop_toBottomOf="@id/author"
+            />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/showConfig"
+            android:clickable="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            app:cardCornerRadius="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@id/answerText"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ПОКАЗАТЬ СБОРКУ"
+                android:layout_gravity="left|center"
+                android:textSize="@dimen/_11ssp"
+                android:fontFamily="@font/raleway_light"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                />
+
+            <ImageView
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_eye"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_gravity="right|center"/>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <ImageButton
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
+            android:id="@+id/like"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/showConfig"
+            android:layout_marginBottom="@dimen/_8sdp"
+            android:tint="@color/MainColorOrange"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_like_outlined"
+            />
+
+        <TextView
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:id="@+id/rating"
+            android:fontFamily="@font/raleway_light"
+            android:textSize="@dimen/_12ssp"
+            android:gravity="center"
+            app:layout_constraintLeft_toRightOf="@id/like"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/showConfig"
+            android:textColor="@color/Black"
+            android:text="-3"
+            />
+
+        <ImageButton
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:padding="@dimen/_2sdp"
+            android:scaleType="fitCenter"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:id="@+id/dislike"
+            android:tint="@color/MainColorOrange"
+            android:layout_gravity="center"
+            app:layout_constraintLeft_toRightOf="@id/rating"
+            app:layout_constraintTop_toBottomOf="@id/showConfig"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:src="@drawable/ic_dislike_outlined"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15.07.2021"
+            android:id="@+id/dateValue"
+            android:textSize="@dimen/_11ssp"
+            android:fontFamily="@font/ubuntu_light"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/showConfig"
+            android:layout_marginRight="@dimen/_15sdp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

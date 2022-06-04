@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/app_bar"
+        android:theme="@style/AppBarWhite2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="55dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left|center">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:id="@+id/back_button"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:tint="@color/MainColorOrange"
+                    android:background="?android:attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_arrow_back"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/questionId"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/back_button"
+                    android:layout_marginLeft="15dp"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="19sp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Добавить ответ"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/create"
+        android:fontFamily="@font/circe_bold"
+        android:text="Создайте сборку"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/app_bar" />
+
+    <TextView
+        android:id="@+id/budget"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:text="до 15000 RUB"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorAccentOptional"
+        android:textSize="14sp"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/create" />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="210dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/confName"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/circe_bold"
+        android:gravity="center|left"
+        android:hint="Имя сборки"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textSize="15sp"
+        android:textColor="@color/Black"
+        android:inputType="textPersonName"
+        android:drawableTint="@color/MainColorOrange"
+        android:layout_marginLeft="25dp"
+        app:layout_constraintTop_toBottomOf="@id/budget"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:id="@+id/create_configuration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/MainColorOrange"
+        app:rippleColor="@color/MainColorOrange"
+        android:fontFamily="@font/inter_black"
+        android:text="СОЗДАТЬ"
+        android:textSize="11sp"
+        app:cornerRadius="15dp"
+        app:layout_constraintTop_toTopOf="@id/confName"
+        app:layout_constraintBottom_toBottomOf="@id/confName"
+        app:layout_constraintLeft_toRightOf="@id/confName"
+        android:layout_marginLeft="15dp"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment"
+        android:fontFamily="@font/circe_bold"
+        android:text="Комментарий"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/confName"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxHeight="230dp"
+        android:id="@+id/inputField"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/inter_regular"
+        android:gravity="left"
+        android:hint="Добавьте комментарий"
+        android:scrollbars="vertical"
+        android:paddingRight="24dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="19dp"
+        android:paddingBottom="19dp"
+        android:layout_marginTop="20dp"
+        android:textSize="15sp"
+        android:textColor="@color/Black"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/comment"
+
+         />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/publication"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        app:cornerRadius="14dp"
+        android:fontFamily="@font/inter_black"
+        android:text="ОПУБЛИКОВАТЬ"
+        android:textColor="@color/White"
+        android:textSize="14sp"
+        android:backgroundTint="@color/MainColorOrange"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="26dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

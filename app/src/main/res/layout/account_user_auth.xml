@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="50dp"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            >
+
+            <View
+                android:id="@+id/view1"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@color/MainColorOrange"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:id="@+id/view2"
+                android:background="@drawable/ic_header"
+                app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/username"
+                android:fontFamily="@font/inter_black"
+                android:textColor="@color/White"
+                android:textSize="35sp"
+                android:text=""
+                android:layout_marginLeft="35dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatar" />
+
+
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:id="@+id/star"
+                android:src="@drawable/ic_star_rate"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/avatar"
+                app:layout_constraintTop_toBottomOf="@id/username"
+                app:layout_constraintLeft_toLeftOf="@id/username"
+                app:tint="@color/White" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/rating"
+                android:fontFamily="@font/inter_black"
+                android:text="4.7"
+                android:textColor="@color/White"
+                android:textSize="19sp"
+                android:layout_marginLeft="5dp"
+                app:layout_constraintLeft_toRightOf="@id/star"
+                app:layout_constraintTop_toTopOf="@id/star"
+                app:layout_constraintBottom_toBottomOf="@id/star"/>
+
+
+
+
+            <ImageView
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+                android:id="@+id/avatar"
+                android:src="@drawable/ic_man_avatar"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/view2"
+                android:layout_marginBottom="35dp"
+                android:layout_marginRight="35dp"
+                />
+
+
+            <!-->Личная информация<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/personalInfo"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/view2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/White"
+                app:cardElevation="2dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Личная информация"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <!-->Мой компьютер<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/myPC"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@+id/personalInfo"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/White"
+                app:cardElevation="2dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Мой компьютер"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circe_bold"
+                android:id="@+id/mySocialNetworksTitle"
+                android:text="Мои соцсети"
+                app:layout_constraintTop_toBottomOf="@id/myPC"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mySocialNetworksRv"
+                app:layout_constraintTop_toBottomOf="@id/mySocialNetworksTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circe_bold"
+                android:id="@+id/accountTitle"
+                android:text="Аккаунт"
+                app:layout_constraintTop_toBottomOf="@id/mySocialNetworksRv"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"/>
+
+
+            <!-->Сменить пароль<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/changePassword"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/accountTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:cardCornerRadius="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Сменить пароль"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-->Удалить аккаунт<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/deleteAccount"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/changePassword"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/White"
+                app:cardCornerRadius="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Удалить аккаунт"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-->Выйти<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/logout"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/deleteAccount"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/White"
+                app:cardCornerRadius="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Выйти"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/circe_bold"
+                android:id="@+id/applicationTitle"
+                android:text="Приложение"
+                app:layout_constraintTop_toBottomOf="@id/logout"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"/>
+
+            <!-->Настройки<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/settings"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/applicationTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/White"
+                app:cardCornerRadius="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="Настройки"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-->О приложении<!-->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/about"
+                android:clickable="true"
+                app:layout_constraintTop_toBottomOf="@id/settings"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@color/White"
+                app:cardCornerRadius="5dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/raleway_light"
+                    android:textSize="16sp"
+                    android:text="О приложении"
+                    android:layout_marginLeft="20dp"
+                    android:textColor="@color/Black"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"/>
+            </com.google.android.material.card.MaterialCardView>
+
+
+
+<!--            <View app:layout_constraintTop_toBottomOf="@id/about" android:layout_height="5dp"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                />-->
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <com.yandex.mobile.ads.banner.BannerAdView
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_gravity="center"
+        android:id="@+id/banner"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

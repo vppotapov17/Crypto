@@ -1,0 +1,47 @@
+<resources>
+    <style name="AppTheme"
+        parent="Theme.MaterialComponents.Light.NoActionBar"
+        >
+        <item name="colorPrimary">@color/MainColorOrange</item>
+        <item name="colorPrimaryDark">@color/MainColorOrange</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="chipStyle">@style/Widget.MaterialComponents.Chip.Choice</item>
+    </style>
+
+    <style name="AppBarWhite"
+        >
+        <item name="colorPrimary">@color/White</item>
+        <item name="fontFamily">@font/circe_bold</item>
+    </style>
+
+    <style name="AppBarWhite2"
+        >
+        <item name="colorPrimary">@color/White</item>
+    </style>
+
+    <style name="redTheme">
+        <item name="colorPrimary">@color/delete_red</item>
+    </style>
+
+    <style name="greenTheme">
+        <item name="colorPrimary">#43A047</item>
+    </style>
+
+    <style name="Launch"
+        parent="Theme.AppCompat.Light.NoActionBar"
+        >
+        <item name="android:windowBackground">@drawable/launcher_screen</item>
+
+    </style>
+
+    <style name="CirceFont">
+        <item name="fontFamily">@font/circe_bold</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlayExtended" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">25dp</item>
+    </style>
+
+</resources>

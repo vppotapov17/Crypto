@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_60sdp"
+        android:background="@color/MainColorOrange"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:id="@+id/view2"
+        android:background="@drawable/ic_wave"
+        app:layout_constraintTop_toBottomOf="@+id/view1" />
+
+    <ImageButton
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        android:id="@+id/close_button"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:src="@drawable/ic_close"
+        android:layout_marginLeft="@dimen/_7sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_37sdp"
+        android:fontFamily="@font/inter_black"
+        android:text="Регистрация"
+        android:textColor="@color/White"
+        android:textSize="@dimen/_22ssp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        android:src="@drawable/ic_person_add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/White" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:id="@+id/username"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/circe_bold"
+        android:gravity="center|left"
+        android:hint="Имя пользователя"
+        android:paddingLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/Black"
+        android:inputType="textPersonName"
+        android:drawableTint="@color/MainColorOrange"
+        android:drawablePadding="@dimen/_10sdp"
+        android:drawableStart="@drawable/ic_person"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/view2"
+        />
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/email"
+        android:hint="Email"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/circe_bold"
+        android:gravity="center|left"
+        android:drawablePadding="@dimen/_10sdp"
+        android:drawableStart="@drawable/ic_email"
+        android:drawableTint="@color/MainColorOrange"
+        android:paddingLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/Black"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/username"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/password"
+        android:hint="Пароль"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawableTint="@color/MainColorOrange"
+        android:drawablePadding="@dimen/_10sdp"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/circe_bold"
+        android:gravity="center|left"
+        android:paddingLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/Black"
+        android:inputType="textPassword"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/repeat_password"
+        android:hint="Повторите пароль"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawableTint="@color/MainColorOrange"
+        android:drawablePadding="@dimen/_10sdp"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/circe_bold"
+        android:gravity="center|left"
+        android:paddingLeft="@dimen/_10sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/Black"
+        android:inputType="textPassword"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password"
+        />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="@dimen/_210sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:id="@+id/registration_button"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:backgroundTint="@color/MainColorOrange"
+        app:layout_constraintTop_toBottomOf="@id/repeat_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/_25sdp"
+        app:cornerRadius="@dimen/_16sdp"
+        android:textColor="@color/White"
+        android:fontFamily="@font/inter_black"
+        android:textSize="@dimen/_11ssp"
+        android:text="ЗАРЕГИСТРИРОВАТЬСЯ"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_25sdp"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registration_button" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/circe_bold"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:text="Уже есть аккаунт?"
+        android:textColor="@color/MainColorOrange"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="@dimen/_10sdp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="@color/colorAccent"
+        android:textSize="@dimen/_12ssp"
+        android:fontFamily="@font/circe_reg"
+        android:text="ВОЙТИ"/>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

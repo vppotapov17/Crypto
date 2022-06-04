@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-->Appbar<!-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:theme="@style/AppBarWhite2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/appbar"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/screenImage"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_discussions_logo"
+                    app:tint="@color/MainColorOrange"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="19sp"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintTop_toTopOf="@id/screenImage"
+                    app:layout_constraintBottom_toBottomOf="@id/screenImage"
+                    app:layout_constraintLeft_toRightOf="@id/screenImage"
+                    android:layout_marginLeft="14dp"
+                    android:text="Обсуждения"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="20dp"
+                android:text="Возникла проблема со сборкой?"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/subtitle"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:textSize="13sp"
+                android:textColor="@color/Black"
+                android:fontFamily="@font/inter_regular"
+                android:text="Напишите о ней здесь, вам обязательно помогут!"/>
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:id="@+id/askQuestionImage"
+                app:layout_constraintTop_toBottomOf="@id/subtitle"
+                android:src="@drawable/ic_ask_question"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="25dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/askQuestionText"
+                app:layout_constraintTop_toBottomOf="@id/askQuestionImage"
+                app:layout_constraintLeft_toLeftOf="@id/askQuestionImage"
+                app:layout_constraintRight_toRightOf="@id/askQuestionImage"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:textColor="@color/colorAccent"
+                android:text="Задайте свой вопрос"
+                android:textSize="17sp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/myQuestionsTitle"
+                app:layout_constraintTop_toBottomOf="@id/askQuestionText"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:text="Опубликованные вопросы"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"/>
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/shimmer"
+                android:paddingTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/myQuestionsTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/shimmer_my_question"/>
+                    <include layout="@layout/shimmer_my_question"/>
+
+                </LinearLayout>
+
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:id="@+id/myQuestionsRV"
+                app:layout_constraintTop_toBottomOf="@id/myQuestionsTitle"
+                android:paddingBottom="10dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/otherQuestionsTitle"
+                app:layout_constraintTop_toBottomOf="@id/shimmer"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="20dp"
+                android:text="Помочь другим пользователям"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"/>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/otherQuestionsRV"
+                app:layout_constraintTop_toBottomOf="@id/otherQuestionsTitle"
+                />
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/shimmer2"
+                android:paddingTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/otherQuestionsTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <include layout="@layout/shimmer_other_question"/>
+                    <include layout="@layout/shimmer_other_question"/>
+
+                </LinearLayout>
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

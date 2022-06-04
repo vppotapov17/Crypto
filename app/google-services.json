@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "236724114364",
+    "firebase_url": "https://pchelper-62cf4-default-rtdb.firebaseio.com",
+    "project_id": "pchelper-62cf4",
+    "storage_bucket": "pchelper-62cf4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:236724114364:android:e16da236991f9ea474d1b9",
+        "android_client_info": {
+          "package_name": "com.potapp.cyberhelper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "236724114364-0bborrttqpgqkokk91kkeatn3u4oth8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm7IvtLDEETGZl4t3thDlT6atmnlF1jLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "236724114364-0bborrttqpgqkokk91kkeatn3u4oth8a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

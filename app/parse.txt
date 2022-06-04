@@ -1,0 +1,104 @@
+//        List<String> names = new ArrayList<>();
+//        List<String> codes = new ArrayList<>();
+//
+//        Document docUrls;
+//
+//        for (int i = 1; true; ++i){
+//            String current_page = "https://www.citilink.ru/catalog/processory/?p=" + i;         // создание ссылки на текущую страницу
+//
+//            try {
+//                docUrls = Jsoup
+//                        .connect(current_page)
+//                        .userAgent("Chrome/4.0.249.0")
+//                        .get();
+//            } catch (IOException e) {
+//                break;
+//            }
+//
+//            try {
+//                Elements elements = docUrls.select("div.ProductCardHorizontal__header-block");
+//
+//                for (Element element : elements) {
+//
+//                    String n = element.select("a").text();
+//                    n = n.substring(n.indexOf(" ") + 1, n.indexOf(","));
+//                    names.add(n);
+//
+//                    String c = element.select("div.ProductCardHorizontal__vendor-code").text();
+//                    c = c.substring(c.indexOf(": ") + 1, c.length());
+//
+//                    codes.add(c);
+//                }
+//            }
+//            catch (Exception e){
+//
+//            }
+//
+//        }
+//
+//        Document document;
+//
+//        try {
+//            document = Jsoup
+//                    .connect("https://browser.geekbench.com/processor-benchmarks")
+//                    .userAgent("Chrome/4.0.249.0")
+//                    .get();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            document = null;
+//        }
+//
+//
+//        Elements elements = document.select("table.processor-benchmark");
+//        String s1 = elements.get(0).select("tbody > tr > td.name").text();
+//        String s2 = elements.get(1).select("tbody > tr > td.name").text();
+//
+//        Elements single_tests = document.select("table.processor-benchmark").get(0).select("tbody > tr");
+//        Elements multi_tests = document.select("table.processor-benchmark").get(1).select("tbody > tr");
+//
+//
+//        Map <String, String> benchmark = new HashMap<>();
+//
+//
+//
+//        for (Element element_multi : multi_tests) {
+//
+//            boolean f = false;
+//            String current_code = null;
+//            String name = element_multi.select("td.name > a").text();
+//
+//            String producer = name.substring(0, name.indexOf(" "));
+//            String model = name.substring(name.indexOf(" ") + 1, name.length());
+//            model = model.replace("-", " ");
+//            producer = producer.toUpperCase();
+//            name = producer + " " + model;
+//
+//            for (String str : names)
+//            {
+//                if (name.equals(str))
+//                {
+//                    f = true;
+//                    current_code = codes.get(names.indexOf(str));
+//                }
+//            }
+//
+//            if (!f) continue;
+//            Element element_single = null;
+//
+//            for (Element element : single_tests) {
+//                if (element.select("td.name").text().equals(element_multi.select("td.name").text()))
+//                    element_single = element;
+//            }
+//
+//
+//            String m = element_multi.select("td.score").text();
+//            String s = element_single.select("td.score").text();
+//            benchmark.put("Code", current_code);
+//            benchmark.put("Multi", m);
+//            benchmark.put("Single", s);
+//
+//            firestore.collection("Processors Benchmarks").document(name).set(benchmark);
+//
+//            benchmark.clear();
+//
+//        }

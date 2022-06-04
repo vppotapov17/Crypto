@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:id="@+id/app_bar"
+        android:theme="@style/AppBarWhite2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center">
+
+                <ImageView
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
+                    android:scaleType="fitCenter"
+                    android:layout_gravity="left|center"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/ic_arrow_back"
+                    app:tint="@color/MainColorOrange"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/appbarTitle"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="@dimen/_15ssp"
+                    android:textColor="@color/colorAccent"
+                    android:text="Другой вопрос"
+                    />
+
+            </LinearLayout>
+
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/questionText"
+        android:fontFamily="@font/circe_bold"
+        android:text="Текст вопроса"
+        android:textColor="@color/Black"
+        android:textSize="@dimen/_15ssp"
+        android:layout_marginTop="@dimen/_60sdp"
+        android:layout_marginLeft="@dimen/_25sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_350sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:background="@drawable/text_input"
+        android:fontFamily="@font/lato_regular"
+        android:gravity="left"
+        android:id="@+id/inputField"
+        android:padding="@dimen/_15sdp"
+        android:textSize="@dimen/_12ssp"
+        android:textColor="@color/Black"
+        android:hint="Напишите свой вопрос"
+        android:inputType="textMultiLine"
+        android:layout_marginLeft="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_25sdp"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/questionText" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/publication"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:background="@drawable/round_background"
+        android:fontFamily="@font/inter_black"
+        android:text="ОПУБЛИКОВАТЬ"
+        android:textColor="@color/White"
+        android:textSize="@dimen/_10ssp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="@dimen/_30sdp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

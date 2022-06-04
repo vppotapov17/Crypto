@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<item
+    android:id="@+id/navigation_configurator"
+    android:title="Конфигуратор"
+    android:icon="@drawable/ic_configurator_logo"
+    ></item>
+    <item
+    android:id="@+id/navigation_readyconfigurations"
+    android:title="Готовые сборки"
+        android:icon="@drawable/ic_logo"
+        >
+</item>
+    <item
+        android:id="@+id/navigation_questions"
+        android:title="Обсуждения"
+        android:icon="@drawable/ic_discussions_logo"
+        >
+    </item>
+    <item
+        android:icon="@drawable/ic_account_circle"
+        android:id="@+id/navigation_account"
+        android:title="Аккаунт">
+    </item>
+
+</menu>

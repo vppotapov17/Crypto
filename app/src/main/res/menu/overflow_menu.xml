@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item android:id="@+id/option_1"
+        android:title="Изменить"
+        android:icon="@drawable/ic_outline_edit"
+        />
+    <item android:id="@+id/option_2"
+        android:title="Удалить"
+        android:icon="@drawable/ic_outline_delete_sweep"
+        />
+    <item android:id="@+id/option_3"
+        android:title="Поделиться"
+        android:iconTint="#303F9F"
+        android:icon="@drawable/ic_outline_share" />
+</menu>

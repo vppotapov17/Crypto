@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f6f6f6"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".screens.readyConfigurations.MainReadyConfigurations">
+
+    <!-->Appbar<!-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:theme="@style/AppBarWhite2"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/appbar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/screenImage"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_discussions_logo"
+                    app:tint="@color/MainColorOrange"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="19sp"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintTop_toTopOf="@id/screenImage"
+                    app:layout_constraintBottom_toBottomOf="@id/screenImage"
+                    app:layout_constraintLeft_toRightOf="@id/screenImage"
+                    android:layout_marginLeft="14dp"
+                    android:text="Готовые сборки"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/autoSelectionTitle"
+                android:text="Подбор по параметрам"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"/>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/autoSelectionCard"
+                app:layout_constraintTop_toBottomOf="@id/autoSelectionTitle"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@color/White"
+                app:cardCornerRadius="20dp"
+                app:strokeWidth="0dp"
+                app:cardElevation="10dp"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <ImageView
+                        android:layout_width="182dp"
+                        android:layout_height="136.5dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:src="@drawable/ic_auto_selection"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"/>
+
+                    <TextView
+                        android:layout_width="190dp"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/text"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:fontFamily="@font/inter_extralight"
+                        android:textSize="14sp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="15dp"
+                        android:textColor="@color/Black"
+                        android:text="CyberHelper создаст лучшую для Вас сборку, учтёт все потребности и пожелания"/>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:text="НАЧАТЬ"
+                        android:textSize="13sp"
+                        app:cornerRadius="5dp"
+                        android:layout_marginRight="15dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/userConfigsTitle"
+                app:layout_constraintTop_toBottomOf="@id/autoSelectionCard"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                app:icon="@drawable/ic_arrow_forward"
+                app:iconTint="@color/Black"
+                app:iconPadding="20dp"
+                app:rippleColor="@color/colorAccent"
+                app:iconGravity="end"
+                android:text="Лучшее от пользователей"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/userConfigsRV"
+                app:layout_constraintTop_toBottomOf="@id/userConfigsTitle"
+                android:layout_marginTop="25dp"
+                />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/gameConfigsTitle"
+                app:layout_constraintTop_toBottomOf="@id/userConfigsRV"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Игровые сборки"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/gameConfigsTitle"
+                android:id="@+id/gameConfigsRV"
+                android:layout_marginTop="25dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/officeConfigsTitle"
+                app:layout_constraintTop_toBottomOf="@id/gameConfigsRV"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:text="ПК для учёбы и офиса"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/officeConfigsTitle"
+                android:id="@+id/officeConfigsRV"
+                android:layout_marginTop="25dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/workStationsTitle"
+                app:layout_constraintTop_toBottomOf="@id/officeConfigsRV"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
+                android:text="Рабочие станции"
+                android:fontFamily="@font/inter_bold"
+                android:textColor="@color/Black"
+                android:textSize="16sp"
+                />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/workStationsTitle"
+                android:id="@+id/workStationsRV"
+                android:layout_marginTop="25dp"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar"
+        android:background="@color/White"
+        >
+
+        <androidx.appcompat.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:title="Параметры ОЗУ"
+            app:navigationIcon="@drawable/suggest_options"
+            android:id="@+id/toolbar"
+            app:titleTextColor="@color/colorAccent"
+            app:titleTextAppearance="@style/CirceFont"
+            app:layout_scrollFlags="scroll|enterAlways"
+        >
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button_continue"
+                app:cornerRadius="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:textColor="@color/colorAccent"
+                android:layout_marginRight="10dp"
+                app:iconGravity="end"
+                android:layout_gravity="right|center"
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                app:icon="@drawable/ic_forward"
+                android:text="Далее"
+              />
+
+
+        </androidx.appcompat.widget.Toolbar>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".screens.configurator.componentList.params_ozu">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Объём одного модуля"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/sizeOzu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gb2"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="2GB"
+                    android:textSize="25sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gb4"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="4GB"
+                    android:textSize="25sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gb8"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:hapticFeedbackEnabled="true"
+                    android:text="8GB"
+                    android:textSize="25sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gb16"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="16GB"
+                    android:textSize="25sp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/gb32"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="32GB"
+                    android:textSize="25sp" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Количество модулей"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/quantityOzu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                app:selectionRequired="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/m1"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="1" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/m2"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="2" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/m4"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="4" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/m8"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="8" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Производитель"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/producerOzu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginLeft="20dp"
+                app:selectionRequired="false"
+                app:singleSelection="false">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_AMD"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="AMD" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Corsair"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Corsair" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Crucial"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Crucial" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Hynix"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Hynix" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Kingmax"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Kingmax" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Kingston"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Kingston" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Patriot"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Patriot" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/prod_Samsung"
+                    style="@style/Widget.MaterialComponents.Chip.Choice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:text="Samsung" />
+
+            </com.google.android.material.chip.ChipGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Частота, MHz"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                >
+
+                <com.google.android.material.textfield.TextInputLayout
+                   android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    android:layout_marginRight="50dp"
+                    >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/min_frequency"
+                        android:hint="От"
+                        android:textSize="15sp"
+                        android:fontFamily="@font/circe_bold"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    app:endIconMode="clear_text"
+                    android:layout_marginLeft="50dp"
+                    >
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/circe_bold"
+                        android:id="@+id/max_frequency"
+                        android:hint="До"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Латентность"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/circe_bold"
+                android:text="Особенности"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/specialOzu"
+                    android:layout_marginLeft="20dp"
+                    app:selectionRequired="false"
+                    app:singleSelection="false"
+                    >
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/radiator"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/circe_bold"
+                        android:text="Радиатор охлаждения" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/backlight"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/circe_bold"
+                        android:text="Подсветка" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.configurator.configurationList.configurationListFragment">
+
+    <!-->RecyclerView<!-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:id="@+id/rv"
+        />
+
+
+    <!-->Appbar<!-->
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:theme="@style/AppBarWhite2"
+        android:layout_height="55dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_scrollFlags="scroll|enterAlways"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:id="@+id/screenImage"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/ic_configurator_logo"
+                    app:tint="@color/MainColorOrange"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/circe_bold"
+                    android:textSize="19sp"
+                    android:textColor="@color/colorAccent"
+                    app:layout_constraintTop_toTopOf="@id/screenImage"
+                    app:layout_constraintBottom_toBottomOf="@id/screenImage"
+                    app:layout_constraintLeft_toRightOf="@id/screenImage"
+                    android:layout_marginLeft="15dp"
+                    android:text="Конфигуратор"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.appbar.MaterialToolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <!-->Shimmer-анимация<!-->
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/shimmer"
+        android:visibility="invisible"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="55dp"
+            android:orientation="vertical"
+            >
+
+            <include layout="@layout/shimmer_configuration_list"/>
+            <include layout="@layout/shimmer_configuration_list"/>
+            <include layout="@layout/shimmer_configuration_list"/>
+            <include layout="@layout/shimmer_configuration_list"/>
+
+        </LinearLayout>
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/createFirstConfiguration"
+        android:gravity="center"
+        android:text="Создайте первую конфигурацию!"
+        android:fontFamily="@font/circe_reg"
+        android:textSize="21sp"
+        android:layout_gravity="center"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_conf_button"
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp"
+        android:backgroundTint="@color/MainColorOrange"
+        android:clickable="true"
+        app:tint="@color/White"
+        app:layout_behavior="com.google.android.material.behavior.HideBottomViewOnScrollBehavior"
+        app:maxImageSize="25dp"
+        app:fabCustomSize="50dp"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/ic_add"
+        app:showMotionSpec="@android:anim/fade_in"
+        app:borderWidth="0dp" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

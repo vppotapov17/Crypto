@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingLeft="@dimen/_20sdp"
+    android:paddingRight="@dimen/_20sdp"
+    android:paddingTop="@dimen/_15sdp"
+    android:paddingBottom="@dimen/_25sdp">
+
+    <View
+        android:id="@+id/image"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:background="@drawable/shimmer_rectangle"
+        android:src="@drawable/ic_baseline_cpu"
+        app:layout_constraintBottom_toTopOf="@+id/fullPrice"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--> Иконка <!-->
+    <ImageView
+        android:id="@+id/fullPriceIcon"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
+        android:background="@drawable/shimmer_rectangle"
+        app:layout_constraintBottom_toBottomOf="@id/button1"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintLeft_toLeftOf="parent" />
+
+    <!--> Общая сумма сборки <!-->
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/fullPrice"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:background="@drawable/shimmer_rectangle"
+        app:layout_constraintBottom_toBottomOf="@id/button1"
+        app:layout_constraintTop_toTopOf="@id/button1"
+        app:layout_constraintLeft_toRightOf="@id/fullPriceIcon" />
+
+    <!--> Название комплектующего <!-->
+    <View
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:id="@+id/name"
+        android:background="@drawable/shimmer_rectangle"
+        android:layout_marginLeft="@dimen/_15sdp"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <!-->Спецификация 1<!-->
+
+    <!-->Заголовок<!-->
+    <View
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:gravity="center"
+        android:background="@drawable/shimmer_rectangle"
+        android:id="@+id/spec1_title"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        />
+
+    <!-->Значение<!-->
+    <View
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:gravity="center|right"
+        android:id="@+id/spec1_value"
+        android:background="@drawable/shimmer_rectangle"
+        android:fontFamily="@font/ubuntu_light"
+        android:textColor="@color/Black"
+        android:text="Ryzen 7 5800X"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintTop_toBottomOf="@id/name"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/_10ssp"
+        />
+
+    <!-->Спецификация 2<!-->
+
+    <!-->Заголовок<!-->
+    <View
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:background="@drawable/shimmer_rectangle"
+        android:id="@+id/spec2_title"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/spec1_title"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        />
+
+    <!-->Значение<!-->
+    <View
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:gravity="center|right"
+        android:background="@drawable/shimmer_rectangle"
+        android:id="@+id/spec2_value"
+        android:layout_marginTop="@dimen/_7sdp"
+        app:layout_constraintTop_toBottomOf="@id/spec1_value"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <!-->Спецификация 3<!-->
+
+    <!-->Заголовок<!-->
+    <TextView
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:id="@+id/spec3_title"
+        android:background="@drawable/shimmer_rectangle"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintTop_toBottomOf="@id/spec2_title"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        />
+
+    <!-->Значение<!-->
+    <View
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_15sdp"
+        android:gravity="center|right"
+        android:id="@+id/spec3_value"
+        android:background="@drawable/shimmer_rectangle"
+        android:layout_marginTop="@dimen/_7sdp"
+        app:layout_constraintTop_toBottomOf="@id/spec2_value"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <View
+        android:layout_width="@dimen/_65sdp"
+        android:layout_height="@dimen/_22sdp"
+        android:id="@+id/button1"
+        android:background="@drawable/shimmer_rectangle"
+        app:layout_constraintTop_toBottomOf="@id/spec3_title"
+        app:layout_constraintLeft_toRightOf="@id/image"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="@dimen/_15sdp"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

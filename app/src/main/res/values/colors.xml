@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#6200EE</color>
+    <color name="colorPrimaryDark">#06113b</color>
+    <color name="colorAccent">#3D3D3D</color>
+    <color name="colorAccentOptional">#616161</color>
+    <color name="White">#FFFFFF</color>
+    <color name="Black">#000000</color>
+    <color name="MainColorOrange">#FD5900</color>
+    <color name="delete_red">#D32F2F</color>
+    <color name="notSelected_optional">#B1ABAB</color>
+    <color name="notSelected_main">#91918F</color>
+    <color name="blue">#136ad5</color>
+</resources>

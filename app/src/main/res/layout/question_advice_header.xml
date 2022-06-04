@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/authorTitle"
+        android:textColor="@color/Black"
+        android:fontFamily="@font/circe_bold"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="16dp"
+        android:text="Автор"
+        android:layout_marginLeft="24dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:id="@+id/authorValue"
+        android:textColor="@color/Black"
+        app:layout_constraintTop_toTopOf="@id/authorTitle"
+        app:layout_constraintBottom_toBottomOf="@id/authorTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="13sp"
+        android:text="vitek037"
+        android:layout_marginRight="24dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dateTitle"
+        android:textColor="@color/Black"
+        android:fontFamily="@font/circe_bold"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/authorTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="Дата публикации"
+        android:layout_marginLeft="24dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:id="@+id/dateValue"
+        android:textColor="@color/Black"
+        app:layout_constraintTop_toTopOf="@id/dateTitle"
+        app:layout_constraintBottom_toBottomOf="@id/dateTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="13sp"
+        android:layout_marginRight="24dp"
+        android:text="15.07.2021"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/categoryTitle"
+        android:textColor="@color/Black"
+        android:fontFamily="@font/circe_bold"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/dateTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        android:text="Категория"
+        android:layout_marginLeft="24dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_regular"
+        android:id="@+id/categoryValue"
+        android:textColor="@color/Black"
+        app:layout_constraintTop_toTopOf="@id/categoryTitle"
+        app:layout_constraintBottom_toBottomOf="@id/categoryTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="13sp"
+        android:text="Оценка и советы"
+        android:layout_marginRight="24dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvConfigurations"
+        app:layout_constraintTop_toBottomOf="@id/categoryTitle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        >
+
+        <include layout="@layout/rv_card_without_button"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rvConfigurations"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:id="@+id/questionText"
+        android:textSize="14sp"
+        android:textColor="@color/Black"
+        android:layout_marginTop="16dp"
+        android:fontFamily="@font/inter_light"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Подскажите, норм ли сборка? Хочу собрать топовый комп для игр, чтобы был запас на будущее. В бюджете сильно не ограничен. Заранее спасибо!"
+        android:layout_gravity="center_vertical"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#A5A5A5"
+        android:id="@+id/view"
+        app:layout_constraintTop_toBottomOf="@id/questionText"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/circe_bold"
+        android:textColor="@color/Black"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/view"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:text="Ответы"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
