@@ -35,8 +35,8 @@
         <!--> Иконка <!-->
         <ImageView
             android:id="@+id/fullPriceIcon"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@drawable/ic_price"
             android:layout_marginLeft="5dp"
             app:layout_constraintBottom_toBottomOf="@id/fullPrice"

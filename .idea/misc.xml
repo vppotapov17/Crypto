@@ -3,6 +3,36 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/drawable/ic_icon.xml" value="0.1953125" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/drawable/round_background.xml" value="0.2675925925925926" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/drawable/undraw_login.xml" value="0.2" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/account_login.xml" value="0.22" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/account_registration.xml" value="0.2" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/account_user_auth.xml" value="0.22" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/account_user_guest.xml" value="0.2" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_creating_configuration.xml" value="0.33" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_creating_configuration2.xml" value="0.25" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_info_added_component.xml" value="0.3619791666666667" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_info_component.xml" value="0.1" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_list_component.xml" value="0.17916666666666667" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_rv_add_component.xml" value="0.17760416666666667" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_rv_title_components.xml" value="0.17760416666666667" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/configurator_view_ready_configuration.xml" value="0.25" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/dialog_ask_other_question.xml" value="0.20625" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_add_advice.xml" value="0.1875" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_ask_advice.xml" value="0.22" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_ask_compsel.xml" value="0.2" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_main.xml" value="0.17864583333333334" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_rv_other_question.xml" value="0.17864583333333334" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/discussions_rv_show_all_questions.xml" value="0.22" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/question_categories.xml" value="0.25" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/rv_card_one_button.xml" value="0.36666666666666664" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/rv_card_two_button.xml" value="0.17760416666666667" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/rv_card_two_button_quantity.xml" value="0.33" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/layout/splash_screen.xml" value="0.17447916666666666" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/menu/navigation_menu.xml" value="0.1" />
+        <entry key="..\:/Projects/CyberHelper/app/src/main/res/menu/overflow_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Projects/MyApplication/app/src/main/res/drawable/add_fab.xml" value="0.22239583333333332" />
         <entry key="..\:/Projects/MyApplication/app/src/main/res/drawable/bg_price.xml" value="0.22239583333333332" />
         <entry key="..\:/Projects/MyApplication/app/src/main/res/drawable/card_top_bg.xml" value="0.3769230769230769" />

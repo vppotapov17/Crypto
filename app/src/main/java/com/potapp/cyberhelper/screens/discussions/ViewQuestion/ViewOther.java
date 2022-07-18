@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.answers.AdviceAnswer;
-import com.potapp.cyberhelper.data.models.questions.Question;
+import com.potapp.cyberhelper.models.answers.AdviceAnswer;
+import com.potapp.cyberhelper.models.questions.Question;
 
 import java.io.Serializable;
 import java.util.ArrayList;

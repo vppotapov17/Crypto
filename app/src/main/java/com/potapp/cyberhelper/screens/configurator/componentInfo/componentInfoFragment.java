@@ -1,12 +1,16 @@
 package com.potapp.cyberhelper.screens.configurator.componentInfo;
 
 
+import android.icu.lang.UCharacter;
+import android.media.Image;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -15,10 +19,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nambimobile.widgets.efab.ExpandableFabLayout;
+import com.nambimobile.widgets.efab.Orientation;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.adapters.ConfiguratorAdapters.specsAdapter;
-import com.potapp.cyberhelper.data.models.components.*;
+import com.potapp.cyberhelper.models.components.*;
 import com.nambimobile.widgets.efab.FabOption;
 
 public class componentInfoFragment extends Fragment {
@@ -45,13 +52,11 @@ public class componentInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         select_component = (Component) this.getArguments().getSerializable("select_component");
         current_configuration = (Configuration)this.getArguments().getSerializable("current_configuration");
 
-        viewModel = new ViewModelProvider(getActivity(), new componentInfoFactory(getActivity().getApplication(), getFragmentManager(),
+        viewModel = new ViewModelProvider(this, new componentInfoFactory(getActivity().getApplication(), getFragmentManager(),
                 select_component, current_configuration)).get(componentInfoViewModel.class);
-
 
     }
 
@@ -60,10 +65,10 @@ public class componentInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view;
-
         if (viewModel.viewAddedComponent())
             view = inflater.inflate(R.layout.configurator_info_added_component, container, false);
-        else view = inflater.inflate(R.layout.configurator_info_component, container, false);
+        else
+            view = inflater.inflate(R.layout.configurator_info_component, container, false);
 
         return view;
     }
@@ -78,8 +83,10 @@ public class componentInfoFragment extends Fragment {
         ImageView component_image = getActivity().findViewById(R.id.photo_staticInfo);              // изображение компонента
         TextView component_price = getActivity().findViewById(R.id.price);                          // стоимость компонента
 
-        FabOption buy_button = getView().findViewById(R.id.buy_button);                             // кнопка "Купить"
-        FabOption add_button = getView().findViewById(R.id.add_button);                             // кнопка "Добавить"
+        FabOption buy_button = getActivity().findViewById(R.id.buy_button);                         // кнопка "Купить"
+        FabOption add_button = getActivity().findViewById(R.id.add_button);                         // кнопка "Добавить"
+        FabOption delete_button = getActivity().findViewById(R.id.delete_button);                   // кнопка "Удалить"
+        FabOption shareButton = getActivity().findViewById(R.id.share_button);                      // кнопка "Поделиться"
 
         RecyclerView rv = getActivity().findViewById(R.id.rv);                                      // список характеристик
 
@@ -103,6 +110,8 @@ public class componentInfoFragment extends Fragment {
                 .into(component_image);
 
 
+        // ImageViewer
+
         // стоимость компонента
         component_price.setText(select_component.getPrice() + " ₽");
 
@@ -112,20 +121,28 @@ public class componentInfoFragment extends Fragment {
         rv.setAdapter(new specsAdapter(select_component.specifications(), select_component instanceof Gpu));
 
 
-        // обработка нажатия на кнопку "добавить"
-        if (!viewModel.viewAddedComponent()) {
-            add_button.setClickable(true);
-            add_button.setOnClickListener(view -> {
+        // обработка нажатий на кнопки "добавить" и "удалить"
+
+        // если просматриваемый компонент добавлен
+        if (viewModel.viewAddedComponent()) {
+            delete_button.setOnClickListener(view -> {
+                viewModel.onDeleteButtonClick();
+            });
+        }
+        // если просматриваемый компонент не добавлен
+        else {
+            add_button.setOnClickListener(view ->{
                 viewModel.onAddButtonClick();
             });
         }
 
-
         // обработка нажатия на кнопку "Купить"
-        buy_button.setClickable(true);
         buy_button.setOnClickListener(view -> {
-            viewModel.onBuyButtonClick();
+            //viewModel.onBuyButtonClick();
         });
+
+        // обработка нажатия на кнопку "Поделиться"
+        // ...
     }
 
 }

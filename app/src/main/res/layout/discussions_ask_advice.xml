@@ -15,31 +15,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left|center">
 
-                <ImageView
-                    android:layout_width="@dimen/_23sdp"
-                    android:layout_height="@dimen/_23sdp"
-                    android:scaleType="fitCenter"
-                    android:layout_gravity="left|center"
-                    android:layout_marginRight="@dimen/_10sdp"
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/back_button"
+                    android:padding="4dp"
                     android:src="@drawable/ic_arrow_back"
                     app:tint="@color/MainColorOrange"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/back_button"
+                    android:layout_marginLeft="14dp"
                     android:fontFamily="@font/circe_bold"
-                    android:textSize="@dimen/_15ssp"
+                    android:textSize="19sp"
                     android:textColor="@color/colorAccent"
                     android:text="Оценка и советы"
                     />
 
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
@@ -48,19 +54,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/select_config"
+        android:visibility="invisible"
         android:fontFamily="@font/circe_bold"
         android:text="Выберите сборку для оценки"
         android:textColor="@color/Black"
-        android:textSize="@dimen/_15ssp"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginLeft="@dimen/_25sdp"
+        android:textSize="19sp"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_bar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/_100sdp"
+        android:visibility="invisible"
         android:nestedScrollingEnabled="true"
         app:layout_constraintTop_toBottomOf="@id/select_config"
         android:id="@+id/rv"
@@ -70,10 +77,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/progressBar"
-        app:layout_constraintTop_toBottomOf="@id/select_config"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/details"
+        app:layout_constraintBottom_toBottomOf="parent"
         />
 
     <TextView
@@ -82,52 +89,52 @@
         android:id="@+id/details"
         android:fontFamily="@font/circe_bold"
         android:text="Подробнее о сборке"
+        android:visibility="invisible"
         android:textColor="@color/Black"
-        android:textSize="@dimen/_15ssp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginLeft="@dimen/_25sdp"
+        android:textSize="19sp"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/rv" />
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_160sdp"
+        android:layout_height="200dp"
         android:scrollbars="vertical"
         android:background="@drawable/text_input"
         android:hint="Расскажите о данной конфигурации"
         android:id="@+id/commentText"
+        android:visibility="invisible"
         app:layout_constraintTop_toBottomOf="@id/details"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:textSize="@dimen/_12ssp"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="19dp"
+        android:textSize="15sp"
         android:fontFamily="@font/inter_regular"
-        android:lineHeight="@dimen/_20sdp"
-        android:paddingRight="@dimen/_20sdp"
-        android:paddingLeft="@dimen/_20sdp"
-        android:paddingTop="@dimen/_15sdp"
-        android:paddingBottom="@dimen/_15sdp"
+        android:lineHeight="24dp"
+        android:paddingRight="28dp"
+        android:paddingLeft="28dp"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
         android:textColor="@color/colorAccent"/>
-
 
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/publication"
-        android:layout_width="@dimen/_150sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_25sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        app:cornerRadius="@dimen/_10sdp"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
         android:fontFamily="@font/inter_black"
         android:text="ОПУБЛИКОВАТЬ"
-        android:textSize="@dimen/_10ssp"
+        android:textSize="13sp"
+        app:cornerRadius="12dp"
+        android:layout_marginBottom="30dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/_20sdp"/>
+         />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

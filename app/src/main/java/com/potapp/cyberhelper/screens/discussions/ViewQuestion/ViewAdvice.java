@@ -13,11 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.adapters.DiscussionsAdapters.ViewQuestionAdapters.ViewAdviceAdapter;
-import com.potapp.cyberhelper.data.models.answers.AdviceAnswer;
-import com.potapp.cyberhelper.data.models.questions.AdviceQuestion;
+import com.potapp.cyberhelper.models.answers.AdviceAnswer;
+import com.potapp.cyberhelper.models.questions.AdviceQuestion;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;

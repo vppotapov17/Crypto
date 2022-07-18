@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.screens.configurator.viewReadyConfiguration.viewReadyConfigurationFragment;
-import com.potapp.cyberhelper.data.models.answers.AdviceAnswer;
+import com.potapp.cyberhelper.models.answers.AdviceAnswer;
 import com.potapp.cyberhelper.screens.discussions.addAnswer.AddAdvice;
-import com.potapp.cyberhelper.data.models.questions.AdviceQuestion;
+import com.potapp.cyberhelper.models.questions.AdviceQuestion;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

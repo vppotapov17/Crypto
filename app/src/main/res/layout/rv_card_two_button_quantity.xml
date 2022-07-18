@@ -3,26 +3,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="@dimen/_10sdp"
-    android:layout_margin="@dimen/_15sdp"
+    app:cardCornerRadius="12dp"
+    android:layout_margin="18dp"
     android:id="@+id/cardview"
-    app:cardElevation="@dimen/_5sdp"
+    app:cardElevation="7dp"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/_15sdp"
-        android:paddingRight="@dimen/_15sdp"
-        android:paddingTop="@dimen/_10sdp"
-        android:paddingBottom="@dimen/_5sdp"
+        android:paddingBottom="3dp"
+        android:paddingTop="14dp"
+        android:paddingRight="14dp"
+        android:paddingLeft="14dp"
         >
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="fitCenter"
+            android:layout_marginBottom="10dp"
             android:src="@drawable/ic_baseline_cpu"
             app:layout_constraintBottom_toTopOf="@+id/fullPrice"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -31,24 +32,26 @@
         <!--> Иконка <!-->
         <ImageView
             android:id="@+id/fullPriceIcon"
-            android:layout_width="@dimen/_18sdp"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:src="@drawable/ic_price"
-            app:layout_constraintTop_toTopOf="@id/fullPrice"
+            android:layout_marginLeft="5dp"
             app:layout_constraintBottom_toBottomOf="@id/fullPrice"
+            app:layout_constraintTop_toTopOf="@id/fullPrice"
             app:layout_constraintLeft_toLeftOf="parent" />
 
         <!--> Общая сумма сборки <!-->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/fullPrice"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_20sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:layout_marginTop="3dp"
             android:fontFamily="@font/circe_bold"
             android:gravity="center"
             android:text="35990 ₽"
             android:textColor="@color/colorAccent"
-            android:textSize="@dimen/_13ssp"
+            android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/button1"
             app:layout_constraintTop_toTopOf="@id/button1"
             app:layout_constraintLeft_toRightOf="@id/fullPriceIcon" />
@@ -62,10 +65,10 @@
             android:textColor="@color/colorAccent"
             android:maxLines="1"
             android:ellipsize="end"
-            android:maxWidth="@dimen/_160sdp"
+            android:maxWidth="180dp"
             android:text="ПК для игр за 30К"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:textSize="@dimen/_14ssp"
+            android:layout_marginLeft="18dp"
+            android:textSize="16sp"
             app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -75,32 +78,32 @@
         <!-->Заголовок<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/spec1_title"
             android:text="Процессор"
             app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/name"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="24dp"
             android:textColor="@color/Black"
-            android:fontFamily="@font/ubuntu_light"
-            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/inter_light"
+            android:textSize="12sp"
             />
 
         <!-->Значение<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center|right"
             android:id="@+id/spec1_value"
-            android:fontFamily="@font/ubuntu_light"
+            android:fontFamily="@font/inter_regular"
             android:textColor="@color/Black"
             android:text="Ryzen 7 5800X"
-            android:layout_marginTop="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintTop_toTopOf="@id/spec1_title"
+            app:layout_constraintBottom_toBottomOf="@id/spec1_title"
             app:layout_constraintRight_toRightOf="parent"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="12sp"
             />
 
         <!-->Спецификация 2<!-->
@@ -108,32 +111,32 @@
         <!-->Заголовок<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/spec2_title"
             android:text="Видеокарта"
             app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/spec1_title"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="24dp"
             android:textColor="@color/Black"
-            android:fontFamily="@font/ubuntu_light"
-            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/inter_light"
+            android:textSize="12sp"
             />
 
         <!-->Значение<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center|right"
             android:id="@+id/spec2_value"
-            android:fontFamily="@font/ubuntu_light"
+            android:fontFamily="@font/inter_regular"
             android:textColor="@color/Black"
             android:text="RTX 3070 Ti"
-            android:layout_marginTop="@dimen/_7sdp"
-            app:layout_constraintTop_toBottomOf="@id/spec1_value"
+            app:layout_constraintTop_toTopOf="@id/spec2_title"
+            app:layout_constraintBottom_toBottomOf="@id/spec2_title"
             app:layout_constraintRight_toRightOf="parent"
-            android:textSize="@dimen/_10ssp"
+            android:textSize="12sp"
             />
 
         <!-->Спецификация 3<!-->
@@ -141,112 +144,111 @@
         <!-->Заголовок<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:id="@+id/spec3_title"
             android:text="ОЗУ"
             app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/spec2_title"
-            android:layout_marginTop="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="24dp"
             android:textColor="@color/Black"
-            android:fontFamily="@font/ubuntu_light"
-            android:textSize="@dimen/_10ssp"
+            android:fontFamily="@font/inter_light"
+            android:textSize="12sp"
             />
 
         <!-->Значение<!-->
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_18sdp"
+            android:layout_height="wrap_content"
             android:gravity="center|right"
             android:id="@+id/spec3_value"
-            android:fontFamily="@font/ubuntu_light"
+            android:fontFamily="@font/inter_regular"
             android:textColor="@color/Black"
             android:text="Ryzen 7 5800X"
-            android:layout_marginTop="@dimen/_7sdp"
-            app:layout_constraintTop_toBottomOf="@id/spec2_value"
             app:layout_constraintRight_toRightOf="parent"
-            android:textSize="@dimen/_10ssp"
+            app:layout_constraintTop_toTopOf="@id/spec3_title"
+            app:layout_constraintBottom_toBottomOf="@id/spec3_title"
+            android:textSize="12sp"
             />
 
-        <LinearLayout
-            android:layout_width="@dimen/_130sdp"
+
+        <!-->Количество<!-->
+
+        <ImageButton
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/quantityLayout"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:id="@+id/QMinus"
+            android:padding="5dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintLeft_toRightOf="@id/image"
             app:layout_constraintTop_toBottomOf="@id/spec3_title"
-            app:layout_constraintRight_toRightOf="parent"
-            >
+            app:layout_constraintRight_toLeftOf="@id/QValue"
+            android:src="@drawable/ic_remove_circle"
+            android:layout_marginLeft="24dp"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/MainColorOrange"/>
 
-            <ImageButton
-                android:id="@+id/QMinus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="3"
-                android:backgroundTint="@color/colorAccent"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/ic_remove_circle" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/QValue"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:text="3" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/QPlus"
-                android:layout_weight="3"
-                android:src="@drawable/ic_add_circle"
-                android:tint="@color/MainColorOrange"
-                android:backgroundTint="@color/colorAccent"
-                android:background="?android:attr/selectableItemBackgroundBorderless"
-                />
-
-        </LinearLayout>
-
-        <com.google.android.material.button.MaterialButton
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/QValue"
+            app:layout_constraintTop_toTopOf="@id/QMinus"
+            app:layout_constraintLeft_toRightOf="@id/QMinus"
+            app:layout_constraintBottom_toBottomOf="@id/QMinus"
+            app:layout_constraintRight_toLeftOf="@id/QPlus"
+            android:fontFamily="@font/inter_regular"
+            android:text="3"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/QPlus"
+            android:padding="5dp"
+            app:layout_constraintTop_toTopOf="@id/QValue"
+            app:layout_constraintBottom_toBottomOf="@id/QValue"
+            app:layout_constraintLeft_toRightOf="@id/QValue"
+            app:layout_constraintRight_toRightOf="parent"
+
+            android:src="@drawable/ic_add_circle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/MainColorOrange"/>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button1"
-            app:layout_constraintTop_toBottomOf="@id/quantityLayout"
-            app:layout_constraintLeft_toRightOf="@id/image"
-            app:layout_constraintRight_toLeftOf="@id/button2"
-            android:layout_marginTop="@dimen/_5sdp"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="ИЗМЕНИТЬ"
             android:textColor="@color/MainColorOrange"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="11sp"
             app:icon="@drawable/ic_outline_edit"
             app:iconGravity="start"
-
-            app:iconSize="@dimen/_15sdp"
+            app:iconSize="18dp"
             app:iconTint="@color/MainColorOrange"
-            app:rippleColor="@color/MainColorOrange"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
-
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/image"
+            app:layout_constraintRight_toLeftOf="@id/button2"
+            app:layout_constraintTop_toBottomOf="@id/QMinus"
+            app:rippleColor="@color/MainColorOrange" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/button2"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/button2"
-            android:layout_marginTop="@dimen/_5sdp"
-            app:layout_constraintTop_toBottomOf="@id/quantityLayout"
-            app:layout_constraintRight_toRightOf="parent"
             android:text="УДАЛИТЬ"
             android:textColor="@color/delete_red"
-            android:textSize="@dimen/_9ssp"
+            android:textSize="11sp"
             app:icon="@drawable/ic_outline_delete_sweep"
             app:iconGravity="start"
-            app:iconSize="@dimen/_15sdp"
+            app:iconSize="18dp"
             app:iconTint="@color/delete_red"
-            app:rippleColor="@color/delete_red"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/QMinus"
+            app:rippleColor="@color/delete_red" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

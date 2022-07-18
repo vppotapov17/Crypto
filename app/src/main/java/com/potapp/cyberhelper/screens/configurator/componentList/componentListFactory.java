@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 
 public class componentListFactory extends ViewModelProvider.AndroidViewModelFactory {
 

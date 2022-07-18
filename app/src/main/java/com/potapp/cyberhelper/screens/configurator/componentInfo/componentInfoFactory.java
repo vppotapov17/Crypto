@@ -7,8 +7,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.potapp.cyberhelper.data.models.Configuration;
-import com.potapp.cyberhelper.data.models.components.Component;
+import com.potapp.cyberhelper.models.Configuration;
+import com.potapp.cyberhelper.models.components.Component;
 
 public class componentInfoFactory extends ViewModelProvider.AndroidViewModelFactory {
 

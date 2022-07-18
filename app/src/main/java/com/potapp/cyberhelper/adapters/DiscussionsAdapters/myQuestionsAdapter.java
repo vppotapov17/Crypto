@@ -9,9 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.questions.AdviceQuestion;
-import com.potapp.cyberhelper.data.models.questions.ComponentsSelectionQuestion;
-import com.potapp.cyberhelper.data.models.questions.Question;
+import com.potapp.cyberhelper.models.questions.AdviceQuestion;
+import com.potapp.cyberhelper.models.questions.ComponentsSelectionQuestion;
+import com.potapp.cyberhelper.models.questions.Question;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -152,8 +152,6 @@ public class myQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 else result = d + " лет назад";
             }
         }
-
-        Log.d("AAA", result);
 
         return result;
     }

@@ -2,16 +2,18 @@ package com.potapp.cyberhelper.adapters.DiscussionsAdapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.questions.AdviceQuestion;
-import com.potapp.cyberhelper.data.models.questions.ComponentsSelectionQuestion;
-import com.potapp.cyberhelper.data.models.questions.Question;
+import com.potapp.cyberhelper.models.questions.AdviceQuestion;
+import com.potapp.cyberhelper.models.questions.ComponentsSelectionQuestion;
+import com.potapp.cyberhelper.models.questions.Question;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -32,68 +34,79 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RecyclerView.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.discussions_rv_other_question, parent, false)) {};
+        if (viewType == 0) return new RecyclerView.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.discussions_rv_other_question, parent, false)) {};
+        else return new RecyclerView.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.discussions_rv_show_all_questions, parent, false)) {};
+    }
+
+    @Override
+    public int getItemViewType(int position){
+        if (position < 3) return 0;     // карточка с вопросом
+        return 1;   // кнопка "Посмотреть все вопросы"
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        TextView author = holder.itemView.findViewById(R.id.name);
-        TextView date = holder.itemView.findViewById(R.id.date);
-        TextView nick = holder.itemView.findViewById(R.id.nick);
-        TextView questionText = holder.itemView.findViewById(R.id.questionText);
-        TextView category = holder.itemView.findViewById(R.id.category);
-        TextView answersQuantity = holder.itemView.findViewById(R.id.answersQuantity);
+        if (getItemViewType(position) == 0){
+            TextView author = holder.itemView.findViewById(R.id.name);
+            TextView date = holder.itemView.findViewById(R.id.date);
+            TextView nick = holder.itemView.findViewById(R.id.nick);
+            TextView questionText = holder.itemView.findViewById(R.id.questionText);
+            TextView category = holder.itemView.findViewById(R.id.category);
+            TextView answersQuantity = holder.itemView.findViewById(R.id.answersQuantity);
 
-        Question current_question = otherQuestions.get(position);
+            Question current_question = otherQuestions.get(position);
 
-        // имя и ник автора
+            // имя и ник автора
 
-        //...................
+            //...................
 
 
-        // дата публикации
-        date.setText(transformDate(current_question.getDate()));
+            // дата публикации
+            date.setText(transformDate(current_question.getDate()));
 
-        // текст вопроса
-        questionText.setText(current_question.getText());
+            // текст вопроса
+            questionText.setText(current_question.getText());
 
-        // определение категории вопроса
-        String current_category;
-        String current_path;
+            // определение категории вопроса
+            String current_category;
+            String current_path;
 
-        if (current_question instanceof AdviceQuestion){
-            current_category = "Оценка и советы";
-            current_path = "Data/Questions/Advice/" + current_question.getId();
-        }
-        else if (current_question instanceof ComponentsSelectionQuestion){
-            current_category = "Подбор комплектующих";
-            current_path = "Data/Questions/ComponentsSelection/" + current_question.getId();
-        }
-        else{
-            current_category = "Прочее";
-            current_path = "Data/Questions/Other/" + current_question.getId();
-        }
-
-        category.setText(current_category);
-
-        // количество ответов
-        FirebaseDatabase.getInstance().getReference(current_path + "/Answers/").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                answersQuantity.setText(snapshot.getChildrenCount() + "");
+            if (current_question instanceof AdviceQuestion) {
+                current_category = "Оценка и советы";
+                current_path = "Data/Questions/Advice/" + current_question.getId();
+            } else if (current_question instanceof ComponentsSelectionQuestion) {
+                current_category = "Подбор комплектующих";
+                current_path = "Data/Questions/ComponentsSelection/" + current_question.getId();
+            } else {
+                current_category = "Прочее";
+                current_path = "Data/Questions/Other/" + current_question.getId();
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("AAA", "Error");
-                answersQuantity.setText("0");
-            }
-        });
+            category.setText(current_category);
+
+            // количество ответов
+            FirebaseDatabase.getInstance().getReference(current_path + "/Answers/").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    answersQuantity.setText(snapshot.getChildrenCount() + "");
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("AAA", "Error");
+                    answersQuantity.setText("0");
+                }
+            });
+        }
+        else {
+
+        }
     }
 
     @Override
     public int getItemCount() {
+        if (otherQuestions.size() > 3) return 4;
         return otherQuestions.size();
     }
 
@@ -159,8 +172,6 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 else result = d + " лет назад";
             }
         }
-
-        Log.d("AAA", result);
 
         return result;
     }

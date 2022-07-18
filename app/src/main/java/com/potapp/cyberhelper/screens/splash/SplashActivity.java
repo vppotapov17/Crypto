@@ -2,6 +2,8 @@ package com.potapp.cyberhelper.screens.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -30,12 +32,20 @@ public class SplashActivity extends AppCompatActivity {
     {
         super.onResume();
 
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("current_user", (Serializable) null);
 
-        vm.liveData.observe(this, s->{
-            if (s[0] && s[1]){
-                Intent intent = new Intent(this, MainActivity.class);
-                intent.putExtra("current_user", (Serializable) vm.current_user);
+        vm.getLiveData().observe(this, code->{
+            if (code == 1) {
                 startActivity(intent);
+            }
+            else if (code == 0)
+            {
+                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show();
+            }
+            else if (code == -1)
+            {
+                Toast.makeText(getApplicationContext(), "Ошибка загрузки данных", Toast.LENGTH_SHORT).show();
             }
         });
     }

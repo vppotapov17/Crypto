@@ -18,9 +18,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.potapp.cyberhelper.MainActivity;
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.components.Ozu;
+import com.potapp.cyberhelper.models.components.Ozu;
 import com.potapp.cyberhelper.screens.configurator.creatingConfiguration.creatingConfigurationFragment;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -217,9 +217,9 @@ public class AddComponentsSelection extends Fragment {
             gpuValue.setText(suggested_configuration.mGpu.getModel());
 
             Ozu OZU = suggested_configuration.mOzu;
-            OZU.setItem_quantity(1);    // убрать потом
-            ozuValue.setText((OZU.getItem_quantity() * OZU.getModulesQuantity()) + "x" +
-                    (OZU.getCapacity() / OZU.getModulesQuantity() / OZU.getItem_quantity()) + " Гб");
+            OZU.setItemQuantity(1);    // убрать потом
+            ozuValue.setText((OZU.getItemQuantity() * OZU.getModulesQuantity()) + "x" +
+                    (OZU.getCapacity() / OZU.getModulesQuantity() / OZU.getItemQuantity()) + " Гб");
         }
     }
 }

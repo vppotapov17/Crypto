@@ -17,6 +17,8 @@ import com.potapp.cyberhelper.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment;
+import com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment;
 
 import java.util.HashMap;
 
@@ -90,7 +92,7 @@ public class RegistrationFragment extends Fragment {
 
 
                                     // открываем AccountFragment
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AccountFragment.newInstance()).commit();
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AuthorizedUserFragment.newInstance()).commit();
                                 }
                                 // если произошла ошибка, возможны 2 варианта: отсутствует интернет, либо введён некорректный email
                                 else

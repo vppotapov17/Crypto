@@ -5,12 +5,12 @@
     android:title="Конфигуратор"
     android:icon="@drawable/ic_configurator_logo"
     ></item>
-    <item
-    android:id="@+id/navigation_readyconfigurations"
-    android:title="Готовые сборки"
-        android:icon="@drawable/ic_logo"
-        >
-</item>
+<!--    <item-->
+<!--    android:id="@+id/navigation_readyconfigurations"-->
+<!--    android:title="Лента"-->
+<!--        android:icon="@drawable/ic_logo"-->
+<!--        >-->
+<!--</item>-->
     <item
         android:id="@+id/navigation_questions"
         android:title="Обсуждения"

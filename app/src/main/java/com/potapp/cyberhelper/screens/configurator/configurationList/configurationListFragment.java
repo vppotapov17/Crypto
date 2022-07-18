@@ -67,7 +67,7 @@ public class configurationListFragment extends Fragment {
         }
 
         // подписываемся на изменения лайвдата
-        vm.liveData.observe(this, s -> {
+        vm.getLiveData().observe(this, s -> {
             // останавливаем и скрываем shimmer
             shimmer.stopShimmerAnimation();
             shimmer.setVisibility(View.INVISIBLE);

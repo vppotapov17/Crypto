@@ -3,15 +3,16 @@ package com.potapp.cyberhelper.screens.configurator.componentInfo;
 import android.app.Application;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.AndroidViewModel;
 
-import com.potapp.cyberhelper.data.models.Configuration;
-import com.potapp.cyberhelper.data.models.components.Component;
-import com.potapp.cyberhelper.data.models.components.*;
+import com.potapp.cyberhelper.models.Configuration;
+import com.potapp.cyberhelper.models.components.Component;
+import com.potapp.cyberhelper.models.components.*;
 
 public class componentInfoViewModel extends AndroidViewModel {
 
@@ -53,6 +54,11 @@ public class componentInfoViewModel extends AndroidViewModel {
     {
         Toast.makeText(getApplication(), current_configuration.addComponent(select_component, getApplication()), Toast.LENGTH_SHORT).show();
         fm.popBackStack();
+        fm.popBackStack();
+    }
+
+    void onDeleteButtonClick(){
+        Toast.makeText(getApplication(), current_configuration.deleteComponent(select_component, getApplication()), Toast.LENGTH_SHORT).show();
         fm.popBackStack();
     }
 

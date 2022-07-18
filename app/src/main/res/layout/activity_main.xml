@@ -21,10 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        app:itemRippleColor="@color/White"
+        app:itemRippleColor="@color/MainColorOrange"
         app:menu="@menu/navigation_menu"
         android:layout_weight="12"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+        app:labelVisibilityMode="labeled"
         >
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>

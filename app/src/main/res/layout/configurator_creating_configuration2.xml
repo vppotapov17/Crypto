@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="15dp"
+            >
+
+            <!-->Материнская плата<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mb_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+            <!-->Процессор<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cpu"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+            <!-->Видеокарта<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/gpu_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+            <!-->Оперативная память<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/bp_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+            <!-->Блок питания<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ozu_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+            <!-->Охлаждение<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cooler_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+            <!-->Корпус<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pccase_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+            <!-->Жесткий диск<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/hdd_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+            <!-->SSD 2.5<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ssd25_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+            <!-->SSD M2<!-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/ssdM2_layout"
+                android:orientation="vertical">
+
+                <include
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:id="@+id/title"
+                    layout="@layout/configurator_rv_title_components"
+                    />
+
+                <include android:id="@+id/card" layout="@layout/rv_card_two_button"/>
+
+                <include android:id="@+id/add" layout="@layout/configurator_rv_add_component"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        style="@style/AppTheme"
+        app:layout_insetEdge="top"
+        android:id="@+id/bottom_appbar"
+        android:layout_gravity="bottom"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/confName"
+                android:text="ПК для игр"
+                android:textColor="@color/colorAccentOptional"
+                android:textSize="19sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="10dp"
+                android:fontFamily="@font/circe_bold"/>
+
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:id="@+id/priceIcon"
+                android:scaleType="fitCenter"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginLeft="10dp"
+                android:src="@drawable/ic_price"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_17sdp"
+                android:gravity="center"
+                android:id="@+id/fullPrice"
+                android:layout_marginLeft="10dp"
+                app:layout_constraintLeft_toRightOf="@id/priceIcon"
+                app:layout_constraintBottom_toBottomOf="@id/priceIcon"
+                app:layout_constraintTop_toTopOf="@id/priceIcon"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:text="15990 ₽"
+                android:fontFamily="@font/circe_bold"/>
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cornerRadius="12dp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:id="@+id/button"
+                android:layout_marginRight="15dp"
+                android:fontFamily="@font/circe_bold"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:icon="@drawable/ic_done"
+                android:text="Готово"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

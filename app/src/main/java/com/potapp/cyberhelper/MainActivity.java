@@ -1,6 +1,5 @@
 package com.potapp.cyberhelper;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -12,14 +11,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 
-import com.potapp.cyberhelper.data.models.User;
-import com.potapp.cyberhelper.screens.account.AccountFragment;
-import com.potapp.cyberhelper.screens.account.AnonymousAccountFragment;
+import com.potapp.cyberhelper.models.User;
+import com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment;
+import com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment;
 import com.potapp.cyberhelper.screens.configurator.configurationList.configurationListFragment;
 import com.potapp.cyberhelper.screens.discussions.discussionsMain.discussionsMainFragment;
-import com.potapp.cyberhelper.screens.readyConfigurations.MainReadyConfigurations;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.yandex.mobile.ads.common.InitializationListener;
@@ -29,37 +26,6 @@ import com.yandex.mobile.ads.common.MobileAds;
 public class MainActivity extends AppCompatActivity {
 
     public static User current_user;
-
-
-    private BottomNavigationView.OnNavigationItemSelectedListener NavigationSelected = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-
-            switch (menuItem.getItemId()) {
-                case R.id.navigation_configurator:
-                    loadFragment(configurationListFragment.newInstance());
-                    return true;
-                case R.id.navigation_readyconfigurations:
-                    loadFragment(MainReadyConfigurations.newInstance());
-                    return true;
-                case R.id.navigation_questions:
-                    loadFragment(discussionsMainFragment.newInstance());
-                    return true;
-                case R.id.navigation_account:
-                    try {
-                        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
-                            loadFragment(AnonymousAccountFragment.newInstance());
-                        else loadFragment(AccountFragment.newInstance());
-                        return true;
-                    }
-                    catch (NullPointerException e)
-                    {}
-
-            }
-                    return false;
-        }
-
-    };
 
 
     public void loadFragment(Fragment fragment){
@@ -97,7 +63,31 @@ public class MainActivity extends AppCompatActivity {
         current_user = (User)getIntent().getSerializableExtra("current_user");
 
         BottomNavigationView bn = findViewById(R.id.navigation_bar);
-        bn.setOnNavigationItemSelectedListener(NavigationSelected);
+
+        bn.setOnNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.navigation_configurator:
+                    loadFragment(configurationListFragment.newInstance());
+                    return true;
+//                case R.id.navigation_readyconfigurations:
+//                    loadFragment(MainReadyConfigurations.newInstance());
+//                    return true;
+                case R.id.navigation_questions:
+                    loadFragment(discussionsMainFragment.newInstance());
+                    return true;
+                case R.id.navigation_account:
+                    try {
+                        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+                            loadFragment(AnonymousAccountFragment.newInstance());
+                        else loadFragment(AuthorizedUserFragment.newInstance());
+                        return true;
+                    }
+                    catch (NullPointerException e)
+                    {}
+                default: return false;
+            }
+        });
+
         loadFragment(configurationListFragment.newInstance());
 
     }

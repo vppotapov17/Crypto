@@ -19,12 +19,12 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.components.Ssd;
+import com.potapp.cyberhelper.models.components.Ssd;
 import com.potapp.cyberhelper.screens.configurator.componentInfo.componentInfoFragment;
-import com.potapp.cyberhelper.data.models.components.Component;
-import com.potapp.cyberhelper.data.models.components.Hdd;
+import com.potapp.cyberhelper.models.components.Component;
+import com.potapp.cyberhelper.models.components.Hdd;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -234,7 +234,7 @@ public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<Recycler
             button1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    goToUrl(current_component.getRefLink());
+
                 }
             });
 

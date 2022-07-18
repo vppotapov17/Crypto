@@ -21,12 +21,12 @@ import com.potapp.cyberhelper.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.screens.configurator.viewReadyConfiguration.viewReadyConfigurationFragment;
 import com.google.android.material.button.MaterialButton;
 
-import com.potapp.cyberhelper.data.room.daos.DAO_CONFIGURATIONS;
-import com.potapp.cyberhelper.data.room.dbs.DB_CONFIGURATIONS;
+import com.potapp.cyberhelper.database.daos.DAO_CONFIGURATIONS;
+import com.potapp.cyberhelper.database.dbs.DB_CONFIGURATIONS;
 
 public class configurationListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

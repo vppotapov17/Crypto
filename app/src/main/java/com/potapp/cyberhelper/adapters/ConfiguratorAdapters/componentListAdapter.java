@@ -15,10 +15,10 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.screens.configurator.componentInfo.componentInfoFragment;
-import com.potapp.cyberhelper.data.models.components.*;
+import com.potapp.cyberhelper.models.components.*;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,10 +14,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.adapters.ConfiguratorAdapters.componentListAdapter;
-import com.potapp.cyberhelper.data.models.components.Mb;
+import com.potapp.cyberhelper.models.components.Mb;
 import com.google.android.gms.ads.AdView;
 import com.google.android.material.appbar.MaterialToolbar;
 
@@ -59,7 +60,8 @@ public class componentListFragment extends Fragment {
         }
 
 
-        viewModel = new componentListViewModel(getActivity().getApplication(), getLayoutInflater(), current_configuration, component_class);
+        viewModel = new ViewModelProvider(this, new componentListFactory(getActivity().getApplication(), getLayoutInflater(),current_configuration, component_class))
+                .get(componentListViewModel.class);
     }
 
     @Override

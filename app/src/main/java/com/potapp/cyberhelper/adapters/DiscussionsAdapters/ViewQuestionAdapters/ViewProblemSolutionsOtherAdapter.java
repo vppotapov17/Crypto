@@ -12,9 +12,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
-import com.potapp.cyberhelper.data.models.answers.AdviceAnswer;
+import com.potapp.cyberhelper.models.answers.AdviceAnswer;
 import com.potapp.cyberhelper.screens.discussions.addAnswer.AddAdvice;
-import com.potapp.cyberhelper.data.models.questions.Question;
+import com.potapp.cyberhelper.models.questions.Question;
 
 import java.util.List;
 

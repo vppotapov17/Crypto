@@ -2,127 +2,168 @@ package com.potapp.cyberhelper.screens.splash;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Room;
 
-import com.potapp.cyberhelper.data.models.User;
-import com.potapp.cyberhelper.data.models.components.Bp;
-import com.potapp.cyberhelper.data.models.components.Case;
-import com.potapp.cyberhelper.data.models.components.Cooler;
-import com.potapp.cyberhelper.data.models.components.Cpu;
-import com.potapp.cyberhelper.data.models.components.Gpu;
-import com.potapp.cyberhelper.data.models.components.Hdd;
-import com.potapp.cyberhelper.data.models.components.Mb;
-import com.potapp.cyberhelper.data.models.components.Ozu;
-import com.potapp.cyberhelper.data.models.components.Ssd;
-import com.potapp.cyberhelper.data.room.dbs.DB_BPS;
-import com.potapp.cyberhelper.data.room.dbs.DB_CASES;
-import com.potapp.cyberhelper.data.room.dbs.DB_COOLERS;
-import com.potapp.cyberhelper.data.room.dbs.DB_HDDS;
-import com.potapp.cyberhelper.data.room.dbs.DB_MOTHERBOARDS;
-import com.potapp.cyberhelper.data.room.dbs.DB_OZUS;
-import com.potapp.cyberhelper.data.room.dbs.DB_PROCESSORS;
-import com.potapp.cyberhelper.data.room.dbs.DB_SSDS;
-import com.potapp.cyberhelper.data.room.dbs.DB_VIDEOCARDS;
-import com.google.android.gms.ads.MobileAds;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.potapp.cyberhelper.database.dbs.DB_COMPONENTS;
+import com.potapp.cyberhelper.models.components.Bp;
+import com.potapp.cyberhelper.models.components.Case;
+import com.potapp.cyberhelper.models.components.Cooler;
+import com.potapp.cyberhelper.models.components.Cpu;
+import com.potapp.cyberhelper.models.components.Gpu;
+import com.potapp.cyberhelper.models.components.Hdd;
+import com.potapp.cyberhelper.models.components.Mb;
+import com.potapp.cyberhelper.models.components.Ozu;
+import com.potapp.cyberhelper.models.components.Ssd;
 
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
+
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class SplashViewModel extends AndroidViewModel {
 
-    User current_user;                                                                              // текущий пользователь
-    int configurationListSize;                                                                      // количество сохраненных конфигураций в базе
+    private MutableLiveData<Integer> liveData;
 
-    MutableLiveData<Boolean[]> liveData;
-    Boolean array[] = new Boolean[]{false, false};
+    // БД Room
+    private DB_COMPONENTS db_components;
 
+    public LiveData<Integer> getLiveData(){
+        return liveData;
+    };
 
     public SplashViewModel(@NonNull Application app){
         super(app);
 
-
+        db_components = Room.databaseBuilder(getApplication().getApplicationContext(), DB_COMPONENTS.class, "COMPONENTS").build();
         liveData = new MutableLiveData<>();
-        liveData.setValue(array);
 
-        doAuth();
-
-        new Thread(() -> loadData()).start();
+        AnonymousAuth();
     }
 
-    // авторизация пользователя
-    private void doAuth(){
-        MobileAds.initialize(getApplication().getApplicationContext(), initializationStatus -> {
-            Log.d("AAA", "Success");
-        });
-
-        // первый запуск приложения
-        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
-            FirebaseAuth.getInstance().signInAnonymously();
-            current_user = null;
-            array[0] = true;
-            liveData.postValue(array);
-        }
-        // анонимный пользователь
-        else if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+    void AnonymousAuth(){
+        // авторизация анонимного пользователя
+        if (FirebaseAuth.getInstance().getCurrentUser() == null)
         {
-            current_user = null;
-            array[0] = true;
-            liveData.postValue(array);
-        }
-        // авторизованный пользователь
-        else
-        {
-            // получаем данные пользователя и сохраняем в объект User
-            current_user = new User();
-            current_user.setUID(FirebaseAuth.getInstance().getCurrentUser().getUid());              // UID
-
-            // остальные данные (имя, рейтинг и пр.)
-            FirebaseFirestore.getInstance().collection("users")
-                    .document(current_user.getUID())
-                    .get()
-                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                            if (task.isSuccessful())
-                            {
-                                DocumentSnapshot doc = task.getResult();
-                                if (doc.exists())
-                                {
-                                    current_user.setName(doc.getData().get("username").toString());
-                                    current_user.setRating(Double.parseDouble(doc.getData().get("rating").toString()));
-                                    array[0] = true;
-                                    liveData.postValue(array);
-                                }
-                            }
-                        }
+            FirebaseAuth.getInstance().signInAnonymously()
+                    // авторизация успешна
+                    .addOnCompleteListener(task -> {
+                        // успешная авторизация
+                        if (task.isSuccessful())
+                            componentsData();
+                        // ошибка авторизации
+                        else liveData.postValue(0);
                     });
         }
+        else componentsData();
+    }
+
+    // данные о комплектующих (проверка на наличие их в базе, либо загрузка из сети)
+    void componentsData(){
+        // проверка на наличие данных в Room
+        Callable<Boolean> dataFromDB = () -> {
+            if (db_components.getMotherboardsDao().getMB().size() == 0){
+                return false;
+            }
+            return true;
+        };
+
+
+        // загрузка данных из сети
+        // возвращает либо 1 - загрузка успешна, либо -1 - ошибка загрузки
+        Callable<Integer> loadDataFromNetwork = () -> {
+            loadData();
+            return 1;
+        };
+
+        Observable.fromCallable(dataFromDB)
+                .subscribeOn(Schedulers.computation())
+                .subscribe(aBoolean -> {
+                    if (aBoolean) {
+                        // данные в базе есть
+                        liveData.postValue(1);
+                    }
+                    else{
+                        // данных в базе нет, загружаем из сети
+                        Observable.fromCallable(loadDataFromNetwork)
+                                .subscribeOn(Schedulers.computation())
+                                .subscribe(i -> {
+                                    liveData.postValue(i);
+                                });
+                    }
+                });
     }
 
 
-    // загрузка информации о комплектующих в базу данных Room
+
+
+//    // авторизация пользователя
+//    private void doAuth(){
+//        MobileAds.initialize(getApplication().getApplicationContext(), initializationStatus -> {
+//            Log.d("AAA", "Success");
+//        });
+//
+//        // первый запуск приложения
+//        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
+//            FirebaseAuth.getInstance().signInAnonymously();
+//            current_user = null;
+//            array[0] = true;
+//            liveData.postValue(array);
+//        }
+//        // анонимный пользователь
+//        else if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+//        {
+//            current_user = null;
+//            array[0] = true;
+//            liveData.postValue(array);
+//        }
+//        // авторизованный пользователь
+//        else
+//        {
+//            // получаем данные пользователя и сохраняем в объект User
+//            current_user = new User();
+//            current_user.setUID(FirebaseAuth.getInstance().getCurrentUser().getUid());              // UID
+//
+//            // остальные данные (имя, рейтинг и пр.)
+//            FirebaseFirestore.getInstance().collection("users")
+//                    .document(current_user.getUID())
+//                    .get()
+//                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                            if (task.isSuccessful())
+//                            {
+//                                DocumentSnapshot doc = task.getResult();
+//                                if (doc.exists())
+//                                {
+//                                    current_user.setName(doc.getData().get("username").toString());
+//                                    current_user.setRating(Double.parseDouble(doc.getData().get("rating").toString()));
+//                                    array[0] = true;
+//                                    liveData.postValue(array);
+//                                }
+//                            }
+//                        }
+//                    });
+//        }
+//    }
+
+
+
+    // загрузка данных из сети в Room
     void loadData(){
 
         Context context = getApplication().getApplicationContext();
 
-        DB_MOTHERBOARDS db_motherboards = Room.databaseBuilder(context, DB_MOTHERBOARDS.class, "MOTHERBOARDS").build();
-        DB_PROCESSORS db_processors = Room.databaseBuilder(context, DB_PROCESSORS.class, "PROCESSORS").build();
-        DB_VIDEOCARDS db_videocards = Room.databaseBuilder(context, DB_VIDEOCARDS.class, "VIDEOCARDS").build();
-        DB_OZUS db_ozus = Room.databaseBuilder(context, DB_OZUS.class, "OZUS").build();
-        DB_BPS db_bps = Room.databaseBuilder(context, DB_BPS.class, "BPS").build();
-        DB_CASES db_CASES = Room.databaseBuilder(context, DB_CASES.class, "CASES").build();
-        DB_COOLERS db_coolers = Room.databaseBuilder(context, DB_COOLERS.class, "COOLERS").build();
-        DB_HDDS db_hdds = Room.databaseBuilder(context, DB_HDDS.class, "HDDS").build();
-        DB_SSDS db_ssds = Room.databaseBuilder(context, DB_SSDS.class, "SSDS").build();
 
 
         Cpu CPU1 = new Cpu();
@@ -152,10 +193,6 @@ public class SplashViewModel extends AndroidViewModel {
         CPU1.setGeekbench_multi(5351);
         CPU1.setGeekbench_single(977);
 
-        CPU1.calcCapacity(context);
-        CPU1.calcRatio(context);
-
-
         Cpu CPU2 = new Cpu();
         CPU2.setProduct_code(1640623);
         CPU2.setProducer("Intel");
@@ -180,11 +217,9 @@ public class SplashViewModel extends AndroidViewModel {
         CPU2.setGeekbench_multi(9451);
         CPU2.setGeekbench_single(1647);
 
-        CPU2.calcCapacity(context);
-        CPU2.calcRatio(context);
 
-        db_processors.getMyDao().addCPU(CPU1);
-        db_processors.getMyDao().addCPU(CPU2);
+        db_components.getProcessorsDao().addCPU(CPU1);
+        db_components.getProcessorsDao().addCPU(CPU2);
 
 
         Mb MB = new Mb();
@@ -199,19 +234,27 @@ public class SplashViewModel extends AndroidViewModel {
         MB.setSata3(6);
         MB.setFormFactor("mATX");
         MB.setOzuType("DDR4");
+        MB.setMaxOzuSize(32);
+        MB.setOzuSlotsQuantity(2);
+        MB.setSata3(6);
+        MB.setM2(0);
 
         Mb MB2 = new Mb();
         MB2.setProduct_code(1669365);
         MB2.setProducer("Asus");
         MB2.setModel("ROG STRIX B660-F GAMING WIFI");
-        MB2.setSocket("LGA1700");
+        MB2.setSocket("LGA 1700");
         MB2.setChipset("B660");
         MB2.setPrice(23690);
         MB2.setFormFactor("ATX");
         MB2.setOzuType("DDR4");
+        MB.setMaxOzuSize(64);
+        MB.setOzuSlotsQuantity(4);
+        MB.setSata3(6);
+        MB.setM2(1);
 
-        db_motherboards.getMyDao().addMB(MB);
-        db_motherboards.getMyDao().addMB(MB2);
+        db_components.getMotherboardsDao().addMB(MB);
+        db_components.getMotherboardsDao().addMB(MB2);
 
 
         Gpu GPU = new Gpu();
@@ -237,7 +280,7 @@ public class SplashViewModel extends AndroidViewModel {
         GPU.setRayTracing(true);
         GPU.setOptionalPower("8pin");
 
-        db_videocards.getMyDao().addGPU(GPU);
+        db_components.getVideocardsDao().addGPU(GPU);
 
         GPU.setProduct_code(1542015);
         GPU.setProducer("Palit");
@@ -260,7 +303,7 @@ public class SplashViewModel extends AndroidViewModel {
         GPU.setRayTracing(true);
         GPU.setOptionalPower("8pin");
 
-        db_videocards.getMyDao().addGPU(GPU);
+        db_components.getVideocardsDao().addGPU(GPU);
 
 
         Ozu OZU = new Ozu();
@@ -281,7 +324,7 @@ public class SplashViewModel extends AndroidViewModel {
         OZU.setBacklight(false);
         OZU.setRadiator(true);
 
-        db_ozus.getMyDao().addOZU(OZU);
+        db_components.getOzusDao().addOZU(OZU);
 
         OZU.setProduct_code(1622267);
         OZU.setProducer("AMD");
@@ -299,7 +342,7 @@ public class SplashViewModel extends AndroidViewModel {
         OZU.setBacklight(false);
         OZU.setRadiator(false);
 
-        db_ozus.getMyDao().addOZU(OZU);
+        db_components.getOzusDao().addOZU(OZU);
 
 
         Bp BP = new Bp();
@@ -313,7 +356,7 @@ public class SplashViewModel extends AndroidViewModel {
         BP.setCertificate("Bronze");
         BP.setPrice((int)Math.random() % 26000 + 1000);
 
-        for (int i = 0; i < 100; ++i) db_bps.getMyDao().addBP(BP);
+        for (int i = 0; i < 100; ++i) db_components.getBpsDao().addBP(BP);
 
 
         Case PCCASE = new Case();
@@ -322,7 +365,7 @@ public class SplashViewModel extends AndroidViewModel {
         PCCASE.setModel("Cylon Mini");
         PCCASE.setPrice((int)Math.random() % 26000 + 1500);
 
-        db_CASES.getMyDao().addPCCASE(PCCASE);
+        db_components.getCasesDao().addCASE(PCCASE);
 
 
         Cooler COOLER = new Cooler();
@@ -332,6 +375,12 @@ public class SplashViewModel extends AndroidViewModel {
         COOLER.setModel("Gammax 400 Blue Basic");
         COOLER.setPrice((int)Math.random() % 6000 + 150);
         COOLER.setTdp(150);
+
+        ArrayList<String> sockets = new ArrayList<>();
+        sockets.add("AM4");
+        sockets.add("LGA 1700");
+
+        COOLER.setSupportSockets(sockets);
 
         ArrayList<Integer> noise = new ArrayList<>();
         noise.add(23);
@@ -344,7 +393,7 @@ public class SplashViewModel extends AndroidViewModel {
         rspeed.add(2500);
         COOLER.setRotationSpeed(rspeed);
 
-        db_coolers.getMyDao().addCOOLER(COOLER);
+        db_components.getCoolersDao().addCOOLER(COOLER);
 
 
 
@@ -355,7 +404,7 @@ public class SplashViewModel extends AndroidViewModel {
         HDD.setModel("Caviar Blue");
         HDD.setPrice((int) Math.random() % 50000 + 2000);
 
-        db_hdds.getMyDao().addHDD(HDD);
+        db_components.getHddsDao().addHDD(HDD);
 
 
         Ssd SSD25 = new Ssd();
@@ -373,11 +422,8 @@ public class SplashViewModel extends AndroidViewModel {
         M2.setPrice((int)Math.random() % 50000 + 1500);
         M2.setFormFactor("M2");
 
-        db_ssds.getMyDao().addSSD(SSD25);
-        db_ssds.getMyDao().addSSD(M2);
-
-        array[1] = true;
-        liveData.postValue(array);
+        db_components.getSsdsDao().addSSD(SSD25);
+        db_components.getSsdsDao().addSSD(M2);
     }
 
 }

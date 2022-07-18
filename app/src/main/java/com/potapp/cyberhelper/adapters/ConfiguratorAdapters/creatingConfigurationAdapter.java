@@ -1,6 +1,9 @@
 package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,25 +18,36 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
-import com.potapp.cyberhelper.data.models.Configuration;
+import com.potapp.cyberhelper.database.dbs.DB_CONFIGURATIONS;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.screens.configurator.componentInfo.componentInfoFragment;
-import com.potapp.cyberhelper.data.models.components.Component;
-import com.potapp.cyberhelper.data.models.components.*;
+import com.potapp.cyberhelper.models.components.Component;
+import com.potapp.cyberhelper.models.components.*;
 import com.potapp.cyberhelper.screens.configurator.componentList.*;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.functions.Consumer;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import io.reactivex.rxjava3.subjects.Subject;
 
 
 // адаптер для отображения комплектующих конфигурации в режиме создания
 public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    Context context;
+
     Configuration current_configuration;                                                            // текущая конфигурация
     FragmentManager fm;                                                                             // FragmentManager для запуска соответствующего фрагмента
-    TextView fullPrice;                                                                             // текстовое поле для отображения общей стоимости сборки
 
     List<Component>[] componentList;
 
@@ -47,11 +61,11 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             p_hdd = pt_hdd + 1, p_ssd_25 = pt_ssd_25 + 1, p_ssd_m2 = pt_ssd_m2 + 1;
 
     // конструктор класса (производит инициализацию полей)
-    public creatingConfigurationAdapter(Configuration current_configuration, FragmentManager fm, TextView fullPrice)
+    public creatingConfigurationAdapter(Configuration current_configuration, FragmentManager fm, Context context)
     {
+        this.context = context;
         this.current_configuration = current_configuration;
         this.fm = fm;
-        this.fullPrice = fullPrice;
     }
 
     // определение типа загружаемой разметки
@@ -348,7 +362,7 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
                     .into(image);
 
             name.setText(current_component.getName());                                              // название компонента
-            price.setText(current_component.getPrice() + " ₽");                                     // стоимость компонента
+            price.setText(current_component.getItemQuantity() * current_component.getPrice() + " ₽");                                     // стоимость компонента
 
             // основные характеристики
             spec1_title.setText(current_component.getMainSpec1().getSpecTitle());
@@ -377,7 +391,6 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(view.getContext(), current_configuration.deleteComponent(current_component, button2.getContext()), Toast.LENGTH_SHORT).show();
-                    fullPrice.setText(current_configuration.getFullPrice() + " ₽");
                     notifyDataSetChanged();
                 }
             });
@@ -394,24 +407,101 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
         // дополнительные элементы в CardView с указанием количества
         if (viewType == 3)
         {
+            Component current_component = getCurrentComponent(position);
+
+            // элементы интерфейса
             ImageButton QMinus = holder.itemView.findViewById(R.id.QMinus);
             ImageButton QPlus = holder.itemView.findViewById(R.id.QPlus);
-            TextView QPrice = holder.itemView.findViewById(R.id.price);
+            TextView QValue = holder.itemView.findViewById(R.id.QValue);
 
-            final TextView QValue = holder.itemView.findViewById(R.id.QValue);
+            TextView price = holder.itemView.findViewById(R.id.fullPrice);
 
-            QMinus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    QValue.setText(Integer.parseInt(QValue.getText().toString()) - 1 + "");
+
+
+            // подписка на изменение количества
+            PublishSubject<Integer> QSubject = PublishSubject.create();
+
+            QSubject.subscribe(integer -> {
+
+                if (integer > 0) {
+                    QMinus.setColorFilter(null);
+                    QValue.setText(integer + "");
+
+;                   current_component.setItemQuantity(integer);
+                    price.setText(integer * current_component.getPrice() + " ₽");
+                    current_configuration.getCurrentPriceSubject().onNext(current_configuration.getFullPrice());
+
+                    // обновляем конфигурацию в базе данных
+                    DB_CONFIGURATIONS db_configurations = Room.databaseBuilder(context, DB_CONFIGURATIONS.class, "CONFIGURATIONS").build();
+
+                    Runnable runnable = () -> {
+                        db_configurations.getMyDao().updateConfiguration(current_configuration);
+                    };
+
+                    Observable.fromRunnable(runnable)
+                            .subscribeOn(Schedulers.io())
+                            .subscribe();
+
+                }
+
+                if (integer == 1) {
+                    QMinus.setColorFilter(R.color.colorAccentOptional);
                 }
             });
-            QPlus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    QValue.setText(Integer.parseInt(QValue.getText().toString()) + 1 + "");
-                }
+
+            QValue.setText(current_component.getItemQuantity() + "");
+
+            QMinus.setOnClickListener(view -> {
+                int Q = Integer.parseInt(QValue.getText().toString());
+                QSubject.onNext(Q - 1);
             });
+            QPlus.setOnClickListener(view -> {
+                int Q = Integer.parseInt(QValue.getText().toString());
+                QSubject.onNext(Q + 1);
+            });
+
+            if (Integer.parseInt(QValue.getText().toString()) == 1) QMinus.setColorFilter(R.color.colorAccentOptional);
+        }
+    }
+
+    // максимально возможное количество комплектов
+    private int getMaxItemsQuantity(Component current_component){
+
+        // ОЗУ
+        if (current_component instanceof Ozu)
+        {
+            int maxItems1 = current_configuration.mMb.getOzuSlotsQuantity() / ((Ozu) current_component).getModulesQuantity();
+            int maxItems2 = current_configuration.mMb.getMaxOzuSize() / ((Ozu) current_component).getCapacity();
+
+            if (maxItems1 < maxItems2) return maxItems1;
+            Log.d("AAA", "OZU");
+            return maxItems2;
+
+        }
+        // hdd
+        else if (current_component instanceof Hdd){
+
+            int q = 0;
+
+            if (current_configuration.mSsd_25 != null) q += current_configuration.mSsd_25.getItemQuantity();
+            Log.d("AAA", current_configuration.mMb.getSata3() + "");
+            return current_configuration.mMb.getSata3() - q;
+        }
+        // ssd
+        else
+        {
+            // ssd 2.5
+            if (((Ssd) current_component).getFormFactor().equals("2.5")){
+                int q = 0;
+
+                if (current_configuration.mHdd != null) q += current_configuration.mHdd.getItemQuantity();
+                Log.d("AAA", q + "");
+                return current_configuration.mMb.getSata3() - q;
+            }
+            // ssd M2
+            else {
+                return current_configuration.mMb.getM2();
+            }
         }
     }
 

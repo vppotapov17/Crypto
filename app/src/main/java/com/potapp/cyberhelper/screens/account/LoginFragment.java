@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.firebase.database.annotations.NotNull;
 import com.potapp.cyberhelper.MainActivity;
 import com.potapp.cyberhelper.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,8 +22,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment;
+import com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment;
 
-import org.jetbrains.annotations.NotNull;
 
 public class LoginFragment extends Fragment {
 
@@ -81,7 +83,7 @@ public class LoginFragment extends Fragment {
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
-                                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AccountFragment.newInstance()).commit();
+                                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AuthorizedUserFragment.newInstance()).commit();
                                                 progressBar.setVisibility(View.INVISIBLE);
                                             }
                                         }, 1000);
