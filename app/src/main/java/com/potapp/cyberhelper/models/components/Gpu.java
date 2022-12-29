@@ -18,48 +18,79 @@ public class Gpu extends Component{
 
     // основные характеристики
 
-    private double pciE_version;                                                                    // версия PCI-Express
-    private int baseFrequency;                                                                      // базовая частота ГП, МГц
-    private int turboFrequency;                                                                     // турбо-частота ГП, МГц
+    private String GpProducer;                                                                      // производитель ГП
+    private String GpModel;                                                                         // модель ГП
+
+    private String gpInterface;                                                                     // интерфейс
+    private int gpFrequency;                                                                        // базовая частота ГП, МГц
+    private int gpBoostFrequency;                                                                     // турбо-частота ГП, МГц
     private int techprocess;                                                                        // техпроцесс, нм
     private String maxResoultion;                                                                   // максимальное разрешение
-    private int energyConsumption;                                                                  // максимальное энергопотребление
+
+    private String coolingSystem;                                                                   // система охлаждения
+
+    // разъёмы
+
+    private int Dvi;                                                                                // кол-во Dvi
+    private int hdmi;                                                                               // кол-во Hdmi
+    private String hdmiVer;                                                                         // версия Hdmi
+    private int displayPort;                                                                        // кол-во DisplayPort
+    private String displayPortVer;                                                                  // версия DisplayPort
 
     private String optionalPower;                                                                   // доп. питание
-    private boolean rayTracing;                                                                     // поддержка трассировки лучей
+
 
     // видеопамять
 
-    private String memoryType;                                                                      // тип
-    private int memorySize;                                                                         // объём, ГБ
-    private int memoryFrequency;                                                                    // частота, МГц
+    private String ozuType;                                                                         // тип
+    private int ozuSize;                                                                            // объём, ГБ
+    private int ozuFrequency;                                                                       // частота, МГц
     private int bitDepth;                                                                           // разрядность шины, бит
 
-    @Ignore
-    private HashMap<String, String> otherSpecifications;                                            // остальные характеристики
+    private int capacity;                                                                           // производительность
+    private int ratio;                                                                              // цена/качество
 
-    @Embedded
-    private ArrayList<fpsTest> fpsTests;                                                            // тесты видеокарты в играх
+    // технологии
+    private boolean dlss;                                                                           // dlss
+    private boolean rayTracing;                                                                     // поддержка трассировки лучей
+
+    // прочее
+    private int bench;                                                                              // результаты 3dMark
+    private int length;                                                                             // длина
     private String date;                                                                            // дата релиза
+
+    private String heatPipes;                                                                       // тепловые трубки
+    private int maxTdp;                                                                             // максимальное тепловыделение
+    private int minBp;                                                                              // минимальная мощность БП
+    private int monitors;                                                                           // количество мониторов
+    private boolean OCEdition;                                                                      // OverClock Edition
+    private int RTCores;                                                                            // количество RT ядер
+    private int tensorCores;                                                                        // количество тензорных ядер
+    private int rasterizeBlocks;                                                                    // количество блоков растеризации
+    private int textureBlocks;                                                                      // количество блоков текстурирования
 
     //----------------------------------------------------------------------------------------------
     // get-методы
     //----------------------------------------------------------------------------------------------
 
-    public double getPciE_version() {
-        return pciE_version;
+    public String getGpProducer() {
+        return GpProducer;
     }
 
-    public int getBaseFrequency() {
-        return baseFrequency;
+    public String getGpModel() {
+        return GpModel;
     }
 
-    public int getTurboFrequency() {
-        return turboFrequency;
+    public String getGpInterface() {
+        return gpInterface;
     }
 
-    public HashMap<String, String> getOtherSpecifications() {
-        return otherSpecifications;
+    public int getGpFrequency() {
+        return gpFrequency;
+    }
+
+    public int getGpBoostFrequency() {
+        return gpBoostFrequency;
     }
 
     public int getTechprocess() {
@@ -70,40 +101,112 @@ public class Gpu extends Component{
         return maxResoultion;
     }
 
-    public int getEnergyConsumption() {
-        return energyConsumption;
+    public String getCoolingSystem() {
+        return coolingSystem;
+    }
+
+    public int getDvi() {
+        return Dvi;
+    }
+
+    public int getHdmi() {
+        return hdmi;
+    }
+
+    public String getHdmiVer() {
+        return hdmiVer;
+    }
+
+    public int getDisplayPort() {
+        return displayPort;
+    }
+
+    public String getDisplayPortVer() {
+        return displayPortVer;
     }
 
     public String getOptionalPower() {
         return optionalPower;
     }
 
-    public boolean isRayTracing() {
-        return rayTracing;
+    public String getOzuType() {
+        return ozuType;
     }
 
-    public String getMemoryType() {
-        return memoryType;
+    public int getOzuSize() {
+        return ozuSize;
     }
 
-    public int getMemorySize() {
-        return memorySize;
-    }
-
-    public int getMemoryFrequency() {
-        return memoryFrequency;
+    public int getOzuFrequency() {
+        return ozuFrequency;
     }
 
     public int getBitDepth() {
         return bitDepth;
     }
 
-    public ArrayList<fpsTest> getFpsTests() {
-        return fpsTests;
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public int getRatio() {
+        return ratio;
+    }
+
+    public boolean isDlss() {
+        return dlss;
+    }
+
+    public boolean isRayTracing() {
+        return rayTracing;
+    }
+
+    public int getBench() {
+        return bench;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public String getDate() {
         return date;
+    }
+
+    public String getHeatPipes() {
+        return heatPipes;
+    }
+
+    public int getMaxTdp() {
+        return maxTdp;
+    }
+
+    public int getMinBp() {
+        return minBp;
+    }
+
+    public int getMonitors() {
+        return monitors;
+    }
+
+    public boolean isOCEdition() {
+        return OCEdition;
+    }
+
+    public int getRTCores() {
+        return RTCores;
+    }
+
+    public int getTensorCores() {
+        return tensorCores;
+    }
+
+    public int getRasterizeBlocks() {
+        return rasterizeBlocks;
+    }
+
+    public int getTextureBlocks() {
+        return textureBlocks;
     }
 
 
@@ -111,20 +214,24 @@ public class Gpu extends Component{
     // set-методы
     //----------------------------------------------------------------------------------------------\
 
-    public void setPciE_version(double pciE_version) {
-        this.pciE_version = pciE_version;
+    public void setGpProducer(String gpProducer) {
+        GpProducer = gpProducer;
     }
 
-    public void setBaseFrequency(int baseFrequency) {
-        this.baseFrequency = baseFrequency;
+    public void setGpModel(String gpModel) {
+        GpModel = gpModel;
     }
 
-    public void setTurboFrequency(int turboFrequency) {
-        this.turboFrequency = turboFrequency;
+    public void setGpInterface(String gpInterface) {
+        this.gpInterface = gpInterface;
     }
 
-    public void setOtherSpecifications(HashMap<String, String> otherSpecifications) {
-        this.otherSpecifications = otherSpecifications;
+    public void setGpFrequency(int gpFrequency) {
+        this.gpFrequency = gpFrequency;
+    }
+
+    public void setGpBoostFrequency(int gpBoostFrequency) {
+        this.gpBoostFrequency = gpBoostFrequency;
     }
 
     public void setTechprocess(int techprocess) {
@@ -135,40 +242,112 @@ public class Gpu extends Component{
         this.maxResoultion = maxResoultion;
     }
 
-    public void setEnergyConsumption(int energyConsumption) {
-        this.energyConsumption = energyConsumption;
+    public void setCoolingSystem(String coolingSystem) {
+        this.coolingSystem = coolingSystem;
+    }
+
+    public void setDvi(int dvi) {
+        Dvi = dvi;
+    }
+
+    public void setHdmi(int hdmi) {
+        this.hdmi = hdmi;
+    }
+
+    public void setHdmiVer(String hdmiVer) {
+        this.hdmiVer = hdmiVer;
+    }
+
+    public void setDisplayPort(int displayPort) {
+        this.displayPort = displayPort;
+    }
+
+    public void setDisplayPortVer(String displayPortVer) {
+        this.displayPortVer = displayPortVer;
     }
 
     public void setOptionalPower(String optionalPower) {
         this.optionalPower = optionalPower;
     }
 
-    public void setRayTracing(boolean rayTracing) {
-        this.rayTracing = rayTracing;
+    public void setOzuType(String ozuType) {
+        this.ozuType = ozuType;
     }
 
-    public void setMemoryType(String memoryType) {
-        this.memoryType = memoryType;
+    public void setOzuSize(int ozuSize) {
+        this.ozuSize = ozuSize;
     }
 
-    public void setMemorySize(int memorySize) {
-        this.memorySize = memorySize;
-    }
-
-    public void setMemoryFrequency(int memoryFrequency) {
-        this.memoryFrequency = memoryFrequency;
+    public void setOzuFrequency(int ozuFrequency) {
+        this.ozuFrequency = ozuFrequency;
     }
 
     public void setBitDepth(int bitDepth) {
         this.bitDepth = bitDepth;
     }
 
-    public void setFpsTests(ArrayList<fpsTest> fpsTests) {
-        this.fpsTests = fpsTests;
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public void setRatio(int ratio) {
+        this.ratio = ratio;
+    }
+
+    public void setDlss(boolean dlss) {
+        this.dlss = dlss;
+    }
+
+    public void setRayTracing(boolean rayTracing) {
+        this.rayTracing = rayTracing;
+    }
+
+    public void setBench(int bench) {
+        this.bench = bench;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public void setHeatPipes(String heatPipes) {
+        this.heatPipes = heatPipes;
+    }
+
+    public void setMaxTdp(int maxTdp) {
+        this.maxTdp = maxTdp;
+    }
+
+    public void setMinBp(int minBp) {
+        this.minBp = minBp;
+    }
+
+    public void setMonitors(int monitors) {
+        this.monitors = monitors;
+    }
+
+    public void setOCEdition(boolean OCEdition) {
+        this.OCEdition = OCEdition;
+    }
+
+    public void setRTCores(int RTCores) {
+        this.RTCores = RTCores;
+    }
+
+    public void setTensorCores(int tensorCores) {
+        this.tensorCores = tensorCores;
+    }
+
+    public void setRasterizeBlocks(int rasterizeBlocks) {
+        this.rasterizeBlocks = rasterizeBlocks;
+    }
+
+    public void setTextureBlocks(int textureBlocks) {
+        this.textureBlocks = textureBlocks;
     }
 
 
@@ -181,10 +360,6 @@ public class Gpu extends Component{
         return 100;
     }
 
-    public int getRatio()
-    {
-        return 100;
-    }
 
     //----------------------------------------------------------------------------------------------
     // переопределённые методы класса Component
@@ -207,7 +382,7 @@ public class Gpu extends Component{
         mainSpec spec = new mainSpec();
 
         spec.setSpecTitle("Цена/качество");
-        spec.setSpecValue(getRatio() + " %");
+        spec.setSpecValue(ratio + " %");
 
         return spec;
     }
@@ -229,18 +404,21 @@ public class Gpu extends Component{
         List<String[]> specs = new ArrayList<>();
 
         specs.add(new String[]{"Основные характеристики", ""});
+        specs.add(new String[]{"Производитель", getProducer()});
+        specs.add(new String[]{"Модель", getModel()});
+
         specs.add(new String[]{"Производительность", getAverageFPS() + ""});
-        specs.add(new String[]{"Цена/качество", getRatio() + "%"});
-        specs.add(new String[]{"Видеочипсет", getModel()});
-        if (baseFrequency != 0) specs.add(new String[]{"Частота", baseFrequency + " МГц"});
+        specs.add(new String[]{"Цена/качество", ratio + "%"});
+        specs.add(new String[]{"Модель ГП", getGpModel()});
+        if (gpFrequency != 0) specs.add(new String[]{"Частота", gpFrequency + " МГц"});
         if (techprocess != 0) specs.add(new String[]{"Техпроцесс", techprocess + " нм"});
-        if (pciE_version != 0) specs.add(new String[]{"Интерфейс", "PCI-E " + pciE_version});
-        if (energyConsumption != 0) specs.add(new String[]{"Энергопотребление", energyConsumption + " Вт"});
+        if (gpInterface != null) specs.add(new String[]{"Интерфейс", gpInterface});
+        if (maxTdp != 0) specs.add(new String[]{"Тепловыделение", maxTdp + " Вт"});
 
         specs.add(new String[]{"Видеопамять", ""});
-        if (memorySize != 0) specs.add(new String[]{"Объём", memorySize + " Гб"});
-        if (memoryType != null) specs.add(new String[]{"Тип", memoryType});
-        if (memoryFrequency != 0) specs.add(new String[]{"Частота", memoryFrequency + "МГц"});
+        if (ozuSize != 0) specs.add(new String[]{"Объём", ozuSize + " Гб"});
+        if (ozuType != null) specs.add(new String[]{"Тип", ozuType});
+        if (ozuFrequency != 0) specs.add(new String[]{"Частота", ozuFrequency + "МГц"});
         if (bitDepth != 0) specs.add(new String[]{"Разрядность шины", bitDepth + " bit"});
 
         specs.add(new String[]{"Прочее", ""});

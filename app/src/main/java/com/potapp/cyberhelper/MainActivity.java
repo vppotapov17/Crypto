@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
+        Log.d("AAA", "Create");
+
         MobileAds.initialize(this, new InitializationListener() {
             @Override
             public void onInitializationCompleted() {
@@ -89,12 +91,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         loadFragment(configurationListFragment.newInstance());
-
-    }
-
-    @Override
-    public void onResume(){
-        super.onResume();
 
     }
 

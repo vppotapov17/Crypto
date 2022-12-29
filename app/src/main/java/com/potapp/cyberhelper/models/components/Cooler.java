@@ -17,15 +17,15 @@ public class Cooler extends Component{
     private String coolingType;                                                                     // тип охлаждения
     private int fanQuantity;                                                                        // количество вентиляторов
     private int fanSize;                                                                            // размер вентилятора, мм
-    // списки из двух элементов - нижней и верхней границы значений
-    @Embedded
-    private ArrayList<Integer> airFlow;                                                             // воздушный поток, CFM
-    @Embedded
-    private ArrayList<Integer> noiseLevel;                                                          // уровень шума, дБ
-    @Embedded
-    private ArrayList<Integer> rotationSpeed;                                                       // скорость вращения, об/мин
-    @Embedded
-    private ArrayList<String> supportSockets;                                                            // совместимость с сокетами
+
+    private String airFlow;                                                                         // воздушный поток, CFM
+    private String noiseLevel;                                                                      // уровень шума, дБ
+    private String rotationSpeed;                                                                   // скорость вращения, об/мин
+
+    // совместимость с сокетами
+    private boolean AM4;
+    private boolean lga1200;
+    private boolean lga1700;
 
     // конструкция
     private String heatPipes;                                                                       // тепловые трубки
@@ -33,13 +33,26 @@ public class Cooler extends Component{
     private String radiatorMaterial;                                                                // материал радиатора
 
     // прочее
-    private int power;                                                                              // питание
+    private String power;                                                                           // питание
     private String backlight;                                                                       // цвет подсветки (если есть)
-
+    private boolean paste;                                                                          // термопаста в комплекте
+    private String weight;                                                                          // вес
     // ---------------------------------------------------------------------------------------------
     // get-методы
     // ---------------------------------------------------------------------------------------------
 
+
+    public boolean isAM4() {
+        return AM4;
+    }
+
+    public boolean isLga1200() {
+        return lga1200;
+    }
+
+    public boolean isLga1700() {
+        return lga1700;
+    }
 
     public int getTdp() {
         return tdp;
@@ -57,20 +70,16 @@ public class Cooler extends Component{
         return fanSize;
     }
 
-    public ArrayList<Integer> getAirFlow() {
+    public String getAirFlow() {
         return airFlow;
     }
 
-    public ArrayList<Integer> getNoiseLevel() {
+    public String getNoiseLevel() {
         return noiseLevel;
     }
 
-    public ArrayList<Integer> getRotationSpeed() {
+    public String getRotationSpeed() {
         return rotationSpeed;
-    }
-
-    public ArrayList<String> getSupportSockets() {
-        return supportSockets;
     }
 
     public String getHeatPipes() {
@@ -85,7 +94,7 @@ public class Cooler extends Component{
         return radiatorMaterial;
     }
 
-    public int getPower() {
+    public String getPower() {
         return power;
     }
 
@@ -93,10 +102,30 @@ public class Cooler extends Component{
         return backlight;
     }
 
+    public boolean isPaste() {
+        return paste;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // set-методы
     // ---------------------------------------------------------------------------------------------
 
+
+    public void setAM4(boolean AM4) {
+        this.AM4 = AM4;
+    }
+
+    public void setLga1200(boolean lga1200) {
+        this.lga1200 = lga1200;
+    }
+
+    public void setLga1700(boolean lga1700) {
+        this.lga1700 = lga1700;
+    }
 
     public void setTdp(int tdp) {
         this.tdp = tdp;
@@ -114,20 +143,16 @@ public class Cooler extends Component{
         this.fanSize = fanSize;
     }
 
-    public void setAirFlow(ArrayList<Integer> airFlow) {
+    public void setAirFlow(String airFlow) {
         this.airFlow = airFlow;
     }
 
-    public void setNoiseLevel(ArrayList<Integer> noiseLevel) {
+    public void setNoiseLevel(String noiseLevel) {
         this.noiseLevel = noiseLevel;
     }
 
-    public void setRotationSpeed(ArrayList<Integer> rotationSpeed) {
+    public void setRotationSpeed(String rotationSpeed) {
         this.rotationSpeed = rotationSpeed;
-    }
-
-    public void setSupportSockets(ArrayList<String> supportSockets) {
-        this.supportSockets = supportSockets;
     }
 
     public void setHeatPipes(String heatPipes) {
@@ -142,13 +167,22 @@ public class Cooler extends Component{
         this.radiatorMaterial = radiatorMaterial;
     }
 
-    public void setPower(int power) {
+    public void setPower(String power) {
         this.power = power;
     }
 
     public void setBacklight(String backlight) {
         this.backlight = backlight;
     }
+
+    public void setPaste(boolean paste) {
+        this.paste = paste;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
 
     // ---------------------------------------------------------------------------------------------
     // переопределённые методы класса Component
@@ -172,7 +206,7 @@ public class Cooler extends Component{
         mainSpec spec = new mainSpec();
 
         spec.setSpecTitle("Уровень шума");
-        spec.setSpecValue(ListToString(noiseLevel) + " дБ");
+        spec.setSpecValue(noiseLevel);
 
         return spec;
     }
@@ -182,9 +216,9 @@ public class Cooler extends Component{
     {
         mainSpec spec = new mainSpec();
 
-        spec.setSpecTitle("Скорость вращения");
+        spec.setSpecTitle("Скорость");
 
-        spec.setSpecValue(ListToString(rotationSpeed) + " об/мин");
+        spec.setSpecValue(rotationSpeed);
 
         return spec;
     }
@@ -215,17 +249,32 @@ public class Cooler extends Component{
             specifications.add(str);
         }
         if (airFlow != null) {
-            str = new String[]{"Воздушный поток", ListToString(airFlow) + " cfm"};
+            str = new String[]{"Воздушный поток", airFlow};
             specifications.add(str);
         }
         if (noiseLevel != null) {
-            str = new String[]{"Уровень шума", ListToString(noiseLevel) + " дБ"};
+            str = new String[]{"Уровень шума", noiseLevel};
             specifications.add(str);
         }
         if (rotationSpeed != null) {
-            str = new String[]{"Скорость вращения", ListToString(rotationSpeed) + " об/мин"};
+            str = new String[]{"Скорость вращения", rotationSpeed};
             specifications.add(str);
         }
+
+        str = new String[]{"Поддержка сокетов", ""};
+        specifications.add(str);
+
+        if (AM4 == true) str = new String[]{"AM4", "да"};
+        else str = new String[]{"AM4", "нет"};
+        specifications.add(str);
+
+        if (lga1200 == true) str = new String[]{"LGA 1200", "да"};
+        else str = new String[]{"LGA 1200", "нет"};
+        specifications.add(str);
+
+        if (lga1700 == true) str = new String[]{"LGA 1700", "да"};
+        else str = new String[]{"LGA 1700", "нет"};
+        specifications.add(str);
 
         str = new String[]{"Конструкция", ""};
         specifications.add(str);
@@ -247,8 +296,8 @@ public class Cooler extends Component{
         str = new String[]{"Прочее", ""};
         specifications.add(str);
 
-        if (power != 0) {
-            str = new String[]{"Питание", power + " pin"};
+        if (power != null) {
+            str = new String[]{"Питание", power};
             specifications.add(str);
         }
         if (backlight != null)

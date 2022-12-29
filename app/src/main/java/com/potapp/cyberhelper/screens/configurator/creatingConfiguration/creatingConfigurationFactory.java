@@ -8,14 +8,12 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.potapp.cyberhelper.models.Configuration;
 
-public class creatingConfigurationFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class creatingConfigurationFactory implements ViewModelProvider.Factory {
 
     private Configuration current_configuration;
     private Application application;
 
-    public creatingConfigurationFactory(@NonNull Application application, Configuration current_configuration) {
-        super(application);
-
+    public creatingConfigurationFactory(Application application, Configuration current_configuration) {
         this.application = application;
         this.current_configuration = current_configuration;
     }

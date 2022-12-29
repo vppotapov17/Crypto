@@ -16,7 +16,7 @@ public class Mb extends Component {
     private String socket;                                          // сокет
     private String chipset;                                         // чипсет
     private String formFactor;                                      // форм-фактор
-    private int cpuPower;                                           // питание процессора
+    private String power;                                           // питание процессора
 
     // память
 
@@ -35,9 +35,22 @@ public class Mb extends Component {
 
     private int sata3;                                              // количество разъёмов SATA3
     private int m2;                                                 // количество разъёмов M2
-    private boolean RAID_support;                                   // поддержка SATA RAID
 
-//    private HashMap<String, String> otherSpecifications;            // остальные характеристики
+    // разъёмы на задней панели
+
+    private String ps2;
+    private int usb20;
+    private int usb30;
+    private int usb31;
+    private int usbC;
+    private int displayPort;
+    private int vga;
+    private int hdmi;
+
+    // прочее
+
+    private String sound;                                           // звук
+    private String network;                                         // сетевой интерфейс
 
 
     // ---------------------------------------------------------------------------------------------
@@ -57,8 +70,8 @@ public class Mb extends Component {
         this.formFactor = formFactor;
     }
 
-    public void setCpuPower(int cpuPower) {
-        this.cpuPower = cpuPower;
+    public void setPower(String power) {
+        this.power = power;
     }
 
     public void setOzuType(String ozuType) {
@@ -97,10 +110,45 @@ public class Mb extends Component {
         this.m2 = m2;
     }
 
-    public void setRAID_support(boolean RAID_support) {
-        this.RAID_support = RAID_support;
+    public void setPs2(String ps2) {
+        this.ps2 = ps2;
     }
 
+    public void setUsb20(int usb20) {
+        this.usb20 = usb20;
+    }
+
+    public void setUsb30(int usb30) {
+        this.usb30 = usb30;
+    }
+
+    public void setUsb31(int usb31) {
+        this.usb31 = usb31;
+    }
+
+    public void setUsbC(int usbC) {
+        this.usbC = usbC;
+    }
+
+    public void setDisplayPort(int displayPort) {
+        this.displayPort = displayPort;
+    }
+
+    public void setVga(int vga) {
+        this.vga = vga;
+    }
+
+    public void setHdmi(int hdmi) {
+        this.hdmi = hdmi;
+    }
+
+    public void setSound(String sound) {
+        this.sound = sound;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
+    }
 
     // ---------------------------------------------------------------------------------------------
     // геттеры
@@ -118,8 +166,8 @@ public class Mb extends Component {
         return formFactor;
     }
 
-    public int getCpuPower() {
-        return cpuPower;
+    public String getPower() {
+        return power;
     }
 
     public String getOzuType() {
@@ -158,8 +206,44 @@ public class Mb extends Component {
         return m2;
     }
 
-    public boolean isRAID_support() {
-        return RAID_support;
+    public String getPs2() {
+        return ps2;
+    }
+
+    public int getUsb20() {
+        return usb20;
+    }
+
+    public int getUsb30() {
+        return usb30;
+    }
+
+    public int getUsb31() {
+        return usb31;
+    }
+
+    public int getUsbC() {
+        return usbC;
+    }
+
+    public int getDisplayPort() {
+        return displayPort;
+    }
+
+    public int getVga() {
+        return vga;
+    }
+
+    public int getHdmi() {
+        return hdmi;
+    }
+
+    public String getSound() {
+        return sound;
+    }
+
+    public String getNetwork() {
+        return network;
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -204,9 +288,10 @@ public class Mb extends Component {
         if (socket != null) specs.add(new String[]{"Сокет", socket});
         if (chipset != null) specs.add(new String[]{"Чипсет", chipset});
         if (formFactor != null) specs.add(new String[]{"Форм-фактор", formFactor});
-        if (cpuPower != 0) specs.add(new String[]{"Питание процессора", cpuPower + " pin"});
+        if (power != null) specs.add(new String[]{"Питание", power});
 
         specs.add(new String[]{"Память", ""});
+        if (ozuType != null) specs.add(new String[]{"Тип", ozuType});
         if (ozuSlotsQuantity != 0) specs.add(new String[]{"Количество слотов", ozuSlotsQuantity + ""});
         if (maxOzuSize != 0) specs.add(new String[]{"Максимальный объём", maxOzuSize + " Гб"});
         if (ozuFrequencySpec != 0) specs.add(new String[]{"Частотная спецификация", ozuFrequencySpec + " МГц"});
@@ -217,11 +302,22 @@ public class Mb extends Component {
         if (pciEv4_x16 != 0) specs.add(new String[]{"PCI-Express 4.0 x16", pciEv4_x16 + ""});
 
         specs.add(new String[]{"Дисковые контроллеры", ""});
-        if (sata3 != 0) specs.add(new String[]{"Разъёмов SATA3", sata3 + ""});
-        if (m2 != 0) specs.add(new String[]{"Разъёмов M2", m2 + ""});
+        if (sata3 != 0) specs.add(new String[]{"SATA3", sata3 + " шт."});
+        if (m2 != 0) specs.add(new String[]{"M2", m2 + " шт."});
 
-        if (RAID_support) specs.add(new String[]{"Поддержка SATA RAID", "есть"});
-        else specs.add(new String[]{"Поддержка SATA RAID", "нет"});
+        specs.add(new String[]{"Разъёмы", ""});
+        if (ps2 != null) specs.add(new String[]{"PS/2", ps2});
+        if (usb20 != 0) specs.add(new String[]{"USB 2.0", usb20 + " шт."});
+        if (usb30 != 0) specs.add(new String[]{"USB 3.0", usb30 + " шт."});
+        if (usb31 != 0) specs.add(new String[]{"USB 3.1", usb31 + " шт."});
+        if (usbC != 0) specs.add(new String[]{"USB Type-C", usbC + " шт."});
+        if (displayPort != 0) specs.add(new String[]{"Display Port", displayPort + " шт."});
+        if (vga != 0) specs.add(new String[]{"VGA", vga + " шт."});
+        if (hdmi != 0) specs.add(new String[]{"HDMI", hdmi + " шт."});
+
+        specs.add(new String[]{"Прочее", ""});
+        if (sound != null) specs.add(new String[]{"Звук", sound});
+        if (network != null) specs.add(new String[]{"Сетевой интерфейс", network});
 
         return specs;
     }

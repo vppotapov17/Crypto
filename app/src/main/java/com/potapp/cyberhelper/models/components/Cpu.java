@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.models.components;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -25,6 +26,7 @@ public class Cpu extends Component {
     private int techprocess;                                                                        // техпроцесс
     private int tdp;                                                                                // тепловыделение
     private int cache;                                                                              // кэш L3
+    private String shipment;                                                                        // тип поставки
 
     // память
     private int maxOzuFrequency;                                                                    // максимальная частота
@@ -35,21 +37,25 @@ public class Cpu extends Component {
     private double pciE_version;                                                                    // версия PCI-Express
     private String graphics;                                                                        // встроенная графика
     private String graphics_frequency;                                                              // частота графического ядра
+    private String multiplier;                                                                      // множитель
     private String release_date;                                                                    // дата релиза
 
     // бенчмарки
     private int geekbench_multi;                                                                    // тест в Geekbench 5 (Multi)
     private int geekbench_single;                                                                   // тест в Geekbench 5 (Single)
 
-    @Ignore
     private double capacity;
-    @Ignore
     private double ratio;
 
 
     // ---------------------------------------------------------------------------------------------
     // сеттеры
     // ---------------------------------------------------------------------------------------------
+
+
+    public void setShipment(String shipment) {
+        this.shipment = shipment;
+    }
 
     public void setFamily(String family) {                                                  // семейство процессоров
         this.family = family;
@@ -131,9 +137,18 @@ public class Cpu extends Component {
         this.ratio = ratio;
     }
 
+    public void setMultiplier(String multiplier) {
+        this.multiplier = multiplier;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // геттеры
     // ---------------------------------------------------------------------------------------------
+
+
+    public String getShipment() {
+        return shipment;
+    }
 
     public String getFamily() {                                                                 // семейство процессоров
         return family;
@@ -215,6 +230,10 @@ public class Cpu extends Component {
         return ratio;
     }
 
+    public String getMultiplier() {
+        return multiplier;
+    }
+
     // ---------------------------------------------------------------------------------------------
     // переопределенные методы класса Component
     // ---------------------------------------------------------------------------------------------
@@ -227,6 +246,7 @@ public class Cpu extends Component {
         spec.setSpecTitle("Производительность");
         spec.setSpecValue(capacity + " %");
 
+        Log.d("AAA", getCapacity() + "");
         return spec;
     }
 
@@ -246,8 +266,8 @@ public class Cpu extends Component {
     {
         mainSpec spec = new mainSpec();
 
-        spec.setSpecTitle("Дата релиза");
-        spec.setSpecValue(getRelease_date());
+        spec.setSpecTitle("Тип поставки");
+        spec.setSpecValue(getShipment());
 
         return spec;
     }
@@ -258,6 +278,10 @@ public class Cpu extends Component {
         List<String[]> specs = new ArrayList<>();
 
         specs.add(new String[]{"Основные характеристики", ""});
+
+        if (getProducer() != null) specs.add(new String[]{"Бренд", getProducer()});
+        if (getModel() != null) specs.add(new String[]{"Модель", getModel()});
+        if (getFamily() != null) specs.add(new String[]{"Ядро", getFamily()});
 
         specs.add(new String[]{"Цена/качество", getRatio() + "%"});
         if (release_date != null) specs.add(new String[]{"Дата релиза", release_date});

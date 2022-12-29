@@ -15,20 +15,11 @@ import com.potapp.cyberhelper.models.Configuration;
 public class creatingConfigurationViewModel extends AndroidViewModel {
     private Configuration current_configuration;
 
-    private MutableLiveData<Integer> fullPriceLiveData;
-
     public creatingConfigurationViewModel(@NonNull Application application, Configuration current_configuration) {
         super(application);
 
         this.current_configuration = current_configuration;
-        fullPriceLiveData = new MutableLiveData<>();
 
-        // подписка на изменение общей стоимости сборки
-        current_configuration.getCurrentPriceSubject().subscribe(price->{
-           fullPriceLiveData.setValue(price);
-        });
-
-        current_configuration.getCurrentPriceSubject().onNext(current_configuration.getFullPrice());
     }
 
     boolean onDoneButtonClick(){
@@ -45,6 +36,7 @@ public class creatingConfigurationViewModel extends AndroidViewModel {
         return false;
     }
 
-    public LiveData<Integer> getFullPriceLiveData(){return fullPriceLiveData;}
-
+    public Configuration getCurrent_configuration(){
+        return current_configuration;
+    }
 }

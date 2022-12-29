@@ -11,4 +11,5 @@
     <color name="notSelected_optional">#B1ABAB</color>
     <color name="notSelected_main">#91918F</color>
     <color name="blue">#136ad5</color>
+    <color name="mainOrangeTransp">#EDFD762D</color>
 </resources>

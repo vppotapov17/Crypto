@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.screens.configurator.viewReadyConfiguration;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.widget.Toolbar;
 import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -26,12 +28,17 @@ import com.google.android.material.appbar.MaterialToolbar;
 
 import com.potapp.cyberhelper.database.dbs.DB_CONFIGURATIONS;
 import com.potapp.cyberhelper.database.daos.DAO_CONFIGURATIONS;
+import com.potapp.cyberhelper.screens.configurator.creatingConfiguration.creatingConfigurationFragment;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.functions.Action;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class viewReadyConfigurationFragment extends Fragment {
 
     Configuration current_configuration;                                                            // текущая конфигурация
 
-    DAO_CONFIGURATIONS dao_configurations;                                                          // база созданных сборок
+    DB_CONFIGURATIONS db_configuration;                                                             // база созданных сборок
 
     public viewReadyConfigurationFragment() {
 
@@ -53,7 +60,7 @@ public class viewReadyConfigurationFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dao_configurations = Room.databaseBuilder(getContext(), DB_CONFIGURATIONS.class, "CONFIGURATIONS").build().getMyDao();
+        db_configuration = Room.databaseBuilder(getContext(), DB_CONFIGURATIONS.class, "CONFIGURATIONS").build();
         current_configuration = (Configuration) getArguments().getSerializable(("current_configuration"));
     }
 
@@ -79,6 +86,21 @@ public class viewReadyConfigurationFragment extends Fragment {
         // кнопка назад
         ImageButton back = getActivity().findViewById(R.id.back);
         back.setOnClickListener(view -> getFragmentManager().popBackStack());
+
+        // кнопка изменить
+        ImageButton edit = getActivity().findViewById(R.id.edit);
+        edit.setOnClickListener(view -> {
+            current_configuration.isReady = false;
+            Completable.fromRunnable(() -> db_configuration.getMyDao().updateConfiguration(current_configuration)).subscribeOn(Schedulers.io()).subscribe(() -> {
+                Log.d("AAA", "Сборка изменена");});
+
+            getFragmentManager().popBackStack();
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_container, creatingConfigurationFragment.newInstance(current_configuration));
+            ft.addToBackStack(null);
+            ft.commit();
+
+        });
 
 
         final viewReadyConfigurationAdapter viewReadyConfigurationAdapter = new viewReadyConfigurationAdapter(current_configuration, getActivity().getSupportFragmentManager(), fullPrice, getContext());

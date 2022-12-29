@@ -7,6 +7,7 @@ import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 public class Bp extends Component{
@@ -18,23 +19,24 @@ public class Bp extends Component{
 
     // основные характеристики
 
+    private String family;                                                                          // линейка
+
     private int capacity;                                                                           // мощность
-    private int capacity12v;                                                                        // мощность по 12В линии
     private String certificate;                                                                     // сертификат 80 Plus
     private boolean activePFC;                                                                      // наличие активного PFC
-    private int efficiency;                                                                         // КПД
-    private int MTBF;                                                                               // время наработки на отказ
+    private int fanSize;                                                                            // размер вентилятора
+    private String color;                                                                           // цвет
+
+    // особенности
+    private boolean detachableCables;                                                               // отсоединяющиеся кабели
+    private boolean rgbFan;                                                                         // подсветка вентилятора
 
     // разъёмы
 
     private String cpuPower;                                                                        // питание процессора и мат. платы
-    private int length24pin;                                                                        // длина линии (24pin), мм
     private String gpuPower;                                                                        // питание видеокарты
     private int sata_ConnectorsQuantity;                                                            // количество разъёмов SATA
     private int molex_ConnectorsQuantity;                                                           // количество разъёмов Molex
-
-    @Ignore
-    private List<String[]> otherSpecifications;                                                     // остальные характеристики
 
 
     // ---------------------------------------------------------------------------------------------
@@ -46,10 +48,6 @@ public class Bp extends Component{
         this.capacity = capacity;
     }
 
-    public void setCapacity12v(int capacity12v) {                                           // мощность по линии 12В
-        this.capacity12v = capacity12v;
-    }
-
     public void setCertificate(String certificate) {                                          // сертификат
         this.certificate = certificate;
     }
@@ -58,20 +56,9 @@ public class Bp extends Component{
         this.activePFC = activePFC;
     }
 
-    public void setEfficiency(int efficiency) {                                                     // КПД
-        this.efficiency = efficiency;
-    }
-
-    public void setMTBF(int MTBF) {                                                           // время наработки на отказ
-        this.MTBF = MTBF;
-    }
 
     public void setCpuPower(String cpuPower) {                                                  // питание процессора и мат. платы
         this.cpuPower = cpuPower;
-    }
-
-    public void setLength24pin(int length24pin) {                                       // длина линии питания мат. платы (24pin)
-        this.length24pin = length24pin;
     }
 
     public void setGpuPower(String gpuPower) {                                                // питание видеокарты
@@ -86,8 +73,24 @@ public class Bp extends Component{
         this.molex_ConnectorsQuantity = molex_ConnectorsQuantity;
     }
 
-    public void setOtherSpecifications(List<String[]> otherSpecifications) {
-        this.otherSpecifications = otherSpecifications;
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
+    public void setFanSize(int fanSize) {
+        this.fanSize = fanSize;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setDetachableCables(boolean detachableCables) {
+        this.detachableCables = detachableCables;
+    }
+
+    public void setRgbFan(boolean rgbFan) {
+        this.rgbFan = rgbFan;
     }
 
     // ---------------------------------------------------------------------------------------------
@@ -99,9 +102,6 @@ public class Bp extends Component{
         return capacity;
     }
 
-    public int getCapacity12v() {                                                               // мощность по линии 12В
-        return capacity12v;
-    }
 
     public String getCertificate() {                                                             // сертификат
         return certificate;
@@ -111,20 +111,8 @@ public class Bp extends Component{
         return activePFC;
     }
 
-    public int getEfficiency() {                                                                    // КПД
-        return efficiency;
-    }
-
-    public int getMTBF() {                                                                       // время наработки на отказ
-        return MTBF;
-    }
-
     public String getCpuPower() {                                                                 // питание процессора и мат. платы
         return cpuPower;
-    }
-
-    public int getLength24pin() {                                                             // длина линии питания мат. платы (24pin)
-        return length24pin;
     }
 
     public String getGpuPower() {                                                                // питание видеокарты
@@ -139,49 +127,65 @@ public class Bp extends Component{
         return molex_ConnectorsQuantity;
     }
 
-    public List<String[]> getOtherSpecifications() {
-        return otherSpecifications;
+    public String getFamily() {
+        return family;
+    }
+
+    public int getFanSize() {
+        return fanSize;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public boolean isDetachableCables() {
+        return detachableCables;
+    }
+
+    public boolean isRgbFan() {
+        return rgbFan;
     }
 
     // ---------------------------------------------------------------------------------------------
     // дополнительные методы
     // ---------------------------------------------------------------------------------------------
 
-    public int getDurability() {                                                                    // надёжность
+    public String getDurability() {                                                                 // надёжность
 
-        switch (getProducer())
+        switch (getProducer().toUpperCase(Locale.ROOT).replaceAll(" ", ""))
         {
-            case "Seasonic":
-            case "BeQuiet":
-            case "SuperFlower":
-            case "Enermax":
+            case "SEASONIC":
+            case "BEQUIET":
+            case "SUPERFLOWER":
+            case "ENERMAX":
 
-                return 100;
+                return "очень высокая";
 
             case "FSP":
-            case "DeepCool":
-            case "Chieftec":
-            case "Thermaltake":
-            case "Corsair":
-            case "CoolerMaster":
-            case "Gigabyte":
+            case "DEEPCOOL":
+            case "CHIEFTEC":
+            case "THERMALTAKE":
+            case "CORSAIR":
+            case "COOLERMASTER":
+            case "GIGABYTE":
 
-                return 80;
+                return "высокая";
 
-            case "Zalman":
-            case "Cougar":
+            case "ZALMAN":
+            case "COUGAR":
 
-                return  60;
+                return  "средняя";
 
-            case "Aerocool":
-            case "Hiper":
-            case "Xilence":
+            case "AEROCOOL":
+            case "HIPER":
+            case "XILENCE":
 
-                return 40;
+                return "низкая";
 
             default:
 
-                return 20;
+                return "очень низкая";
         }
     }
 
@@ -189,12 +193,21 @@ public class Bp extends Component{
     // переопределённые методы класса Component
     // ---------------------------------------------------------------------------------------------
 
+
+    @Override
+    public String getName() {
+        String name = getProducer();
+        if (family != null) name += " " + getFamily();
+        name += " " + getModel();
+        return name;
+    }
+
     @Override
     public mainSpec getMainSpec1()
     {
         mainSpec spec = new mainSpec();
         spec.setSpecTitle("Надёжность");
-        spec.setSpecValue(getDurability() + " %");
+        spec.setSpecValue(getDurability());
 
         return spec;
     }
@@ -213,7 +226,7 @@ public class Bp extends Component{
     public mainSpec getMainSpec3()
     {
         mainSpec spec = new mainSpec();
-        spec.setSpecTitle("Сертификат 80Plus");
+        spec.setSpecTitle("Сертификат");
         spec.setSpecValue(certificate);
 
         return spec;
@@ -225,26 +238,35 @@ public class Bp extends Component{
         List<String[]> specs = new ArrayList<>();
 
         specs.add(new String[]{"Основные характеристики", ""});
-        specs.add(new String[]{"Надёжность", getDurability() + " %"});
+
+        specs.add(new String[]{"Бренд", getProducer()});
+        if (family != null) specs.add(new String[]{"Линейка", getFamily()});
+        specs.add(new String[]{"Модель", getModel()});
         if (capacity != 0) specs.add(new String[]{"Номинальная мощность", capacity + " Вт"});
-        if (capacity12v != 0) specs.add(new String[]{"Мощность по линии 12В", capacity12v + " Вт"});
-        if (certificate != null) specs.add(new String[]{"Сертификат 80Plus", certificate});
+        if (certificate != null) specs.add(new String[]{"Сертификат", certificate});
 
         if (activePFC) specs.add(new String[]{"Активный PFC", "есть"});
         else specs.add(new String[]{"Активный PFC", "нет"});
 
-        if (efficiency != 0) specs.add(new String[]{"КПД", efficiency + " %"});
-        if (MTBF != 0) specs.add(new String[]{"Время наработки на отказ", MTBF + " ч"});
+        if (fanSize != 0) specs.add(new String[]{"Размер вентилятора", fanSize + " мм"});
+        if (color != null) specs.add(new String[]{"Цвет", color});
 
         specs.add(new String[]{"Разъёмы", ""});
         if (cpuPower != null) specs.add(new String[]{"Питание процессора и материнской платы", cpuPower});
-        if (length24pin != 0) specs.add(new String[]{"Длина линии 24pin", length24pin + " мм"});
 
         if (gpuPower != null) specs.add(new String[]{"Питание видеокарты", gpuPower});
         else specs.add(new String[]{"Питание видеокарты", "нет"});
 
         specs.add(new String[]{"Количество разъёмов SATA3", sata_ConnectorsQuantity + ""});
         specs.add(new String[]{"Количество разъёмов MOLEX", molex_ConnectorsQuantity + ""});
+
+        specs.add(new String[]{"Особенности", ""});
+        if (detachableCables) specs.add(new String[]{"Отсоединяющиеся кабели", "есть"});
+        else specs.add(new String[]{"Отсоединяющиеся кабели", "нет"});
+
+        if (rgbFan) specs.add(new String[]{"Подсветка вентилятора", "есть"});
+        else specs.add(new String[]{"Подсветка вентилятора", "нет"});
+
 
         //specs.addAll(otherSpecifications);
 

@@ -23,11 +23,11 @@ import io.reactivex.rxjava3.subjects.PublishSubject;
 public class Configuration implements Serializable {
 
     public Configuration(){
-        currentPriceSubject = PublishSubject.create();
+        //currentPriceSubject = PublishSubject.create();
     }
 
-    @Ignore
-    private PublishSubject<Integer> currentPriceSubject;
+    //@Ignore
+    //private PublishSubject<Integer> currentPriceSubject;
 
     //поля для компонентов
     @PrimaryKey
@@ -57,9 +57,9 @@ public class Configuration implements Serializable {
     public boolean isReady;
 
 
-    public PublishSubject<Integer> getCurrentPriceSubject(){
-        return currentPriceSubject;
-    }
+//    public PublishSubject<Integer> getCurrentPriceSubject(){
+//        return null;
+//    }
 
     public int getFullPrice()
     {
@@ -104,11 +104,24 @@ public class Configuration implements Serializable {
         else if (component instanceof Bp) mBp = (Bp) component;
         else if (component instanceof Cooler) mCooler = (Cooler) component;
         else if (component instanceof Case) mCase = (Case) component;
-        else if (component instanceof Hdd) mHdd = (Hdd) component;
+        else if (component instanceof Hdd){
+            Hdd HDD = (Hdd) component;
+            if (mSsd_25 != null){
+                if (mSsd_25.getItemQuantity() == mMb.getSata3()) mSsd_25.setItemQuantity(mSsd_25.getItemQuantity() - 1);
+            }
+            mHdd = HDD;
+        }
         else if (component instanceof Ssd) {
             Ssd SSD = (Ssd) component;
 
-            if (SSD.getFormFactor().equals("2.5")) mSsd_25 = SSD;
+            if (SSD.getFormFactor().equals("2.5")){
+
+                if (mHdd != null){
+                    if (mHdd.getItemQuantity() == mMb.getSata3()) mHdd.setItemQuantity(mHdd.getItemQuantity() - 1);
+                }
+
+                mSsd_25 = SSD;
+            }
             else mSsd_m2 = SSD;
         }
 
@@ -121,7 +134,7 @@ public class Configuration implements Serializable {
         });
         t.start();
 
-        currentPriceSubject.onNext(getFullPrice());
+        //currentPriceSubject.onNext(getFullPrice());
 
         return toastString;
     }
@@ -172,7 +185,7 @@ public class Configuration implements Serializable {
         });
         t.start();
 
-        currentPriceSubject.onNext(getFullPrice());
+        //currentPriceSubject.onNext(getFullPrice());
 
         return toastString;
     }

@@ -10,15 +10,14 @@ import androidx.lifecycle.ViewModelProvider;
 import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.models.components.Component;
 
-public class componentInfoFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class componentInfoFactory implements ViewModelProvider.Factory {
 
     Application app;
     FragmentManager fm;
     Component select_component;
     Configuration current_configuration;
 
-    public componentInfoFactory(@NonNull Application app, FragmentManager fm, Component select_component, Configuration current_configuration){
-        super(app);
+    public componentInfoFactory(Application app, FragmentManager fm, Component select_component, Configuration current_configuration){
         this.app = app;
         this.fm = fm;
         this.select_component = select_component;

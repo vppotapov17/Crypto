@@ -39,13 +39,9 @@ public class SplashActivity extends AppCompatActivity {
             if (code == 1) {
                 startActivity(intent);
             }
-            else if (code == 0)
-            {
-                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show();
-            }
             else if (code == -1)
             {
-                Toast.makeText(getApplicationContext(), "Ошибка загрузки данных", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Ошибка авторизации", Toast.LENGTH_SHORT).show();
             }
         });
     }

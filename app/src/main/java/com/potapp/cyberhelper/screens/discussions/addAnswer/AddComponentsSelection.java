@@ -219,7 +219,7 @@ public class AddComponentsSelection extends Fragment {
             Ozu OZU = suggested_configuration.mOzu;
             OZU.setItemQuantity(1);    // убрать потом
             ozuValue.setText((OZU.getItemQuantity() * OZU.getModulesQuantity()) + "x" +
-                    (OZU.getCapacity() / OZU.getModulesQuantity() / OZU.getItemQuantity()) + " Гб");
+                    (OZU.getSingleCapacity() / OZU.getModulesQuantity() / OZU.getItemQuantity()) + " Гб");
         }
     }
 }

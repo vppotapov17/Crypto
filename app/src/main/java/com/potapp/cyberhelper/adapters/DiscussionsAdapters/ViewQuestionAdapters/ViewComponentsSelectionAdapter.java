@@ -45,7 +45,7 @@ public class ViewComponentsSelectionAdapter extends RecyclerView.Adapter<Recycle
     public int getItemViewType(int position)
     {
         // если мой вопрос и ответы есть
-        if (current_question.getAuthor().equals(MainActivity.current_user.getName()) && answerList.size() != 0)
+        if (current_question.getAuthor().equals(FirebaseAuth.getInstance().getUid()) && answerList.size() != 0)
         {
             if (position == 0) return 0;
             return 1;
@@ -212,7 +212,7 @@ public class ViewComponentsSelectionAdapter extends RecyclerView.Adapter<Recycle
         else if (getItemViewType(position) == 2)
         {
             // если мой вопрос
-            if (current_question.getAuthor().equals(MainActivity.current_user.getName()))
+            if (current_question.getAuthor().equals(FirebaseAuth.getInstance().getUid()))
             {
                 ImageView noAnswers = holder.itemView.findViewById(R.id.add_answer);
                 TextView noAnswersText = holder.itemView.findViewById(R.id.add_answer_text);
@@ -242,12 +242,14 @@ public class ViewComponentsSelectionAdapter extends RecyclerView.Adapter<Recycle
     public int getItemCount()
     {
         // если мой вопрос
-        if (current_question.getAuthor().equals(MainActivity.current_user.getName()))
+
+        if (current_question.getAuthor().equals(FirebaseAuth.getInstance().getUid()))
         {
             if (answerList.size() != 0)
                 return answerList.size() + 1;
             return 2;
         }
+
         // если чужой вопрос
         return answerList.size() + 2;
     }

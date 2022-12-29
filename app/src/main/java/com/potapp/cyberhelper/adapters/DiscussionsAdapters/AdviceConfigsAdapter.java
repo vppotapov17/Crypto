@@ -1,6 +1,5 @@
 package com.potapp.cyberhelper.adapters.DiscussionsAdapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -57,7 +56,7 @@ public class AdviceConfigsAdapter extends RecyclerView.Adapter<RecyclerView.View
         spec2_value.setText(current_configuration.mGpu.getModel());
 
         Ozu OZU = current_configuration.mOzu;
-        spec3_value.setText(OZU.getItemQuantity() * OZU.getModulesQuantity() + "x" + OZU.getCapacity() / OZU.getModulesQuantity() + " Гб");
+        spec3_value.setText(OZU.getItemQuantity() * OZU.getModulesQuantity() + "x" + OZU.getSingleCapacity() / OZU.getModulesQuantity() + " Гб");
 
         fullPrice.setText(current_configuration.getFullPrice() + "");
     }

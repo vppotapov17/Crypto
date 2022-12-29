@@ -22,6 +22,7 @@ public abstract class Component implements Serializable {
     private String model;
     private int price;
     private String refLink;
+    private String pictureLink;
 
     private int itemQuantity;
 
@@ -65,6 +66,14 @@ public abstract class Component implements Serializable {
 
     public void setRefLink(String refLink) {
         this.refLink = refLink;
+    }
+
+    public String getPictureLink() {
+        return pictureLink;
+    }
+
+    public void setPictureLink(String pictureLink) {
+        this.pictureLink = pictureLink;
     }
 
     public long getLastUpdate() {

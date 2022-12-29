@@ -65,6 +65,7 @@ public class componentInfoViewModel extends AndroidViewModel {
     void onBuyButtonClick(){
         Uri uriUrl = Uri.parse(select_component.getRefLink());
         Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
+        launchBrowser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplication().startActivity(launchBrowser);
     }
 

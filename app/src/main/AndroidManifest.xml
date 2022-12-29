@@ -4,15 +4,18 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_icon"
         android:label="CyberHelper"
         android:roundIcon="@drawable/ic_icon"
         android:supportsRtl="true"
+        android:testOnly="false"
         android:theme="@style/Launch">
 
-        <activity android:name="com.potapp.cyberhelper.screens.splash.SplashActivity"
+        <activity android:name="com.potapp.cyberhelper.screens.splash.SplashActivity" android:exported="true"
             android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"></action>
@@ -20,7 +23,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.potapp.cyberhelper.MainActivity"
+        <activity android:name="com.potapp.cyberhelper.MainActivity" android:exported="true"
             android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

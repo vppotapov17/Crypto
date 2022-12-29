@@ -1,13 +1,17 @@
 package com.potapp.cyberhelper.screens.configurator.configurationList;
 
 import android.app.AlertDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +24,17 @@ import com.potapp.cyberhelper.R;
 import com.potapp.cyberhelper.adapters.ConfiguratorAdapters.configurationListAdapter;
 import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.yandex.mobile.ads.common.AdRequestError;
+import com.yandex.mobile.ads.nativeads.NativeAd;
+import com.yandex.mobile.ads.nativeads.NativeAdLoadListener;
+import com.yandex.mobile.ads.nativeads.NativeAdLoader;
+import com.yandex.mobile.ads.nativeads.NativeAdRequestConfiguration;
+import com.yandex.mobile.ads.nativeads.template.HorizontalOffset;
+import com.yandex.mobile.ads.nativeads.template.NativeBannerView;
+import com.yandex.mobile.ads.nativeads.template.appearance.BannerAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.ButtonAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.NativeTemplateAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.TextAppearance;
 
 
 public class configurationListFragment extends Fragment {
@@ -36,8 +51,11 @@ public class configurationListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        vm = new ViewModelProvider(this, new configurationListFactory(getActivity().getApplication(), getFragmentManager()))
-                .get(configurationListViewModel.class);
+        configurationListFactory factory = new configurationListFactory(getActivity().getApplication(), getActivity().getSupportFragmentManager());
+
+
+        vm = ViewModelProviders.of(this, factory).get(configurationListViewModel.class);
+
     }
 
     @Override
@@ -50,7 +68,6 @@ public class configurationListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
 
         // инициализация элементов интерфейса
         TextView createFirstConfiguration = getActivity().findViewById(R.id.createFirstConfiguration);  // сообщение об отсутсвии конфигураций

@@ -17,22 +17,27 @@ public class Hdd extends Component{
 
     // основные характеристики
 
+    private String family;                                                                          // линейка
+
     private String formFactor;                                                                      // форм-фактор
-    private int capacity;                                                                           // объём
+    private double capacity;                                                                        // объём
     private int bufferMemory;                                                                       // буферная память
     private int rotationSpeed;                                                                      // скорость вращения шпинделя
-    private int warranty;                                                                           // гарантия
-    private String country;                                                                         // страна-производитель
 
     // ---------------------------------------------------------------------------------------------
     // set-методы
     // ---------------------------------------------------------------------------------------------
 
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
     public void setFormFactor(String formFactor) {
         this.formFactor = formFactor;
     }
 
-    public void setCapacity(int capacity) {
+    public void setCapacity(double capacity) {
         this.capacity = capacity;
     }
 
@@ -44,24 +49,20 @@ public class Hdd extends Component{
         this.rotationSpeed = rotationSpeed;
     }
 
-    public void setWarranty(int warranty) {
-        this.warranty = warranty;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     // ---------------------------------------------------------------------------------------------
     // get-методы
     // ---------------------------------------------------------------------------------------------
 
 
+    public String getFamily() {
+        return family;
+    }
+
     public String getFormFactor() {
         return formFactor;
     }
 
-    public int getCapacity() {
+    public double getCapacity() {
         return capacity;
     }
 
@@ -73,13 +74,6 @@ public class Hdd extends Component{
         return rotationSpeed;
     }
 
-    public int getWarranty() {
-        return warranty;
-    }
-
-    public String getCountry() {
-        return country;
-    }
 
     // ---------------------------------------------------------------------------------------------
     // переопределенные методы класса Component
@@ -124,12 +118,13 @@ public class Hdd extends Component{
         List<String[]> specs = new ArrayList<>();
 
         specs.add(new String[]{"Характеристики", ""});
+        if (getProducer() != null) specs.add(new String[]{"Бренд", getProducer()});
+        if (family != null) specs.add(new String[]{"Линейка", family});
+        if (getModel() != null) specs.add(new String[]{"Модель", getModel()});
         if (formFactor != null) specs.add(new String[]{"Форм-фактор", formFactor});
         if (capacity != 0) specs.add(new String[]{"Объём", capacity + " ТБ"});
         if (bufferMemory != 0) specs.add(new String[]{"Буферная память", bufferMemory + " МБ"});
         if (rotationSpeed != 0) specs.add(new String[]{"Скорость вращения", rotationSpeed + " об/мин"});
-        if (warranty != 0) specs.add(new String[]{"Гарантия", warranty + " мес"});
-        if (country != null) specs.add(new String[]{"Страна-производитель", country});
 
         return specs;
     }

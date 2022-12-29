@@ -12,19 +12,23 @@ public class Ssd extends Component {
 
     // основные характеристики
 
+    private String family;
     private int capacity;                                                                           // объём
     private String formFactor;                                                                      // форм-фактор
     private String interFace;                                                                       // интерфейс подключения
     private int maxSpeed_write;                                                                     // максимальная скорость записи
     private int maxSpeed_read;                                                                      // максимальная скорость чтения
     private String storageType;                                                                     // тип памяти
-    private int MTBF;                                                                               // время наработки на отказ
     private int TBW;                                                                                // ресурс TBW
 
     // ---------------------------------------------------------------------------------------------
     // сеттеры
     // ---------------------------------------------------------------------------------------------
 
+
+    public void setFamily(String family) {
+        this.family = family;
+    }
 
     public void setCapacity(int capacity) {
         this.capacity = capacity;
@@ -50,10 +54,6 @@ public class Ssd extends Component {
         this.storageType = storageType;
     }
 
-    public void setMTBF(int MTBF) {
-        this.MTBF = MTBF;
-    }
-
     public void setTBW(int TBW) {
         this.TBW = TBW;
     }
@@ -62,6 +62,10 @@ public class Ssd extends Component {
     // геттеры
     // ---------------------------------------------------------------------------------------------
 
+
+    public String getFamily() {
+        return family;
+    }
 
     public int getCapacity() {
         return capacity;
@@ -85,10 +89,6 @@ public class Ssd extends Component {
 
     public String getStorageType() {
         return storageType;
-    }
-
-    public int getMTBF() {
-        return MTBF;
     }
 
     public int getTBW() {
@@ -141,6 +141,9 @@ public class Ssd extends Component {
 
         str = new String[]{"Характеристики", ""};
         specifications.add(str);
+        if (getProducer() != null) specifications.add(new String[]{"Бренд", getProducer()});
+        if (getFamily() != null) specifications.add(new String[]{"Линейка", getFamily()});
+        if (getModel() != null) specifications.add(new String[]{"Модель", getModel()});
         if (capacity != 0) {
             str = new String[]{"Объём", capacity + " Гб"};
             specifications.add(str);
@@ -163,10 +166,6 @@ public class Ssd extends Component {
         }
         if (storageType != null) {
             str = new String[]{"Тип памяти", storageType + ""};
-            specifications.add(str);
-        }
-        if (MTBF != 0) {
-            str = new String[]{"Время наработки на отказ", MTBF + " ч"};
             specifications.add(str);
         }
         if (TBW != 0) {

@@ -2,7 +2,6 @@ package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,15 +29,9 @@ import com.potapp.cyberhelper.models.components.*;
 import com.potapp.cyberhelper.screens.configurator.componentList.*;
 import com.google.android.material.button.MaterialButton;
 
-import java.util.List;
-import java.util.concurrent.Callable;
-
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.functions.Consumer;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 import io.reactivex.rxjava3.subjects.PublishSubject;
-import io.reactivex.rxjava3.subjects.Subject;
 
 
 // адаптер для отображения комплектующих конфигурации в режиме создания
@@ -49,7 +42,7 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
     Configuration current_configuration;                                                            // текущая конфигурация
     FragmentManager fm;                                                                             // FragmentManager для запуска соответствующего фрагмента
 
-    List<Component>[] componentList;
+    TextView fullPrice;
 
     // позиции заголовков комплектующих в списке
     final int pt_mb = 0, pt_cpu = 2, pt_gpu = 4, pt_ozu = 6, pt_bp = 8,
@@ -61,11 +54,13 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             p_hdd = pt_hdd + 1, p_ssd_25 = pt_ssd_25 + 1, p_ssd_m2 = pt_ssd_m2 + 1;
 
     // конструктор класса (производит инициализацию полей)
-    public creatingConfigurationAdapter(Configuration current_configuration, FragmentManager fm, Context context)
+    public creatingConfigurationAdapter(Configuration current_configuration, FragmentManager fm, Context context, TextView fullPrice)
     {
         this.context = context;
         this.current_configuration = current_configuration;
         this.fm = fm;
+        this.fullPrice = fullPrice;
+
     }
 
     // определение типа загружаемой разметки
@@ -252,9 +247,9 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
 
                 case p_cooler:                                                                      // охлаждение
 
-                    if (current_configuration.mCpu == null) {
+                    if (current_configuration.mMb == null) {
                         componentType = null;
-                        toastText = "Сначала выберите процессор!";
+                        toastText = "Сначала выберите материнскую плату!";
                     } else {
                         componentType = Cooler.class;
                         toastText = null;
@@ -376,38 +371,28 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             button1.setText("ИЗМЕНИТЬ");
             button1.setIconResource(R.drawable.ic_change);
 
-            button1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadFragment(componentListFragment.newInstance(current_configuration, current_component.getClass()));
-                }
-            });
+            button1.setOnClickListener(view -> loadFragment(componentListFragment.newInstance(current_configuration, current_component.getClass())));
 
             // кнопка "удалить"
             button2.setText("УДАЛИТЬ");
             button2.setIconResource(R.drawable.ic_outline_delete_sweep);
 
-            button2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(view.getContext(), current_configuration.deleteComponent(current_component, button2.getContext()), Toast.LENGTH_SHORT).show();
-                    notifyDataSetChanged();
-                }
+            button2.setOnClickListener(view -> {
+                Toast.makeText(view.getContext(), current_configuration.deleteComponent(current_component, button2.getContext()), Toast.LENGTH_SHORT).show();
+                notifyDataSetChanged();
+                updateFullPrice();
             });
 
             cardView.setClickable(true);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadFragment(componentInfoFragment.newInstance(current_component, current_configuration));
-                }
-            });
+            cardView.setOnClickListener(view -> loadFragment(componentInfoFragment.newInstance(current_component, current_configuration)));
         }
 
         // дополнительные элементы в CardView с указанием количества
         if (viewType == 3)
         {
             Component current_component = getCurrentComponent(position);
+
+
 
             // элементы интерфейса
             ImageButton QMinus = holder.itemView.findViewById(R.id.QMinus);
@@ -421,15 +406,26 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             // подписка на изменение количества
             PublishSubject<Integer> QSubject = PublishSubject.create();
 
-            QSubject.subscribe(integer -> {
 
-                if (integer > 0) {
-                    QMinus.setColorFilter(null);
+            QSubject.subscribe(integer -> {
+                int QMax = getMaxItemsQuantity(current_component);
+
+                Log.d("MaxItems", "CurrentValue: " + integer);
+
+                if (integer > 0 && integer <= QMax) {
+                    if (current_component == current_configuration.mOzu || current_component == current_configuration.mSsd_m2){
+                        if (integer + 1 > QMax) QPlus.setColorFilter(R.color.colorAccentOptional);
+                        else QPlus.setColorFilter(null);
+                        if (integer - 1 < 1) QMinus.setColorFilter(R.color.colorAccentOptional);
+                        else QMinus.setColorFilter(null);
+                    }
+
+
                     QValue.setText(integer + "");
 
-;                   current_component.setItemQuantity(integer);
+                    current_component.setItemQuantity(integer);
                     price.setText(integer * current_component.getPrice() + " ₽");
-                    current_configuration.getCurrentPriceSubject().onNext(current_configuration.getFullPrice());
+                    updateFullPrice();
 
                     // обновляем конфигурацию в базе данных
                     DB_CONFIGURATIONS db_configurations = Room.databaseBuilder(context, DB_CONFIGURATIONS.class, "CONFIGURATIONS").build();
@@ -443,11 +439,9 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
                             .subscribe();
 
                 }
-
-                if (integer == 1) {
-                    QMinus.setColorFilter(R.color.colorAccentOptional);
-                }
             });
+
+            QSubject.onNext(current_component.getItemQuantity());
 
             QValue.setText(current_component.getItemQuantity() + "");
 
@@ -459,8 +453,6 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
                 int Q = Integer.parseInt(QValue.getText().toString());
                 QSubject.onNext(Q + 1);
             });
-
-            if (Integer.parseInt(QValue.getText().toString()) == 1) QMinus.setColorFilter(R.color.colorAccentOptional);
         }
     }
 
@@ -471,7 +463,7 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
         if (current_component instanceof Ozu)
         {
             int maxItems1 = current_configuration.mMb.getOzuSlotsQuantity() / ((Ozu) current_component).getModulesQuantity();
-            int maxItems2 = current_configuration.mMb.getMaxOzuSize() / ((Ozu) current_component).getCapacity();
+            int maxItems2 = current_configuration.mMb.getMaxOzuSize() / ((Ozu) current_component).getSingleCapacity();
 
             if (maxItems1 < maxItems2) return maxItems1;
             Log.d("AAA", "OZU");
@@ -484,7 +476,6 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             int q = 0;
 
             if (current_configuration.mSsd_25 != null) q += current_configuration.mSsd_25.getItemQuantity();
-            Log.d("AAA", current_configuration.mMb.getSata3() + "");
             return current_configuration.mMb.getSata3() - q;
         }
         // ssd
@@ -495,7 +486,6 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
                 int q = 0;
 
                 if (current_configuration.mHdd != null) q += current_configuration.mHdd.getItemQuantity();
-                Log.d("AAA", q + "");
                 return current_configuration.mMb.getSata3() - q;
             }
             // ssd M2
@@ -519,6 +509,12 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
     // ---------------------------------------------------------------------------------------------
     // дополнительные методы
     // ---------------------------------------------------------------------------------------------
+
+    // обновление общей стоимости сборки
+    private void updateFullPrice(){
+        fullPrice.setText(current_configuration.getFullPrice() + " ₽");
+    }
+
 
     // определение текущего компонента в зависимости от позиции
 

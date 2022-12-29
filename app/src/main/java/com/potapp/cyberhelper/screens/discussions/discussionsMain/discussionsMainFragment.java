@@ -1,7 +1,10 @@
 package com.potapp.cyberhelper.screens.discussions.discussionsMain;
 
+import android.graphics.Color;
+import android.graphics.fonts.FontFamily;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
@@ -24,12 +27,29 @@ import com.potapp.cyberhelper.adapters.DiscussionsAdapters.myQuestionsAdapter;
 import com.potapp.cyberhelper.adapters.DiscussionsAdapters.otherQuestionsAdapter;
 import com.potapp.cyberhelper.models.questions.Question;
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.yandex.mobile.ads.banner.AdSize;
+import com.yandex.mobile.ads.banner.BannerAdView;
+import com.yandex.mobile.ads.common.AdRequest;
+import com.yandex.mobile.ads.common.AdRequestError;
+import com.yandex.mobile.ads.nativeads.NativeAd;
+import com.yandex.mobile.ads.nativeads.NativeAdLoadListener;
+import com.yandex.mobile.ads.nativeads.NativeAdLoader;
+import com.yandex.mobile.ads.nativeads.NativeAdRequestConfiguration;
+import com.yandex.mobile.ads.nativeads.template.HorizontalOffset;
+import com.yandex.mobile.ads.nativeads.template.NativeBannerView;
+import com.yandex.mobile.ads.nativeads.template.appearance.BannerAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.ButtonAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.NativeTemplateAppearance;
+import com.yandex.mobile.ads.nativeads.template.appearance.TextAppearance;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
 public class discussionsMainFragment extends Fragment {
+
+    private BannerAdView mBannerAdView;
 
     discussionsMainViewModel vm;
 
@@ -51,6 +71,7 @@ public class discussionsMainFragment extends Fragment {
         vm = ViewModelProviders.of(this).get(discussionsMainViewModel.class);
         myQuestionList = new ArrayList<>();
         otherQuestionList = new ArrayList<>();
+
     }
 
     @Override
@@ -126,7 +147,7 @@ public class discussionsMainFragment extends Fragment {
                     snapHelper.attachToRecyclerView(myQuestionsRV);
 
                     if (myQuestionsRV.getAdapter() == null)
-                        myQuestionsRV.setAdapter(new myQuestionsAdapter(myQuestionList));
+                        myQuestionsRV.setAdapter(new myQuestionsAdapter(myQuestionList, getFragmentManager()));
 
                     else myQuestionsRV.getAdapter().notifyDataSetChanged();
 
@@ -175,7 +196,7 @@ public class discussionsMainFragment extends Fragment {
                 snapHelper2.attachToRecyclerView(otherQuestionsRV);
 
                 if (otherQuestionsRV.getAdapter() == null)
-                    otherQuestionsRV.setAdapter(new otherQuestionsAdapter(otherQuestionList));
+                    otherQuestionsRV.setAdapter(new otherQuestionsAdapter(otherQuestionList, getFragmentManager()));
                 else otherQuestionsRV.getAdapter().notifyDataSetChanged();
 
                 otherQuestionsTitle.setVisibility(View.VISIBLE);

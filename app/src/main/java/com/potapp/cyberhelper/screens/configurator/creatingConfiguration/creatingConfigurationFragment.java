@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -53,8 +54,8 @@ public class creatingConfigurationFragment extends Fragment {
 
         current_configuration = (Configuration) getArguments().getSerializable(("current_configuration"));
 
-        viewModel = new ViewModelProvider(this, new creatingConfigurationFactory(getActivity().getApplication(), current_configuration))
-                .get(creatingConfigurationViewModel.class);
+        creatingConfigurationFactory factory = new creatingConfigurationFactory(getActivity().getApplication(), current_configuration);
+        viewModel = ViewModelProviders.of(this, factory).get(creatingConfigurationViewModel.class);
     }
 
     @Override
@@ -73,14 +74,11 @@ public class creatingConfigurationFragment extends Fragment {
         MaterialButton button = getActivity().findViewById(R.id.button);                            // кнопка "ГОТОВО"
         ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
 
+        // общая стоимость сборки
+        fullPrice.setText(current_configuration.getFullPrice() + " ₽");
 
         // имя сборки
         confName.setText(current_configuration.name);
-
-        // общая стоимость сборки
-        viewModel.getFullPriceLiveData().observe(this, price->{
-            fullPrice.setText(price + " ₽");
-        });
 
         // обработка списка
         final RecyclerView rv = getActivity().findViewById(R.id.rv);
@@ -90,7 +88,7 @@ public class creatingConfigurationFragment extends Fragment {
 
 
         new Handler().postDelayed(()->{
-            rv.setAdapter(new creatingConfigurationAdapter(current_configuration, getFragmentManager(), getContext()));
+            rv.setAdapter(new creatingConfigurationAdapter(viewModel.getCurrent_configuration(), getFragmentManager(), getContext(), fullPrice));
             progressBar.setVisibility(View.INVISIBLE);
         }, 200);
 
@@ -117,5 +115,4 @@ public class creatingConfigurationFragment extends Fragment {
         super.onPause();
         positionIndex = llm.findFirstVisibleItemPosition();
     }
-
 }

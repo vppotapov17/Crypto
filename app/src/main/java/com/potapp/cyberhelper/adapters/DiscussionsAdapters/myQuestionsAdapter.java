@@ -2,10 +2,12 @@ package com.potapp.cyberhelper.adapters.DiscussionsAdapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
@@ -16,6 +18,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewComponentsSelection;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewOther;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -24,9 +29,11 @@ import java.util.List;
 public class myQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<Question> myQuestions;
+    FragmentManager fm;
 
-    public myQuestionsAdapter(List<Question> myQuestions){
+    public myQuestionsAdapter(List<Question> myQuestions, FragmentManager fm){
         this.myQuestions = myQuestions;
+        this.fm = fm;
     }
 
     @NonNull
@@ -58,14 +65,38 @@ public class myQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (current_question instanceof AdviceQuestion){
             current_category = "Оценка и советы";
             current_path = "Data/Questions/Advice/" + current_question.getId();
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fm.beginTransaction().replace(R.id.fragment_container, ViewAdvice.newInstance((AdviceQuestion) current_question)).commit();
+
+                }
+            });
         }
         else if (current_question instanceof ComponentsSelectionQuestion){
             current_category = "Подбор комплектующих";
             current_path = "Data/Questions/ComponentsSelection/" + current_question.getId();
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fm.beginTransaction().replace(R.id.fragment_container, ViewComponentsSelection.newInstance((ComponentsSelectionQuestion) current_question)).commit();
+
+                }
+            });
         }
         else{
             current_category = "Прочее";
             current_path = "Data/Questions/Other/" + current_question.getId();
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    fm.beginTransaction().replace(R.id.fragment_container, ViewOther.newInstance(current_question)).commit();
+
+                }
+            });
         }
 
         category.setText(current_category);

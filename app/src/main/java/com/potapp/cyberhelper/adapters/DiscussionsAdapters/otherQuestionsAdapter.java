@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
@@ -18,6 +20,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewComponentsSelection;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewOther;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -26,9 +31,11 @@ import java.util.List;
 public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<Question> otherQuestions;
+    FragmentManager fm;
 
-    public otherQuestionsAdapter(List<Question> otherQuestions){
+    public otherQuestionsAdapter(List<Question> otherQuestions, FragmentManager fm){
         this.otherQuestions = otherQuestions;
+        this.fm = fm;
     }
 
     @NonNull
@@ -48,6 +55,7 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         if (getItemViewType(position) == 0){
+
             TextView author = holder.itemView.findViewById(R.id.name);
             TextView date = holder.itemView.findViewById(R.id.date);
             TextView nick = holder.itemView.findViewById(R.id.nick);
@@ -60,6 +68,7 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             // имя и ник автора
 
             //...................
+
 
 
             // дата публикации
@@ -75,12 +84,38 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             if (current_question instanceof AdviceQuestion) {
                 current_category = "Оценка и советы";
                 current_path = "Data/Questions/Advice/" + current_question.getId();
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fm.beginTransaction().replace(R.id.fragment_container, ViewAdvice.newInstance((AdviceQuestion) current_question)).commit();
+                    }
+                });
+
             } else if (current_question instanceof ComponentsSelectionQuestion) {
                 current_category = "Подбор комплектующих";
                 current_path = "Data/Questions/ComponentsSelection/" + current_question.getId();
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        FragmentTransaction ft = fm.beginTransaction();
+                        ft.addToBackStack(null);
+                        ft.replace(R.id.fragment_container, ViewComponentsSelection.newInstance((ComponentsSelectionQuestion) current_question));
+                        ft.commit();
+
+                    }
+                });
             } else {
                 current_category = "Прочее";
                 current_path = "Data/Questions/Other/" + current_question.getId();
+
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        fm.beginTransaction().replace(R.id.fragment_container, ViewOther.newInstance((ComponentsSelectionQuestion) current_question)).commit();
+                    }
+                });
             }
 
             category.setText(current_category);

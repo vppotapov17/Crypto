@@ -12,7 +12,7 @@
         android:theme="@style/AppBarWhite2"
         app:layout_constraintTop_toTopOf="parent"
         android:id="@+id/appbar"
-        android:layout_height="wrap_content">
+        android:layout_height="55dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:layout_width="match_parent"
@@ -203,7 +203,16 @@
 
 
             </com.facebook.shimmer.ShimmerFrameLayout>
+            
+<!--            <com.yandex.mobile.ads.banner.BannerAdView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
 
+<!--                android:id="@+id/bannerAdView"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintRight_toLeftOf="parent"-->
+<!--                />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

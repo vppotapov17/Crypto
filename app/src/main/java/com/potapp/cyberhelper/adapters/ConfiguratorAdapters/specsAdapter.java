@@ -1,5 +1,6 @@
 package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,8 +45,12 @@ public class specsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     {
         if (isGpu && position == getItemCount() - 1) return 2;                                      // кнопка просмотра FPS для видеокарт
 
-        for (String[] str : specifications)
-        if (str[1].equals("") && position == specifications.indexOf(str)) return 0;                 // разметка заголовка подраздела
+        for (String[] str : specifications){
+            if (str[1] == null) Log.e("AAA", str[0]);
+            if (str[1].equals("") && position == specifications.indexOf(str)) return 0;             // разметка заголовка подраздела
+        }
+
+
 
         return 1;                                                                                   // разметка спецификации
     }

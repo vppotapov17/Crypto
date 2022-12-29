@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.potapp.cyberhelper.models.Configuration;
 
-public class componentListFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class componentListFactory implements ViewModelProvider.Factory {
 
     Application app;
     LayoutInflater inflater;
@@ -18,10 +18,8 @@ public class componentListFactory extends ViewModelProvider.AndroidViewModelFact
     Class component_class;
 
 
-    public componentListFactory(@NonNull Application app, LayoutInflater inflater, Configuration current_configuration,
+    public componentListFactory(Application app, LayoutInflater inflater, Configuration current_configuration,
                                 Class component_class) {
-        super(app);
-
         this.app = app;
         this.inflater = inflater;
 

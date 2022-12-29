@@ -10,10 +10,11 @@ import java.util.List;
 @Entity
 public class Ozu extends Component {
 
+    private String family;                                                                                  // линейка
 
     // количество и объём
     private int modulesQuantity;                                                                    // количество модулей в комплекте
-    private int capacity;                                                                           // общий объём
+    private int singleCapacity;                                                                     // объём одного модуля
 
     // спецификации
     private String type;                                                                            // тип
@@ -21,19 +22,23 @@ public class Ozu extends Component {
     private String latency;                                                                         // латентность
     private boolean ECC;                                                                            // поддержка ECC
     private boolean radiator;                                                                       // наличие радиатора
-    private boolean backlight;                                                                      // наличие подсветки
+
 
     // ---------------------------------------------------------------------------------------------
     // сеттеры
     // ---------------------------------------------------------------------------------------------
 
 
+    public void setFamily(String family) {
+        this.family = family;
+    }
+
     public void setModulesQuantity(int modulesQuantity) {
         this.modulesQuantity = modulesQuantity;
     }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
+    public void setSingleCapacity(int singleCapacity) {
+        this.singleCapacity = singleCapacity;
     }
 
     public void setType(String type) {
@@ -56,21 +61,21 @@ public class Ozu extends Component {
         this.radiator = radiator;
     }
 
-    public void setBacklight(boolean backlight) {
-        this.backlight = backlight;
-    }
-
     // ---------------------------------------------------------------------------------------------
     // геттеры
     // ---------------------------------------------------------------------------------------------
 
 
+    public String getFamily() {
+        return family;
+    }
+
     public int getModulesQuantity() {
         return modulesQuantity;
     }
 
-    public int getCapacity() {
-        return capacity;
+    public int getSingleCapacity() {
+        return singleCapacity;
     }
 
     public String getType() {
@@ -93,21 +98,25 @@ public class Ozu extends Component {
         return radiator;
     }
 
-    public boolean isBacklight() {
-        return backlight;
-    }
-
     // ---------------------------------------------------------------------------------------------
     // переопределенные методы класса Component
     // ---------------------------------------------------------------------------------------------
+
+    @Override
+    public String getName(){
+        String name = getProducer();
+        if (getFamily() != null) name += " " + getFamily();
+        name += " " + modulesQuantity + "x" + singleCapacity + " Гб";
+        return name;
+    }
 
     @Override
     public mainSpec getMainSpec1()
     {
         mainSpec spec = new mainSpec();
 
-        spec.setSpecTitle("Общий объём");
-        spec.setSpecValue(capacity + " Гб");
+        spec.setSpecTitle("Тип");
+        spec.setSpecValue(type);
 
         return spec;
     }
@@ -117,8 +126,8 @@ public class Ozu extends Component {
     {
         mainSpec spec = new mainSpec();
 
-        spec.setSpecTitle("Модулей в комплекте");
-        spec.setSpecValue(modulesQuantity + "");
+        spec.setSpecTitle("Объём");
+        spec.setSpecValue(modulesQuantity + "x" + singleCapacity + " Гб");
 
         return spec;
     }
@@ -140,17 +149,18 @@ public class Ozu extends Component {
         List<String[]> specs = new ArrayList<>();
 
         specs.add(new String[]{"Основные характеристики", ""});
-        specs.add(new String[]{"Общий объём", capacity + " Гб"});
+        if (getProducer() != null) specs.add(new String[]{"Бренд", getProducer()});
+        if (getFamily() != null) specs.add(new String[]{"Линейка", getFamily()});
+        if (getModel() != null) specs.add(new String[]{"Модель", getModel()});
+        specs.add(new String[]{"Общий объём", (singleCapacity * modulesQuantity) + " Гб"});
         specs.add(new String[]{"Модулей в комплекте", modulesQuantity + ""});
         specs.add(new String[]{"Частота", frequency + " МГц"});
         specs.add(new String[]{"Латентность", latency + ""});
 
-        if (ECC) specs.add(new String[]{"Поддержка ECC", "есть"});
-        else specs.add(new String[]{"Поддержка ECC", "нет"});
 
         specs.add(new String[]{"Особенности", ""});
-        if (backlight) specs.add(new String[]{"Наличие подсветки", "есть"});
-        else specs.add(new String[]{"Наличие подсветки", "нет"});
+        if (ECC) specs.add(new String[]{"Поддержка ECC", "есть"});
+        else specs.add(new String[]{"Поддержка ECC", "нет"});
 
         if (radiator) specs.add(new String[]{"Наличие радиатора", "есть"});
         else specs.add(new String[]{"Наличие радиатора", "нет"});

@@ -15,11 +15,13 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nambimobile.widgets.efab.ExpandableFab;
 import com.nambimobile.widgets.efab.ExpandableFabLayout;
 import com.nambimobile.widgets.efab.Orientation;
 import com.potapp.cyberhelper.models.Configuration;
@@ -55,9 +57,8 @@ public class componentInfoFragment extends Fragment {
         select_component = (Component) this.getArguments().getSerializable("select_component");
         current_configuration = (Configuration)this.getArguments().getSerializable("current_configuration");
 
-        viewModel = new ViewModelProvider(this, new componentInfoFactory(getActivity().getApplication(), getFragmentManager(),
-                select_component, current_configuration)).get(componentInfoViewModel.class);
-
+        componentInfoFactory factory = new componentInfoFactory(getActivity().getApplication(), getActivity().getSupportFragmentManager(), select_component, current_configuration);
+        viewModel = ViewModelProviders.of(this, factory).get(componentInfoViewModel.class);
     }
 
     @Override
@@ -65,10 +66,8 @@ public class componentInfoFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view;
-        if (viewModel.viewAddedComponent())
-            view = inflater.inflate(R.layout.configurator_info_added_component, container, false);
-        else
-            view = inflater.inflate(R.layout.configurator_info_component, container, false);
+        if (viewModel.viewAddedComponent()) view = inflater.inflate(R.layout.configurator_info_added_component, container, false);
+        else view = inflater.inflate(R.layout.configurator_info_component, container, false);
 
         return view;
     }
@@ -85,7 +84,6 @@ public class componentInfoFragment extends Fragment {
 
         FabOption buy_button = getActivity().findViewById(R.id.buy_button);                         // кнопка "Купить"
         FabOption add_button = getActivity().findViewById(R.id.add_button);                         // кнопка "Добавить"
-        FabOption delete_button = getActivity().findViewById(R.id.delete_button);                   // кнопка "Удалить"
         FabOption shareButton = getActivity().findViewById(R.id.share_button);                      // кнопка "Поделиться"
 
         RecyclerView rv = getActivity().findViewById(R.id.rv);                                      // список характеристик
@@ -105,8 +103,8 @@ public class componentInfoFragment extends Fragment {
         // изображение компонента
         Glide
                 .with(getContext())
-                .load(viewModel.getImageUrl())
-                .error(R.drawable.ic_cpu)
+                .load(select_component.getPictureLink())
+                .error(viewModel.getImageUrl())
                 .into(component_image);
 
 
@@ -124,13 +122,8 @@ public class componentInfoFragment extends Fragment {
         // обработка нажатий на кнопки "добавить" и "удалить"
 
         // если просматриваемый компонент добавлен
-        if (viewModel.viewAddedComponent()) {
-            delete_button.setOnClickListener(view -> {
-                viewModel.onDeleteButtonClick();
-            });
-        }
         // если просматриваемый компонент не добавлен
-        else {
+        if (!viewModel.viewAddedComponent()) {
             add_button.setOnClickListener(view ->{
                 viewModel.onAddButtonClick();
             });
@@ -138,7 +131,7 @@ public class componentInfoFragment extends Fragment {
 
         // обработка нажатия на кнопку "Купить"
         buy_button.setOnClickListener(view -> {
-            //viewModel.onBuyButtonClick();
+            viewModel.onBuyButtonClick();
         });
 
         // обработка нажатия на кнопку "Поделиться"

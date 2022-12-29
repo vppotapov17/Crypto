@@ -212,7 +212,7 @@ public class configurationListAdapter extends RecyclerView.Adapter<RecyclerView.
             else spec_gpu.setText("н/д");
 
             if (current_configuration.mOzu != null) spec_ozu.setText(current_configuration.mOzu.getModulesQuantity() + "x" +
-                    current_configuration.mOzu.getCapacity() / current_configuration.mOzu.getModulesQuantity() + "Гб");
+                    current_configuration.mOzu.getSingleCapacity() / current_configuration.mOzu.getModulesQuantity() + "Гб");
             else spec_ozu.setText("н/д");
 
 

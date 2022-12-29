@@ -25,6 +25,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.functions.Consumer;
@@ -88,25 +89,23 @@ public class configurationListViewModel extends AndroidViewModel {
 
                            current_configuration.isReady = false;
                            configurationList.add(current_configuration);
+
                            liveData.setValue(configurationList);
 
-                           Callable<Boolean> addConfigurationToDb = ()->{
+                           Runnable addConfigurationToDb = ()->{
                                db_configurations.getMyDao().addConfiguration(current_configuration);
-                               return true;
                            };
 
-                           Observable.fromCallable(addConfigurationToDb)
+                           Completable.fromRunnable(addConfigurationToDb)
                                    .subscribeOn(Schedulers.io())
-                                   .subscribe(aBoolean1 -> {
+                                   .subscribe(()->{});
 
-                                   });
-
+                           dialog.dismiss();
                            FragmentTransaction ft = fm.beginTransaction();
                            Fragment ConfigurationMenu = creatingConfigurationFragment.newInstance(current_configuration);
 
                            ft.addToBackStack(null);
                            ft.replace(R.id.fragment_container, ConfigurationMenu);
-                           dialog.dismiss();
                            ft.commit();
                        }
                     });

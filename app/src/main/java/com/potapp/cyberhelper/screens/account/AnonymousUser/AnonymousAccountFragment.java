@@ -43,7 +43,7 @@ public class AnonymousAccountFragment extends Fragment {
         loginLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
                 ft.setCustomAnimations(R.animator.slide_top_open, R.animator.fade_close);
                 ft.replace(R.id.fragment_container, LoginFragment.newInstance());
                 ft.commit();
@@ -51,7 +51,7 @@ public class AnonymousAccountFragment extends Fragment {
         });
 
         create_account.setOnClickListener(view -> {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
             ft.setCustomAnimations(R.animator.slide_top_open, R.animator.fade_close);
             ft.replace(R.id.fragment_container, RegistrationFragment.newInstance());
             ft.commit();

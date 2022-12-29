@@ -7,12 +7,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-public class configurationListFactory extends ViewModelProvider.AndroidViewModelFactory {
+public class configurationListFactory implements ViewModelProvider.Factory {
     Application app;
     FragmentManager fm;
 
-    public configurationListFactory(@NonNull Application app, FragmentManager fm){
-        super(app);
+    public configurationListFactory(Application app, FragmentManager fm){
         this.app = app;
         this.fm = fm;
     }
