@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
@@ -41,6 +44,7 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
 
     Configuration current_configuration;                                                            // текущая конфигурация
     FragmentManager fm;                                                                             // FragmentManager для запуска соответствующего фрагмента
+    NavController navController;
 
     TextView fullPrice;
 
@@ -54,8 +58,9 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             p_hdd = pt_hdd + 1, p_ssd_25 = pt_ssd_25 + 1, p_ssd_m2 = pt_ssd_m2 + 1;
 
     // конструктор класса (производит инициализацию полей)
-    public creatingConfigurationAdapter(Configuration current_configuration, FragmentManager fm, Context context, TextView fullPrice)
+    public creatingConfigurationAdapter(Configuration current_configuration, NavController navController, Context context, TextView fullPrice)
     {
+        this.navController = navController;
         this.context = context;
         this.current_configuration = current_configuration;
         this.fm = fm;
@@ -321,7 +326,12 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             cardView.setOnClickListener(view -> {
                 if (componentType == null)
                     Toast.makeText(cardView.getContext(), toastText, Toast.LENGTH_SHORT).show();
-                else loadFragment(componentListFragment.newInstance(current_configuration, componentType));
+                else {
+                    Bundle args = new Bundle();
+                    args.putSerializable("current_configuration", current_configuration);
+                    args.putSerializable("component_class", componentType);
+                    navController.navigate(R.id.action_creatingConfigurationFragment_to_componentListFragment, args);
+                }
             });
         }
         // CardView с указанием и без указания количества
@@ -371,7 +381,13 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             button1.setText("ИЗМЕНИТЬ");
             button1.setIconResource(R.drawable.ic_change);
 
-            button1.setOnClickListener(view -> loadFragment(componentListFragment.newInstance(current_configuration, current_component.getClass())));
+            button1.setOnClickListener(view -> {
+                Bundle args = new Bundle();
+                args.putSerializable("current_configuration", current_configuration);
+                args.putSerializable("component_class", current_component.getClass());
+                navController.navigate(R.id.action_creatingConfigurationFragment_to_componentListFragment, args);
+
+            });
 
             // кнопка "удалить"
             button2.setText("УДАЛИТЬ");
@@ -384,7 +400,12 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
             });
 
             cardView.setClickable(true);
-            cardView.setOnClickListener(view -> loadFragment(componentInfoFragment.newInstance(current_component, current_configuration)));
+            cardView.setOnClickListener(view -> {
+                Bundle args = new Bundle();
+                args.putSerializable("select_component", current_component);
+                args.putSerializable("current_configuration", current_configuration);
+                navController.navigate(R.id.action_creatingConfigurationFragment_to_componentInfoFragment, args);
+            });
         }
 
         // дополнительные элементы в CardView с указанием количества
@@ -544,16 +565,6 @@ public class creatingConfigurationAdapter extends RecyclerView.Adapter<RecyclerV
     String imageLink(int product_code)
     {
         return "https://items.s1.citilink.ru/" + product_code + "_v01_b.jpg";
-    }
-
-    // загрузка фрагмента
-    private void loadFragment(Fragment fragment)
-    {
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        ft.replace(R.id.fragment_container, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
     }
 
 }

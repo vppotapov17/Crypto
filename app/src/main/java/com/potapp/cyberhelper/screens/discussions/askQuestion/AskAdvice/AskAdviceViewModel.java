@@ -82,16 +82,12 @@ public class AskAdviceViewModel extends AndroidViewModel {
     public void publishQuestion(String authorUID, String text, Configuration configuration){
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Data/Questions/Advice/" + (publishedQuestionsQuantity + 1));
 
-        HashMap<String, String> map = new HashMap<>();
-
-        map.put("AuthorUID", authorUID);
-        map.put("Date", new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date()));
-        map.put("Text", text);
-
-        reference.setValue(map);
+        reference.child("AuthorUID").setValue(authorUID);
+        reference.child("Date").setValue(new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault()).format(new Date()));
+        reference.child("Text").setValue(text);
 
         // добавление в базу информации о конфигурации
-        reference.child("Configuration").setValue(configuration.convertToFirebase());
+        reference.child("Configuration").child(configuration.name).setValue(configuration.convertToFirebase());
     }
 
     public LiveData<List<Configuration>> getConfigurationListLiveData(){

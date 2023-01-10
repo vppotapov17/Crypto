@@ -1,6 +1,7 @@
 package com.potapp.cyberhelper.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Embedded;
@@ -9,14 +10,29 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.Room;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.potapp.cyberhelper.database.dbs.DB_COMPONENTS;
 import com.potapp.cyberhelper.models.components.*;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 
 import com.potapp.cyberhelper.database.dbs.DB_CONFIGURATIONS;
+import com.squareup.okhttp.internal.DiskLruCache;
 
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.CompletableEmitter;
+import io.reactivex.rxjava3.core.CompletableOnSubscribe;
+import io.reactivex.rxjava3.core.Observable;
+import io.reactivex.rxjava3.core.ObservableEmitter;
+import io.reactivex.rxjava3.core.ObservableOnSubscribe;
+import io.reactivex.rxjava3.core.Observer;
+import io.reactivex.rxjava3.disposables.Disposable;
+import io.reactivex.rxjava3.functions.Action;
 import io.reactivex.rxjava3.subjects.PublishSubject;
 
 @Entity
@@ -214,198 +230,186 @@ public class Configuration implements Serializable {
     }
 
     // конвертация сборки для хранения в Firebase
-    public HashMap<String, String> convertToFirebase() {
-        HashMap<String, String> map = new HashMap<>();
+    public HashMap<String, HashMap<String, String>> convertToFirebase() {
+        HashMap<String, HashMap<String, String>> map = new HashMap<>();
 
-        map.put("name", name);
-        map.put("mb", mMb.getProduct_code() + "");
-        map.put("cpu", mCpu.getProduct_code() + "");
-        map.put("gpu", mGpu.getProduct_code() + "");
+        map.put("cpu", mCpu.toFirebase());
+        map.put("mb", mMb.toFirebase());
+        map.put("ozu", mOzu.toFirebase());
+        map.put("bp", mBp.toFirebase());
+        map.put("case", mCase.toFirebase());
+        map.put("cooler", mCooler.toFirebase());
 
-        map.put("ozuQuantity", mOzu.getItemQuantity() + "");
-        map.put("ozuCode", mOzu.getProduct_code() + "");
-
-        map.put("bp", mBp.getProduct_code() + "");
-        map.put("cooler", mCooler.getProduct_code() + "");
-        map.put("pccase", mCase.getProduct_code() + "");
-
-        if (mHdd != null)
-        {
-            map.put("hddQuantity", mHdd.getItemQuantity() + "");
-            map.put("hddCode", mHdd.getProduct_code() + "");
-        }
-
-        if (mSsd_25 != null)
-        {
-            map.put("ssd25Quantity", mSsd_25.getItemQuantity() + "");
-            map.put("ssd25Code", mSsd_25.getProduct_code() + "");
-        }
-
-        if (mSsd_m2 != null)
-        {
-            map.put("ssdM2Quantity", mSsd_m2.getItemQuantity() + "");
-            map.put("ssdM2Code", mSsd_m2.getProduct_code() + "");
-        }
+        if (mHdd != null) map.put("hdd", mHdd.toFirebase());
+        if (mSsd_25 != null) map.put("ssd25", mSsd_25.toFirebase());
+        if (mSsd_m2 != null) map.put("ssdM2", mSsd_m2.toFirebase());
 
         return map;
     }
 
-    // обратное преобразование из Firebase в Configuration
-    public static Configuration CreateFromFirebase(HashMap<String, String> map, Context context)
-    {
-        DB_COMPONENTS db_components = Room.databaseBuilder(context, DB_COMPONENTS.class, "COMPONENTS").build();
 
+    public static Configuration createFromSnapshot(DataSnapshot snapshot){
+        Configuration configuration = new Configuration();
+        configuration.mCpu = Cpu.createFromSnapshot(snapshot.child("cpu"), false);
+        configuration.mMb = Mb.createFromSnapshot(snapshot.child("mb"));
+        configuration.mGpu = Gpu.createFromSnapshot(snapshot.child("gpu"));
+        configuration.mBp = Bp.createFromSnapshot(snapshot.child("bp"));
+        configuration.mOzu = Ozu.createFromSnapshot(snapshot.child("ozu"));
+        configuration.mCase = Case.createFromSnapshot(snapshot.child("case"));
+        configuration.mCooler = Cooler.createFromSnapshot(snapshot.child("cooler"));
+        configuration.mHdd = Hdd.createFromSnapshot(snapshot.child("hdd"));
+        configuration.mSsd_25 = Ssd.createFromSnapshot(snapshot.child("ssdM2"));
+        configuration.mSsd_m2 = Ssd.createFromSnapshot(snapshot.child("ssd25"));
+
+        return configuration;
+    }
+
+    // обратное преобразование из Firebase в Configuration
+    public static Configuration CreateFromFirebase(HashMap<String, String> map, DB_COMPONENTS db_components)
+    {
         Configuration configuration = new Configuration();
 
-        Thread t = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        // имя
+        if (map.get("name") != null) configuration.name = map.get("name");
 
-                // имя
-                if (map.get("name") != null) configuration.name = map.get("name");
-
-                // материнская плата
-                if (map.get("mb") != null)
-                {
-                    // поиск материнской платы с соответствующим кодом в БД Room
-                    for (Mb MB: db_components.getMotherboardsDao().getMB())
-                    {
-                        if (MB.getProduct_code() == Integer.parseInt(map.get("mb"))) {
-                            configuration.mMb = MB;
-                            break;
-                        }
-                    }
+        // материнская плата
+        if (map.get("mb") != null)
+        {
+            boolean found = false;
+            int mbCode = Integer.parseInt(map.get("mb"));
+            // поиск материнской платы с соответствующим кодом в БД Room
+            for (Mb MB: db_components.getMotherboardsDao().getMB())
+            {
+                if (MB.getProduct_code() == mbCode) {
+                    configuration.mMb = MB;
+                    found = true;
+                    break;
                 }
+                if (!found) return null;
+            }
+        }
 
-                // процессор
-                if (map.get("cpu") != null)
-                {
-                    // поиск процессора с соответствующим кодом в БД Room
-                    for (Cpu CPU: db_components.getProcessorsDao().getCPU())
-                    {
-                        if (CPU.getProduct_code() == Integer.parseInt(map.get("cpu"))) {
-                            configuration.mCpu = CPU;
-                            break;
-                        }
-                    }
-                }
-
-                // видеокарта
-                if (map.get("gpu") != null)
-                {
-                    // поиск видеокарты с соответствующим кодом в БД Room
-                    for (Gpu GPU: db_components.getVideocardsDao().getGPU())
-                    {
-                        if (GPU.getProduct_code() == Integer.parseInt(map.get("gpu"))) {
-                            configuration.mGpu = GPU;
-                            break;
-                        }
-                    }
-                }
-
-                // оперативная память
-                if (map.get("ozuCode") != null)
-                {
-                    // поиск ОЗУ с соответствующим кодом в БД Room
-                    for (Ozu OZU: db_components.getOzusDao().getOZU())
-                    {
-                        if (OZU.getProduct_code() == Integer.parseInt(map.get("ozuCode"))) {
-                            configuration.mOzu = OZU;
-                            configuration.mOzu.setItemQuantity(Integer.parseInt(map.get("ozuQuantity")));
-                            break;
-                        }
-                    }
-                }
-
-                // блок питания
-                if (map.get("bp") != null)
-                {
-                    // поиск БП с соответствующим кодом в БД Room
-                    for (Bp BP: db_components.getBpsDao().getBP())
-                    {
-                        if (BP.getProduct_code() == Integer.parseInt(map.get("bp"))) {
-                            configuration.mBp = BP;
-                            break;
-                        }
-                    }
-                }
-
-                // корпус
-                if (map.get("pccase") != null)
-                {
-                    // поиск корпуса с соответствующим кодом в БД Room
-                    for (Case PCCASE: db_components.getCasesDao().getCASE())
-                    {
-                        if (PCCASE.getProduct_code() == Integer.parseInt(map.get("pccase"))) {
-                            configuration.mCase = PCCASE;
-                            break;
-                        }
-                    }
-                }
-
-                // кулер
-                if (map.get("cooler") != null)
-                {
-                    // поиск кулера с соответствующим кодом в БД Room
-                    for (Cooler COOLER: db_components.getCoolersDao().getCOOLER())
-                    {
-                        if (COOLER.getProduct_code() == Integer.parseInt(map.get("cooler"))) {
-                            configuration.mCooler = COOLER;
-                            break;
-                        }
-                    }
-                }
-
-                // жёсткий диск
-                if (map.get("hddCode") != null)
-                {
-                    // поиск HDD с соответствующим кодом в БД Room
-                    for (Hdd HDD: db_components.getHddsDao().getHDD())
-                    {
-                        if (HDD.getProduct_code() == Integer.parseInt(map.get("hddCode"))) {
-                            configuration.mHdd = HDD;
-                            configuration.mHdd.setItemQuantity(Integer.parseInt(map.get("hddQuantity")));
-                            break;
-                        }
-                    }
-                }
-
-                // SSD 2.5
-                if (map.get("ssd25Code") != null)
-                {
-                    // поиск SSD 2.5 с соответствующим кодом в БД Room
-                    for (Ssd SSD: db_components.getSsdsDao().getSSD())
-                    {
-                        if (SSD.getProduct_code() == Integer.parseInt(map.get("ssd25Code"))) {
-                            configuration.mSsd_25 = SSD;
-                            configuration.mSsd_25.setItemQuantity(Integer.parseInt(map.get("ssd25Quantity")));
-                            break;
-                        }
-                    }
-                }
-
-                // SSD M2
-                if (map.get("ssdM2Code") != null)
-                {
-                    // поиск SSD M2 с соответствующим кодом в БД Room
-                    for (Ssd SSD: db_components.getSsdsDao().getSSD())
-                    {
-                        if (SSD.getProduct_code() == Integer.parseInt(map.get("ssdM2Code"))) {
-                            configuration.mSsd_m2 = SSD;
-                            configuration.mSsd_25.setItemQuantity(Integer.parseInt(map.get("ssdM2Quantity")));
-                            break;
-                        }
-                    }
+        // процессор
+        if (map.get("cpu") != null)
+        {
+            // поиск процессора с соответствующим кодом в БД Room
+            for (Cpu CPU: db_components.getProcessorsDao().getCPU())
+            {
+                if (CPU.getProduct_code() == Integer.parseInt(map.get("cpu"))) {
+                    configuration.mCpu = CPU;
+                    break;
                 }
             }
-        });
-
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+
+        // видеокарта
+        if (map.get("gpu") != null)
+        {
+            // поиск видеокарты с соответствующим кодом в БД Room
+            for (Gpu GPU: db_components.getVideocardsDao().getGPU())
+            {
+                if (GPU.getProduct_code() == Integer.parseInt(map.get("gpu"))) {
+                    configuration.mGpu = GPU;
+                    break;
+                }
+            }
+        }
+
+        // оперативная память
+        if (map.get("ozuCode") != null)
+        {
+            // поиск ОЗУ с соответствующим кодом в БД Room
+            for (Ozu OZU: db_components.getOzusDao().getOZU())
+            {
+                if (OZU.getProduct_code() == Integer.parseInt(map.get("ozuCode"))) {
+                    configuration.mOzu = OZU;
+                    configuration.mOzu.setItemQuantity(Integer.parseInt(map.get("ozuQuantity")));
+                    break;
+                }
+            }
+        }
+
+        // блок питания
+        if (map.get("bp") != null)
+        {
+            // поиск БП с соответствующим кодом в БД Room
+            for (Bp BP: db_components.getBpsDao().getBP())
+            {
+                if (BP.getProduct_code() == Integer.parseInt(map.get("bp"))) {
+                    configuration.mBp = BP;
+                    break;
+                }
+            }
+        }
+
+        // корпус
+        if (map.get("pccase") != null)
+        {
+            // поиск корпуса с соответствующим кодом в БД Room
+            for (Case PCCASE: db_components.getCasesDao().getCASE())
+            {
+                if (PCCASE.getProduct_code() == Integer.parseInt(map.get("pccase"))) {
+                    configuration.mCase = PCCASE;
+                    break;
+                }
+            }
+        }
+
+        // кулер
+        if (map.get("cooler") != null)
+        {
+            // поиск кулера с соответствующим кодом в БД Room
+            for (Cooler COOLER: db_components.getCoolersDao().getCOOLER())
+            {
+                if (COOLER.getProduct_code() == Integer.parseInt(map.get("cooler"))) {
+                    configuration.mCooler = COOLER;
+                    break;
+                }
+            }
+        }
+
+        // жёсткий диск
+        if (map.get("hddCode") != null)
+        {
+            // поиск HDD с соответствующим кодом в БД Room
+            for (Hdd HDD: db_components.getHddsDao().getHDD())
+            {
+                if (HDD.getProduct_code() == Integer.parseInt(map.get("hddCode"))) {
+                    configuration.mHdd = HDD;
+                    configuration.mHdd.setItemQuantity(Integer.parseInt(map.get("hddQuantity")));
+                    break;
+                }
+            }
+        }
+
+        // SSD 2.5
+        if (map.get("ssd25Code") != null)
+        {
+            // поиск SSD 2.5 с соответствующим кодом в БД Room
+            for (Ssd SSD: db_components.getSsdsDao().getSSD())
+            {
+                if (SSD.getProduct_code() == Integer.parseInt(map.get("ssd25Code"))) {
+                    configuration.mSsd_25 = SSD;
+                    configuration.mSsd_25.setItemQuantity(Integer.parseInt(map.get("ssd25Quantity")));
+                    break;
+                }
+            }
+        }
+
+        // SSD M2
+        if (map.get("ssdM2Code") != null)
+        {
+            // поиск SSD M2 с соответствующим кодом в БД Room
+            for (Ssd SSD: db_components.getSsdsDao().getSSD())
+            {
+                if (SSD.getProduct_code() == Integer.parseInt(map.get("ssdM2Code"))) {
+                    configuration.mSsd_m2 = SSD;
+                    configuration.mSsd_25.setItemQuantity(Integer.parseInt(map.get("ssdM2Quantity")));
+                    break;
+                }
+            }
+        }
+
 
         configuration.isReady = true;
         return configuration;

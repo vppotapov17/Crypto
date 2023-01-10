@@ -141,7 +141,7 @@ public class AddComponentsSelection extends Fragment {
                         reference.setValue(map);
 
                         // предлагаемая конфигурация
-                        map = suggested_configuration.convertToFirebase();
+                        //map = suggested_configuration.convertToFirebase();
                         reference.child("Configuration").setValue(map);
 
                         try {
@@ -175,7 +175,7 @@ public class AddComponentsSelection extends Fragment {
 
 
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
-                    ft.replace(R.id.fragment_container, creatingConfigurationFragment.newInstance(suggested_configuration));
+                    ft.replace(R.id.fragment_container, new creatingConfigurationFragment());
                     ft.addToBackStack(null);
                     ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                     ft.commit();

@@ -93,7 +93,7 @@ public class ViewComponentsSelection extends Fragment {
 
                     // конфигурация
                     HashMap<String, String> configuration = (HashMap<String, String>) snapshot1.child("Configuration").getValue();
-                    answer.setConfiguration(Configuration.CreateFromFirebase(configuration, getContext()));
+                    //answer.setConfiguration(Configuration.CreateFromFirebase(configuration, d));
 
                     // дата публикации
                     try {

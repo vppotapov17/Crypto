@@ -17,7 +17,7 @@ import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewOther;
 import com.potapp.cyberhelper.models.questions.AdviceQuestion;
 import com.potapp.cyberhelper.models.questions.ComponentsSelectionQuestion;
 import com.potapp.cyberhelper.models.questions.Question;
-import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice;
+import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice.ViewAdviceFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -131,7 +131,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
             else if (current_question instanceof AdviceQuestion) {
                 path = "Data/Questions/Advice/" + current_question.getId();
-                current_fragment = ViewAdvice.newInstance((AdviceQuestion) current_question);
+               // current_fragment = ViewAdviceFragment.newInstance((AdviceQuestion) current_question);
                 category.setText("Оценка и советы");
             }
             else
@@ -146,7 +146,7 @@ public class QuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             holder.itemView.findViewById(R.id.cardview).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    loadFragment(current_fragment);
+                    //loadFragment(current_fragment);
                 }
             });
 

@@ -2,9 +2,11 @@ package com.potapp.cyberhelper.models.components;
 
 import androidx.room.Entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -167,4 +169,64 @@ public class Ozu extends Component {
 
         return specs;
     }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("Code", getProduct_code() + "");
+        map.put("Price", getProduct_code() + "");
+        map.put("Producer", getProduct_code() + "");
+        map.put("Model", getProduct_code() + "");
+        map.put("Url", getProduct_code() + "");
+        map.put("Picture", getProduct_code() + "");
+        map.put("Frequency", getProduct_code() + "");
+        map.put("ModulesQuantity", getProduct_code() + "");
+        map.put("SingleCapacity", getProduct_code() + "");
+        map.put("Type", getProduct_code() + "");
+
+        if (isECC()) map.put("ECC", "есть");
+        else map.put("ECC", "нет");
+
+        if (radiator) map.put("Radiator", "есть");
+        else map.put("Radiator", "нет");
+
+        return map;
+    }
+
+    public static Ozu createFromSnapshot(DataSnapshot snap){
+        Ozu ozu = new Ozu();
+
+        ozu.setProduct_code(Integer.parseInt(snap.getKey()));
+        ozu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        ozu.setProducer(snap.child("Producer").getValue().toString());
+        ozu.setModel(snap.child("Model").getValue().toString());
+        try {
+            ozu.setFamily(snap.child("Family").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        ozu.setRefLink(snap.child("Url").getValue().toString());
+        ozu.setPictureLink(snap.child("Picture").getValue().toString());
+
+        ozu.setType(snap.child("Type").getValue().toString());
+        ozu.setSingleCapacity(Integer.parseInt(snap.child("SingleCapacity").getValue().toString()));
+        ozu.setModulesQuantity(Integer.parseInt(snap.child("ModulesQuantity").getValue().toString()));
+        ozu.setFrequency(Integer.parseInt(snap.child("Frequency").getValue().toString()));
+
+        try {
+            ozu.setLatency(snap.child("Latency").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        if (snap.child("ECC").getValue().toString().equals("есть")) ozu.setECC(true);
+        else ozu.setECC(false);
+
+        if (snap.child("Radiator").getValue().toString().equals("есть")) ozu.setRadiator(true);
+        else ozu.setRadiator(false);
+
+        return ozu;
+    }
+
+
 }

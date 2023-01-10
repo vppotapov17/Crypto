@@ -156,12 +156,6 @@ public class discussionsMainViewModel extends ViewModel {
         });
     }
 
-    public Fragment OnAskQuestionImageFragment(){
-        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
-            return LoginFragment.newInstance();
-        return QuestionCategories.newInstance();
-    }
-
     public LiveData<List<Question>> getMyQuestionsLiveData(){
         return myQuestionsLiveData;
     }

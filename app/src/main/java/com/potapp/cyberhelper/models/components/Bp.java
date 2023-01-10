@@ -3,9 +3,11 @@ package com.potapp.cyberhelper.models.components;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -273,4 +275,53 @@ public class Bp extends Component{
         return specs;
     }
 
+
+    public static Bp createFromSnapshot(DataSnapshot snap){
+        Bp bp = new Bp();
+
+        bp.setProduct_code(Integer.parseInt(snap.getKey()));
+        bp.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        bp.setProducer(snap.child("Producer").getValue().toString());
+        bp.setModel(snap.child("Model").getValue().toString());
+        try {
+            bp.setFamily(snap.child("Family").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        bp.setRefLink(snap.child("Url").getValue().toString());
+        bp.setPictureLink(snap.child("Picture").getValue().toString());
+
+        if (snap.child("ActivePFC").getValue().toString().equals("есть"))
+            bp.setActivePFC(true);
+        else bp.setActivePFC(false);
+
+        if (snap.child("Cables").getValue().toString().equals("есть"))
+            bp.setDetachableCables(true);
+        else bp.setDetachableCables(false);
+
+        bp.setCapacity(Integer.parseInt(snap.child("Capacity").getValue().toString()));
+        bp.setCertificate(snap.child("Certificate").getValue().toString());
+        bp.setColor(snap.child("Color").getValue().toString());
+        bp.setCpuPower(snap.child("CpuPower").getValue().toString());
+
+        try {
+            bp.setFanSize(Integer.parseInt(snap.child("FanSize").getValue().toString()));
+        }
+        catch (NullPointerException e){}
+        bp.setGpuPower(snap.child("GpuPower").getValue().toString());
+        bp.setMolex_ConnectorsQuantity(Integer.parseInt(snap.child("Molex").getValue().toString()));
+        bp.setSata_ConnectorsQuantity(Integer.parseInt(snap.child("Sata").getValue().toString()));
+
+        if (snap.child("RgbFan").getValue().toString().equals("есть"))
+            bp.setRgbFan(true);
+        else bp.setRgbFan(false);
+
+        return bp;
+    }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
+    }
 }

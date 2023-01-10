@@ -1,5 +1,6 @@
 package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,14 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.bumptech.glide.Glide;
+import com.potapp.cyberhelper.models.components.Ozu;
 import com.potapp.cyberhelper.screens.configurator.creatingConfiguration.creatingConfigurationFragment;
 import com.potapp.cyberhelper.R;
 
@@ -163,9 +168,16 @@ public class configurationListAdapter extends RecyclerView.Adapter<RecyclerView.
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    NavHostFragment fragment = (NavHostFragment)fm.findFragmentById(R.id.fragment_container);
+                    NavController controller = fragment.getNavController();
+
+                    Bundle args = new Bundle();
+                    args.putSerializable("current_configuration", current_configuration);
+
                     if (current_configuration.isReady)
-                        loadFragment(viewReadyConfigurationFragment.newInstance(current_configuration));
-                    else loadFragment(creatingConfigurationFragment.newInstance(current_configuration));
+                        controller.navigate(R.id.action_configurationList_to_viewReadyConfigurationFragment, args);
+                    else controller.navigate(R.id.action_configurationList_to_creatingConfigurationFragment, args);
+
                 }
             });
 
@@ -205,14 +217,17 @@ public class configurationListAdapter extends RecyclerView.Adapter<RecyclerView.
 
             if (current_configuration.mGpu != null)
             {
-                String gpuModel = current_configuration.mGpu.getModel();
-                gpuModel = gpuModel.substring(gpuModel.indexOf(" ") + 1);
+                String gpuModel = current_configuration.mGpu.getGpModel();
+                //gpuModel = gpuModel.substring(gpuModel.indexOf(" ") + 1);
                 spec_gpu.setText(gpuModel);
             }
             else spec_gpu.setText("н/д");
 
-            if (current_configuration.mOzu != null) spec_ozu.setText(current_configuration.mOzu.getModulesQuantity() + "x" +
-                    current_configuration.mOzu.getSingleCapacity() / current_configuration.mOzu.getModulesQuantity() + "Гб");
+            if (current_configuration.mOzu != null) {
+                Ozu ozu = current_configuration.mOzu;
+                spec_ozu.setText(ozu.getModulesQuantity() * ozu.getItemQuantity() + "x" +
+                        current_configuration.mOzu.getSingleCapacity() + "Гб");
+            }
             else spec_ozu.setText("н/д");
 
 
@@ -249,6 +264,7 @@ public class configurationListAdapter extends RecyclerView.Adapter<RecyclerView.
     // загрузка фрагмента
     void loadFragment(Fragment fragment)
     {
+
         FragmentTransaction ft = fm.beginTransaction();
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.replace(R.id.fragment_container, fragment);

@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,16 +40,6 @@ public class componentInfoFragment extends Fragment {
 
     public componentInfoFragment(){}
 
-    public static componentInfoFragment newInstance(Component select_component, Configuration current_configuration) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("select_component", select_component);
-        bundle.putSerializable("current_configuration", current_configuration);
-
-        componentInfoFragment fragment = new componentInfoFragment();
-        fragment.setArguments(bundle);
-
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +48,8 @@ public class componentInfoFragment extends Fragment {
         select_component = (Component) this.getArguments().getSerializable("select_component");
         current_configuration = (Configuration)this.getArguments().getSerializable("current_configuration");
 
-        componentInfoFactory factory = new componentInfoFactory(getActivity().getApplication(), getActivity().getSupportFragmentManager(), select_component, current_configuration);
+
+        componentInfoFactory factory = new componentInfoFactory(getActivity().getApplication(), NavHostFragment.findNavController(this), select_component, current_configuration);
         viewModel = ViewModelProviders.of(this, factory).get(componentInfoViewModel.class);
     }
 
@@ -78,15 +70,15 @@ public class componentInfoFragment extends Fragment {
 
 
         // инициализация элементов интерфейса
-        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);                                 // тулбар
-        ImageView component_image = getActivity().findViewById(R.id.photo_staticInfo);              // изображение компонента
-        TextView component_price = getActivity().findViewById(R.id.price);                          // стоимость компонента
+        Toolbar toolbar = getView().findViewById(R.id.toolbar);                                 // тулбар
+        ImageView component_image = getView().findViewById(R.id.photo_staticInfo);              // изображение компонента
+        TextView component_price = getView().findViewById(R.id.price);                          // стоимость компонента
 
-        FabOption buy_button = getActivity().findViewById(R.id.buy_button);                         // кнопка "Купить"
-        FabOption add_button = getActivity().findViewById(R.id.add_button);                         // кнопка "Добавить"
-        FabOption shareButton = getActivity().findViewById(R.id.share_button);                      // кнопка "Поделиться"
+        FabOption buy_button = getView().findViewById(R.id.buy_button);                         // кнопка "Купить"
+        FabOption add_button = getView().findViewById(R.id.add_button);                         // кнопка "Добавить"
+        FabOption shareButton = getView().findViewById(R.id.share_button);                      // кнопка "Поделиться"
 
-        RecyclerView rv = getActivity().findViewById(R.id.rv);                                      // список характеристик
+        RecyclerView rv = getView().findViewById(R.id.rv);                                      // список характеристик
 
 
         // тулбар

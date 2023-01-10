@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<item
-    android:id="@+id/navigation_configurator"
-    android:title="Конфигуратор"
-    android:icon="@drawable/ic_configurator_logo"
-    ></item>
+    <item
+        android:id="@+id/configuratorMain"
+        android:title="Конфигуратор"
+        android:icon="@drawable/ic_configurator_logo" />
 <!--    <item-->
 <!--    android:id="@+id/navigation_readyconfigurations"-->
 <!--    android:title="Лента"-->
@@ -12,15 +11,12 @@
 <!--        >-->
 <!--</item>-->
     <item
-        android:id="@+id/navigation_questions"
+        android:id="@id/discussionsMain"
         android:title="Обсуждения"
         android:icon="@drawable/ic_discussions_logo"
-        >
-    </item>
+        />
     <item
         android:icon="@drawable/ic_account_circle"
-        android:id="@+id/navigation_account"
-        android:title="Аккаунт">
-    </item>
-
+        android:id="@+id/accountMain"
+        android:title="Аккаунт"/>
 </menu>

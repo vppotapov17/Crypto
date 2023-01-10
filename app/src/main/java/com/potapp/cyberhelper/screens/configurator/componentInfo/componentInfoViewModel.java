@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.navigation.NavController;
 
 import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.models.components.Component;
@@ -16,14 +17,14 @@ import com.potapp.cyberhelper.models.components.*;
 
 public class componentInfoViewModel extends AndroidViewModel {
 
-    FragmentManager fm;
+    NavController navController;
     Component select_component;
     Configuration current_configuration;
 
-    public componentInfoViewModel(@NonNull Application app, FragmentManager fm, Component select_component, Configuration current_configuration)
+    public componentInfoViewModel(@NonNull Application app, NavController navController, Component select_component, Configuration current_configuration)
     {
         super(app);
-        this.fm = fm;
+        this.navController = navController;
         this.select_component = select_component;
         this.current_configuration = current_configuration;
     }
@@ -47,19 +48,19 @@ public class componentInfoViewModel extends AndroidViewModel {
 
     void onBackClick()
     {
-        fm.popBackStack();
+        navController.popBackStack();
     }
 
     void onAddButtonClick()
     {
         Toast.makeText(getApplication(), current_configuration.addComponent(select_component, getApplication()), Toast.LENGTH_SHORT).show();
-        fm.popBackStack();
-        fm.popBackStack();
+        navController.popBackStack();
+        navController.popBackStack();
     }
 
     void onDeleteButtonClick(){
         Toast.makeText(getApplication(), current_configuration.deleteComponent(select_component, getApplication()), Toast.LENGTH_SHORT).show();
-        fm.popBackStack();
+        navController.popBackStack();
     }
 
     void onBuyButtonClick(){

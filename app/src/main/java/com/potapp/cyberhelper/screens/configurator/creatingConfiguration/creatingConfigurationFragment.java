@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -36,23 +37,11 @@ public class creatingConfigurationFragment extends Fragment {
     public creatingConfigurationFragment() {}
 
 
-    public static creatingConfigurationFragment newInstance(Configuration current_configuration) {
-
-        creatingConfigurationFragment fragment = new creatingConfigurationFragment();
-
-        Bundle args = new Bundle();
-        args.putSerializable("current_configuration", current_configuration);
-
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        current_configuration = (Configuration) getArguments().getSerializable(("current_configuration"));
+        current_configuration = (Configuration) getArguments().getSerializable("current_configuration");
 
         creatingConfigurationFactory factory = new creatingConfigurationFactory(getActivity().getApplication(), current_configuration);
         viewModel = ViewModelProviders.of(this, factory).get(creatingConfigurationViewModel.class);
@@ -69,10 +58,10 @@ public class creatingConfigurationFragment extends Fragment {
         super.onResume();
 
         // элементы интерфейса
-        TextView confName = getActivity().findViewById(R.id.confName);                              // имя сборки
-        TextView fullPrice = getActivity().findViewById(R.id.fullPrice);                            // общая стоимость сборки
-        MaterialButton button = getActivity().findViewById(R.id.button);                            // кнопка "ГОТОВО"
-        ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
+        TextView confName = getView().findViewById(R.id.confName);                              // имя сборки
+        TextView fullPrice = getView().findViewById(R.id.fullPrice);                            // общая стоимость сборки
+        MaterialButton button = getView().findViewById(R.id.button);                            // кнопка "ГОТОВО"
+        ProgressBar progressBar = getView().findViewById(R.id.progressBar);
 
         // общая стоимость сборки
         fullPrice.setText(current_configuration.getFullPrice() + " ₽");
@@ -81,16 +70,19 @@ public class creatingConfigurationFragment extends Fragment {
         confName.setText(current_configuration.name);
 
         // обработка списка
-        final RecyclerView rv = getActivity().findViewById(R.id.rv);
+        final RecyclerView rv = getView().findViewById(R.id.rv);
 
         llm = new LinearLayoutManager(getContext());
         rv.setLayoutManager(llm);
 
-
         new Handler().postDelayed(()->{
-            rv.setAdapter(new creatingConfigurationAdapter(viewModel.getCurrent_configuration(), getFragmentManager(), getContext(), fullPrice));
+            Log.d("AAA", current_configuration.name);
+            rv.setAdapter(new creatingConfigurationAdapter(viewModel.getCurrent_configuration(), NavHostFragment.findNavController(this), getContext(), fullPrice));
             progressBar.setVisibility(View.INVISIBLE);
-        }, 200);
+
+            if (rv.getAdapter() != null) Log.d("AAA", "Adapter is set");
+            }, 200);
+
 
 
         // обработка нажатия на кнопку "ГОТОВО"

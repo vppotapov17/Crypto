@@ -2,10 +2,13 @@ package com.potapp.cyberhelper.models.components;
 // 1% производительности = 264,34
 // формула расчёта производительности: производительность (%) = Passmark_test / 264,34;
 
+import android.util.Log;
+
 import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.fpsTest;
 import com.potapp.cyberhelper.models.mainSpec;
 
@@ -432,4 +435,130 @@ public class Gpu extends Component{
 
         return specs;
     }
+
+    public static Gpu createFromSnapshot(DataSnapshot snap){
+        Gpu gpu = new Gpu();
+
+        gpu.setProduct_code(Integer.parseInt(snap.getKey()));
+        gpu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        gpu.setProducer(snap.child("Producer").getValue().toString());
+        gpu.setModel(snap.child("Model").getValue().toString());
+        gpu.setRefLink(snap.child("Url").getValue().toString());
+        gpu.setPictureLink(snap.child("Picture").getValue().toString());
+
+        gpu.setGpProducer(snap.child("GpProducer").getValue().toString());
+        gpu.setGpModel(snap.child("GpModel").getValue().toString());
+        gpu.setBench(Integer.parseInt(snap.child("Bench").getValue().toString()));
+        gpu.setBitDepth(Integer.parseInt(snap.child("BitDepth").getValue().toString()));
+
+        try {
+            if (snap.child("Interface").getValue() != null) gpu.setGpInterface(snap.child("Interface").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        try {
+            gpu.setGpFrequency(Integer.parseInt(snap.child("GpFrequency").getValue().toString()));
+        }catch (Exception e){
+            Log.d("AAA", snap.getKey());
+        }
+        try {
+            gpu.setGpBoostFrequency(Integer.parseInt(snap.child("GpBoostFrequency").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        try {
+            gpu.setTechprocess(Integer.parseInt(snap.child("Techprocess").getValue().toString()));
+        }catch (NullPointerException e){
+            Log.d("AAA", snap.getKey());
+        }
+
+        try {
+            gpu.setMaxResoultion(snap.child("MaxResolution").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setCoolingSystem(snap.child("CoolingSystem").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setDvi(Integer.parseInt(snap.child("Dvi").getValue().toString()));
+        }catch (NullPointerException e){}
+        try {
+            gpu.setHdmi(Integer.parseInt(snap.child("Hdmi").getValue().toString()));
+        }catch (NullPointerException e){}
+        try {
+            gpu.setHdmiVer(snap.child("HdmiVer").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setDisplayPort(Integer.parseInt(snap.child("DisplayPort").getValue().toString()));
+        }catch (NullPointerException e){}
+        try {
+            gpu.setDisplayPortVer(snap.child("DisplayPortVer").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setOptionalPower(snap.child("OptionalPower").getValue().toString());
+        }catch (NullPointerException e){}
+
+        gpu.setOzuType(snap.child("OzuType").getValue().toString());
+        gpu.setOzuSize(Integer.parseInt(snap.child("OzuSize").getValue().toString()));
+        gpu.setOzuFrequency(Integer.parseInt(snap.child("OzuFrequency").getValue().toString()));
+
+        try {
+            gpu.setMaxTdp(Integer.parseInt(snap.child("MaxTdp").getValue().toString()));
+        }catch (NullPointerException e){
+            Log.d("AAA", snap.getKey());
+        }
+
+        try {
+            if (snap.child("DLSS").getValue().toString().equals("есть")) gpu.setDlss(true);
+            else gpu.setDlss(false);
+        }catch (NullPointerException e){}
+
+        try {
+            if (snap.child("RayTracing").getValue().toString().equals("есть"))
+                gpu.setRayTracing(true);
+            else gpu.setRayTracing(false);
+        }catch (NullPointerException e){}
+
+        try {
+            gpu.setLength((int)Double.parseDouble(snap.child("Length").getValue().toString()));
+        }catch (NullPointerException e){}
+        try {
+            gpu.setDate(snap.child("Date").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setHeatPipes(snap.child("HeatPipes").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            gpu.setMinBp(Integer.parseInt(snap.child("MinBp").getValue().toString()));
+        }catch (NullPointerException e){}
+        try {
+            gpu.setMonitors(Integer.parseInt(snap.child("Monitors").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        if (snap.child("OverClockEdition").getValue().toString().equals("есть")) gpu.setOCEdition(true);
+        else gpu.setOCEdition(false);
+
+        try {
+            gpu.setRTCores(Integer.parseInt(snap.child("RTCores").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        try {
+            gpu.setTensorCores(Integer.parseInt(snap.child("TensorCores").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        try {
+            gpu.setRasterizeBlocks(Integer.parseInt(snap.child("RasterizeBlocks").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        try {
+            gpu.setTextureBlocks(Integer.parseInt(snap.child("TextureBlocks").getValue().toString()));
+        }catch (NullPointerException e){}
+
+        return gpu;
+    }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
+    }
+
 }

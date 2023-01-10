@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/configuratorMain">
+
+    <fragment
+        android:id="@+id/configuratorMain"
+        android:name="com.potapp.cyberhelper.screens.configurator.configurationList.configurationListFragment"
+        android:label="configuratorMain"
+        tools:layout="@layout/configurator_list_configuration">
+        <action
+            android:id="@+id/action_configurationList_to_creatingConfigurationFragment"
+            app:destination="@id/creatingConfigurationFragment"
+            app:exitAnim="@anim/fade_close"
+            app:launchSingleTop="false"
+            app:popExitAnim="@anim/fade_close" />
+        <action
+            android:id="@+id/action_configurationList_to_viewReadyConfigurationFragment"
+            app:destination="@id/viewReadyConfigurationFragment"
+            app:exitAnim="@anim/fade_close"
+            app:popExitAnim="@anim/fade_close" />
+        <deepLink
+            android:id="@+id/deepLink"
+            android:autoVerify="true"
+            app:uri="https://regmarkets.ru/" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatingConfigurationFragment"
+        android:name="com.potapp.cyberhelper.screens.configurator.creatingConfiguration.creatingConfigurationFragment"
+        android:label="creatingConfigurationFragment" >
+        <action
+            android:id="@+id/action_creatingConfigurationFragment_to_componentListFragment"
+            app:destination="@id/componentListFragment" />
+        <argument
+            android:name="current_configuration"
+            app:argType="com.potapp.cyberhelper.models.Configuration" />
+        <action
+            android:id="@+id/action_creatingConfigurationFragment_to_componentInfoFragment"
+            app:destination="@id/componentInfoFragment"
+            app:enterAnim="@anim/slide_left_open"
+            app:exitAnim="@anim/slide_left_close"
+            app:popEnterAnim="@anim/slide_right_open"
+            app:popExitAnim="@anim/slide_right_close" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewReadyConfigurationFragment"
+        android:name="com.potapp.cyberhelper.screens.configurator.viewReadyConfiguration.viewReadyConfigurationFragment"
+        android:label="viewReadyConfigurationFragment" >
+        <action
+            android:id="@+id/action_viewReadyConfigurationFragment_to_creatingConfigurationFragment"
+            app:destination="@id/creatingConfigurationFragment" />
+        <argument
+            android:name="current_configuration"
+            app:argType="com.potapp.cyberhelper.models.Configuration" />
+        <action
+            android:id="@+id/action_viewReadyConfigurationFragment_to_componentInfoFragment"
+            app:destination="@id/componentInfoFragment"
+            app:enterAnim="@anim/slide_left_open"
+            app:exitAnim="@anim/slide_left_close"
+            app:popEnterAnim="@anim/slide_right_open"
+            app:popExitAnim="@anim/slide_right_close" />
+    </fragment>
+    <fragment
+        android:id="@+id/componentListFragment"
+        android:name="com.potapp.cyberhelper.screens.configurator.componentList.componentListFragment"
+        android:label="componentListFragment" >
+        <action
+            android:id="@+id/action_componentListFragment_to_componentInfoFragment"
+            app:destination="@id/componentInfoFragment"
+            app:enterAnim="@anim/slide_left_open"
+            app:exitAnim="@anim/slide_left_close"
+            app:popEnterAnim="@anim/slide_right_open"
+            app:popExitAnim="@anim/slide_right_close" />
+        <argument
+            android:name="current_configuration"
+            app:argType="com.potapp.cyberhelper.models.Configuration" />
+        <argument
+            android:name="componentType"
+            app:argType="java.lang.Class" />
+    </fragment>
+    <fragment
+        android:id="@+id/componentInfoFragment"
+        android:name="com.potapp.cyberhelper.screens.configurator.componentInfo.componentInfoFragment"
+        android:label="configurator_info_component"
+        tools:layout="@layout/configurator_info_component" >
+        <argument
+            android:name="current_component"
+            app:argType="com.potapp.cyberhelper.models.components.Component" />
+        <argument
+            android:name="current_configuration"
+            app:argType="com.potapp.cyberhelper.models.Configuration" />
+    </fragment>
+    <fragment
+        android:id="@+id/discussionsMain"
+        android:name="com.potapp.cyberhelper.screens.discussions.discussionsMain.discussionsMainFragment"
+        android:label="discussionsMainFragment" >
+        <action
+            android:id="@+id/action_discussionsMain_to_questionCategories"
+            app:destination="@id/questionCategories"
+            app:enterAnim="@anim/slide_top_open"
+            app:exitAnim="@anim/fade_close"
+            app:popEnterAnim="@anim/fade_open"
+            app:popExitAnim="@anim/slide_bottom_close"  />
+        <action
+            android:id="@+id/action_discussionsMain_to_viewAdvice"
+            app:destination="@id/viewAdvice" />
+        <action
+            android:id="@+id/action_discussionsMain_to_viewComponentsSelection"
+            app:destination="@id/viewComponentsSelection" />
+        <action
+            android:id="@+id/action_discussionsMain_to_viewOther"
+            app:destination="@id/viewOther" />
+        <action
+            android:id="@+id/action_discussionsMain_to_loginFragment"
+            app:enterAnim="@anim/slide_top_open"
+            app:exitAnim="@anim/fade_close"
+            app:popEnterAnim="@anim/fade_open"
+            app:popExitAnim="@anim/slide_bottom_close"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/accountMain"
+        android:name="com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment"
+        android:label="AnonymousAccountFragment" >
+        <action
+            android:id="@+id/action_accountMain_to_loginFragment"
+            app:destination="@id/loginFragment"
+            app:enterAnim="@anim/slide_top_open"
+            app:exitAnim="@anim/fade_close"
+            app:popEnterAnim="@anim/fade_open"
+            app:popExitAnim="@anim/slide_bottom_close"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_accountMain_to_registrationFragment"
+            app:destination="@id/registrationFragmentStep1"
+            app:enterAnim="@anim/slide_top_open"
+            app:exitAnim="@anim/fade_close"
+            app:popEnterAnim="@anim/fade_open"
+            app:popExitAnim="@anim/slide_bottom_close" />
+        <action
+            android:id="@+id/action_accountMain_to_authorizedUserFragment"
+            app:destination="@id/authorizedUserFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.potapp.cyberhelper.screens.account.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_registrationFragmentStep1"
+            app:destination="@id/registrationFragmentStep1" />
+    </fragment>
+    <fragment
+        android:id="@+id/registrationFragmentStep1"
+        android:name="com.potapp.cyberhelper.screens.account.registration.registration_step1"
+        android:label="registration_step1" >
+        <action
+            android:id="@+id/action_registrationFragmentStep1_to_registration_step2"
+            app:destination="@id/registration_step2"
+            app:enterAnim="@anim/slide_left_open"
+            app:exitAnim="@anim/slide_left_close"
+            app:popEnterAnim="@anim/slide_right_open"
+            app:popExitAnim="@anim/slide_right_close" />
+    </fragment>
+    <fragment
+        android:id="@+id/registration_step2"
+        android:name="com.potapp.cyberhelper.screens.account.registration.registration_step2"
+        android:label="registration_step2" />
+    <fragment
+        android:id="@+id/authorizedUserFragment"
+        android:name="com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment"
+        android:label="AuthorizedUserFragment" >
+        <action
+            android:id="@+id/action_authorizedUserFragment_to_accountMain"
+            app:destination="@id/accountMain" />
+    </fragment>
+    <fragment
+        android:id="@+id/questionCategories"
+        android:name="com.potapp.cyberhelper.screens.discussions.askQuestion.QuestionCategories"
+        android:label="QuestionCategories" >
+        <action
+            android:id="@+id/action_questionCategories_to_askAdviceFragment"
+            app:destination="@id/askAdviceFragment" />
+        <action
+            android:id="@+id/action_questionCategories_to_askComponentsSelectionFragment"
+            app:destination="@id/askComponentsSelectionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/askAdviceFragment"
+        android:name="com.potapp.cyberhelper.screens.discussions.askQuestion.AskAdvice.AskAdviceFragment"
+        android:label="AskAdviceFragment" />
+    <fragment
+        android:id="@+id/askComponentsSelectionFragment"
+        android:name="com.potapp.cyberhelper.screens.discussions.askQuestion.AskComponentsSelection.AskComponentsSelectionFragment"
+        android:label="AskComponentsSelectionFragment" />
+    <fragment
+        android:id="@+id/viewAdvice"
+        android:name="com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice.ViewAdviceFragment"
+        android:label="ViewAdvice" >
+        <action
+            android:id="@+id/action_viewAdvice_to_addAdvice"
+            app:destination="@id/addAdvice" />
+        <action
+            android:id="@+id/action_viewAdvice_to_viewReadyConfigurationFragment"
+            app:destination="@id/viewReadyConfigurationFragment" />
+        <argument
+            android:name="current_question"
+            app:argType="com.potapp.cyberhelper.models.questions.AdviceQuestion" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewComponentsSelection"
+        android:name="com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewComponentsSelection"
+        android:label="ViewComponentsSelection" >
+        <action
+            android:id="@+id/action_viewComponentsSelection_to_addComponentsSelection"
+            app:destination="@id/addComponentsSelection" />
+        <argument
+            android:name="current_question"
+            app:argType="com.potapp.cyberhelper.models.questions.ComponentsSelectionQuestion" />
+    </fragment>
+    <fragment
+        android:id="@+id/viewOther"
+        android:name="com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewOther"
+        android:label="ViewOther" >
+        <argument
+            android:name="current_question"
+            app:argType="com.potapp.cyberhelper.models.questions.Question" />
+    </fragment>
+    <fragment
+        android:id="@+id/addComponentsSelection"
+        android:name="com.potapp.cyberhelper.screens.discussions.addAnswer.AddComponentsSelection"
+        android:label="AddComponentsSelection" >
+        <action
+            android:id="@+id/action_addComponentsSelection_to_creatingConfigurationFragment"
+            app:destination="@id/creatingConfigurationFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAdvice"
+        android:name="com.potapp.cyberhelper.screens.discussions.addAnswer.AddAdvice"
+        android:label="AddAdvice" />
+
+</navigation>

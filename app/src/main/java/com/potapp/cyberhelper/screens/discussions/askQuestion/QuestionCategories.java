@@ -15,6 +15,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.potapp.cyberhelper.MainActivity;
@@ -27,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.potapp.cyberhelper.screens.discussions.askQuestion.AskAdvice.AskAdviceFragment;
 import com.potapp.cyberhelper.screens.discussions.askQuestion.AskComponentsSelection.AskComponentsSelectionFragment;
 
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,6 +39,7 @@ import java.util.Locale;
 
 public class QuestionCategories extends Fragment {
 
+    private NavController navController;
     private Integer publishedQuestionsQuantity;
 
     public QuestionCategories(){}
@@ -46,8 +52,7 @@ public class QuestionCategories extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        navController = NavHostFragment.findNavController(this);
     }
 
     @Override

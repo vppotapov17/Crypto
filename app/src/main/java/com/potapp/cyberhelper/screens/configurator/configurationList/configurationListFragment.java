@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,41 +66,48 @@ public class configurationListFragment extends Fragment {
         return inflater.inflate(R.layout.configurator_list_configuration, container, false);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
 
+
         // инициализация элементов интерфейса
-        TextView createFirstConfiguration = getActivity().findViewById(R.id.createFirstConfiguration);  // сообщение об отсутсвии конфигураций
-        RecyclerView rv = getActivity().findViewById(R.id.rv);                                      // recyclerView
-        ShimmerFrameLayout shimmer = getActivity().findViewById(R.id.shimmer);                      // shimmer-загрузка
-        FloatingActionButton add_conf_button = getActivity().findViewById(R.id.add_conf_button);    // кнопка создания новой конфигурации
+        TextView createFirstConfiguration = getView().findViewById(R.id.createFirstConfiguration);  // сообщение об отсутсвии конфигураций
+        RecyclerView rv = getView().findViewById(R.id.rv_list_conf);                                      // recyclerView
+        ShimmerFrameLayout shimmer = getView().findViewById(R.id.shimmer_list_conf);                      // shimmer-загрузка
+        FloatingActionButton add_conf_button = getView().findViewById(R.id.add_conf_button);    // кнопка создания новой конфигурации
+
+        createFirstConfiguration.setVisibility(View.INVISIBLE);
+        rv.setVisibility(View.INVISIBLE);
+        shimmer.setVisibility(View.VISIBLE);
+        shimmer.startShimmerAnimation();
 
 
-        if (rv.getAdapter() == null) {
-            rv.setVisibility(View.INVISIBLE);                                                       // скрываем RecyclerView
-            createFirstConfiguration.setVisibility(View.INVISIBLE);                                 // скрываем сообщение об отсутствии конфигураций
-            shimmer.setVisibility(View.VISIBLE);
-            shimmer.startShimmerAnimation();                                                        // запускаем shimmer-анимацию
-        }
+        new Handler().postDelayed(()->{
+            // подписываемся на изменения лайвдата
+            vm.getLiveData().observe(this, s -> {
+                Log.d("AAA", "Livedata updated");
+                // останавливаем и скрываем shimmer
+                shimmer.stopShimmerAnimation();
+                shimmer.setVisibility(View.INVISIBLE);
 
-        // подписываемся на изменения лайвдата
-        vm.getLiveData().observe(this, s -> {
-            // останавливаем и скрываем shimmer
-            shimmer.stopShimmerAnimation();
-            shimmer.setVisibility(View.INVISIBLE);
 
-            if (rv.getAdapter() == null) {
                 if (s.size() == 0) {
+                    Log.d("AAA", "Конфигураций нет");
                     createFirstConfiguration.setVisibility(View.VISIBLE);
                 } else {
+                    Log.d("AAA", "Конфигурации есть");
                     rv.setVisibility(View.VISIBLE);
                     rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    rv.setAdapter(new configurationListAdapter(s, getFragmentManager(), rv, createFirstConfiguration));
+                    rv.setAdapter(new configurationListAdapter(s, getActivity().getSupportFragmentManager(), rv, createFirstConfiguration));
                 }
-            }
 
-        });
+            });
+        }, 400);
+
+
+
 
         // диалоговое окно
 

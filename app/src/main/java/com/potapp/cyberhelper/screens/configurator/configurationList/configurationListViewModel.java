@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.screens.configurator.configurationList;
 
 import android.app.AlertDialog;
 import android.app.Application;
+import android.os.Bundle;
 import android.os.Handler;
 import android.telecom.Call;
 import android.widget.EditText;
@@ -12,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.room.Room;
 
 import com.potapp.cyberhelper.R;
@@ -101,12 +104,13 @@ public class configurationListViewModel extends AndroidViewModel {
                                    .subscribe(()->{});
 
                            dialog.dismiss();
-                           FragmentTransaction ft = fm.beginTransaction();
-                           Fragment ConfigurationMenu = creatingConfigurationFragment.newInstance(current_configuration);
 
-                           ft.addToBackStack(null);
-                           ft.replace(R.id.fragment_container, ConfigurationMenu);
-                           ft.commit();
+                           NavHostFragment fragment = (NavHostFragment) fm.findFragmentById(R.id.fragment_container);
+                           NavController controller = fragment.getNavController();
+
+                           Bundle args = new Bundle();
+                           args.putSerializable("current_configuration",current_configuration);
+                           controller.navigate(R.id.creatingConfigurationFragment, args);
                        }
                     });
         }

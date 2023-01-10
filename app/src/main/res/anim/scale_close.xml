@@ -3,16 +3,16 @@
     <scale
         android:fromXScale="1.0"
         android:fromYScale="1.0"
-        android:toXScale="1.5"
-        android:toYScale="1.5"
+        android:toXScale="1.2"
+        android:toYScale="1.2"
         android:pivotX="50%"
-        android:pivotY="0%"
-        android:duration="200"
+        android:pivotY="20%"
+        android:duration="300"
         >
     </scale>
     <alpha
         android:fromAlpha="1.0"
         android:toAlpha="0.0"
-        android:duration="150">
+        android:duration="300">
     </alpha>
 </set>

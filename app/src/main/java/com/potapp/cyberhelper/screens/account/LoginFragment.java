@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.screens.account;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.firebase.database.annotations.NotNull;
 import com.potapp.cyberhelper.MainActivity;
@@ -22,24 +25,25 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.potapp.cyberhelper.models.Configuration;
 import com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment;
 import com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment;
+
+import java.lang.ref.Reference;
 
 
 public class LoginFragment extends Fragment {
 
+    private NavController navController;
+
     public LoginFragment()
     {}
-
-    public static LoginFragment newInstance()
-    {
-        return new LoginFragment();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        navController = NavHostFragment.findNavController(this);
     }
 
     @Override
@@ -49,9 +53,9 @@ public class LoginFragment extends Fragment {
     }
 
     @Override
-    public void onStart()
+    public void onResume()
     {
-        super.onStart();
+        super.onResume();
 
         MaterialButton loginButton = getActivity().findViewById(R.id.login_button);                 // кнопка входа
         MaterialButton createAccount = getActivity().findViewById(R.id.create_account);             // кнопка перехода к фрагменту регистрации
@@ -76,18 +80,10 @@ public class LoginFragment extends Fragment {
                             .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                                    // если авторизация успешна, открываем AccountFragment с данными о пользователе
+                                    // если авторизация успешна, возвращаемся назад
                                     if (task.isSuccessful()) {
-                                        // обновляем данные о пользователе, затем через 1 с запускаем AccountFragment (за 1 с данные успеют загрузиться)
-
-                                        new Handler().postDelayed(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AuthorizedUserFragment.newInstance()).commit();
-                                                progressBar.setVisibility(View.INVISIBLE);
-                                            }
-                                        }, 1000);
-
+                                        Log.d("AAA", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                                        navController.popBackStack();
                                     }
                                     // если произошла ошибка, то возможны 2 варианта: отсутствие интернета, либо неверные данные для входа
                                     else {
@@ -111,20 +107,14 @@ public class LoginFragment extends Fragment {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.animator.scale_open, R.animator.scale_close);
-                ft.replace(R.id.fragment_container, RegistrationFragment.newInstance());
-                ft.commit();
+                navController.navigate(R.id.action_loginFragment_to_registrationFragmentStep1);
             }
         });
 
         close_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                ft.setCustomAnimations(R.animator.fade_open, R.animator.slide_bottom_close);
-                ft.replace(R.id.fragment_container, AnonymousAccountFragment.newInstance());
-                ft.commit();
+                navController.popBackStack();
             }
         });
     }

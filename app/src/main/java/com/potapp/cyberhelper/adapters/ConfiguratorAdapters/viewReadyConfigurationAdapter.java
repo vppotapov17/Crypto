@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -34,7 +36,7 @@ import java.util.List;
 public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     Configuration current_configuration;                                                            // текущая конфигурация
-    FragmentManager fm;                                                                             // FragmentManager для запуска фрагментов
+    NavController navController;                                                                // NavController для запуска фрагментов
     TextView fullPrice;                                                                             // текстовое поле для отображения общей стоимости сборки
 
     Context context;
@@ -49,10 +51,10 @@ public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<Recycler
             p_storage1 = pt_storage1 + 1, p_storage2 = pt_storage2 + 1, p_storage3 = pt_storage3 + 1;
 
     // конструктор класса (производит инициализацию полей)
-    public viewReadyConfigurationAdapter(Configuration current_configuration, FragmentManager fm, TextView fullPrice, Context context)
+    public viewReadyConfigurationAdapter(Configuration current_configuration, NavController navController, TextView fullPrice, Context context)
     {
         this.current_configuration = current_configuration;
-        this.fm = fm;
+        this.navController = navController;
         this.fullPrice = fullPrice;
         this.context = context;
     }
@@ -90,7 +92,7 @@ public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<Recycler
         {
             case 0: itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.configurator_rv_title_components, parent, false); break;
             case 1: itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_card_two_button, parent, false); break;
-            case 2: itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_card_two_button_quantity, parent, false); break;
+            case 2: itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.rv_card_ready_two_button_quantity, parent, false); break;
         }
 
         return new RecyclerView.ViewHolder(itemView){};
@@ -252,25 +254,20 @@ public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<Recycler
             });
 
             cardView.setClickable(true);
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    loadFragment(componentInfoFragment.newInstance(current_component, current_configuration));
-                }
+            cardView.setOnClickListener(view -> {
+                Bundle args = new Bundle();
+                args.putSerializable("select_component", current_component);
+                args.putSerializable("current_configuration", current_configuration);
+                navController.navigate(R.id.action_viewReadyConfigurationFragment_to_componentInfoFragment, args);
             });
         }
         // дополнительные элементы в карточке с указанием количества
         if (viewType == 2)
         {
-            ImageButton QMinus = holder.itemView.findViewById(R.id.QMinus);
-            ImageButton QPlus = holder.itemView.findViewById(R.id.QPlus);
-            TextView QPrice = holder.itemView.findViewById(R.id.price);
-
-            QMinus.setClickable(false);
-            QPlus.setClickable(false);
-
-            final TextView QValue = holder.itemView.findViewById(R.id.QValue);
-
+//            TextView QPrice = holder.itemView.findViewById(R.id.price);
+//
+//            final TextView QValue = holder.itemView.findViewById(R.id.QValue);
+//            QValue.setText("3 шт.");
 
         }
     }
@@ -323,15 +320,6 @@ public class viewReadyConfigurationAdapter extends RecyclerView.Adapter<Recycler
     String imageLink(int product_code)
     {
         return "https://items.s1.citilink.ru/" + product_code + "_v01_b.jpg";
-    }
-
-    // загрузка фрагмента
-    private void loadFragment(Fragment fragment)
-    {
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_container, fragment);
-        ft.addToBackStack(null);
-        ft.commit();
     }
 
     // переход по ссылке

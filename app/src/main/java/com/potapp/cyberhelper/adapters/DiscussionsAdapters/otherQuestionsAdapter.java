@@ -1,15 +1,13 @@
 package com.potapp.cyberhelper.adapters.DiscussionsAdapters;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
@@ -20,9 +18,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewAdvice;
-import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewComponentsSelection;
-import com.potapp.cyberhelper.screens.discussions.ViewQuestion.ViewOther;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -31,11 +26,11 @@ import java.util.List;
 public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     List<Question> otherQuestions;
-    FragmentManager fm;
+    NavController navController;
 
-    public otherQuestionsAdapter(List<Question> otherQuestions, FragmentManager fm){
+    public otherQuestionsAdapter(List<Question> otherQuestions, NavController navController){
         this.otherQuestions = otherQuestions;
-        this.fm = fm;
+        this.navController = navController;
     }
 
     @NonNull
@@ -85,36 +80,29 @@ public class otherQuestionsAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 current_category = "Оценка и советы";
                 current_path = "Data/Questions/Advice/" + current_question.getId();
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        fm.beginTransaction().replace(R.id.fragment_container, ViewAdvice.newInstance((AdviceQuestion) current_question)).commit();
-                    }
+                holder.itemView.setOnClickListener(view -> {
+                    Bundle args = new Bundle();
+                    args.putSerializable("current_question", current_question);
+                    navController.navigate(R.id.action_discussionsMain_to_viewAdvice, args);
                 });
 
             } else if (current_question instanceof ComponentsSelectionQuestion) {
                 current_category = "Подбор комплектующих";
                 current_path = "Data/Questions/ComponentsSelection/" + current_question.getId();
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        FragmentTransaction ft = fm.beginTransaction();
-                        ft.addToBackStack(null);
-                        ft.replace(R.id.fragment_container, ViewComponentsSelection.newInstance((ComponentsSelectionQuestion) current_question));
-                        ft.commit();
-
-                    }
+                holder.itemView.setOnClickListener(view -> {
+                    Bundle args = new Bundle();
+                    args.putSerializable("current_question", current_question);
+                    navController.navigate(R.id.action_discussionsMain_to_viewComponentsSelection, args);
                 });
             } else {
                 current_category = "Прочее";
                 current_path = "Data/Questions/Other/" + current_question.getId();
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        fm.beginTransaction().replace(R.id.fragment_container, ViewOther.newInstance((ComponentsSelectionQuestion) current_question)).commit();
-                    }
+                holder.itemView.setOnClickListener(view -> {
+                    Bundle args = new Bundle();
+                    args.putSerializable("current_question", current_question);
+                    navController.navigate(R.id.action_discussionsMain_to_viewOther, args);
                 });
             }
 

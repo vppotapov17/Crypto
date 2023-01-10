@@ -2,6 +2,7 @@ package com.potapp.cyberhelper.screens.configurator.viewReadyConfiguration;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +17,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
@@ -76,40 +82,46 @@ public class viewReadyConfigurationFragment extends Fragment {
         super.onResume();
 
         // название конфигурации
-        TextView confName = getActivity().findViewById(R.id.confName);
+        TextView confName = getView().findViewById(R.id.confName);
         confName.setText(current_configuration.name);
 
         // общая стоимость конфигурации
-        TextView fullPrice = getActivity().findViewById(R.id.fullPrice);
+        TextView fullPrice = getView().findViewById(R.id.fullPrice);
         fullPrice.setText(current_configuration.getFullPrice() + " ₽");
 
         // кнопка назад
-        ImageButton back = getActivity().findViewById(R.id.back);
+        ImageButton back = getView().findViewById(R.id.back);
         back.setOnClickListener(view -> getFragmentManager().popBackStack());
 
         // кнопка изменить
-        ImageButton edit = getActivity().findViewById(R.id.edit);
+        ImageButton edit = getView().findViewById(R.id.edit);
         edit.setOnClickListener(view -> {
             current_configuration.isReady = false;
             Completable.fromRunnable(() -> db_configuration.getMyDao().updateConfiguration(current_configuration)).subscribeOn(Schedulers.io()).subscribe(() -> {
                 Log.d("AAA", "Сборка изменена");});
 
-            getFragmentManager().popBackStack();
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.replace(R.id.fragment_container, creatingConfigurationFragment.newInstance(current_configuration));
-            ft.addToBackStack(null);
-            ft.commit();
+            NavController navController = NavHostFragment.findNavController(this);
 
+            Bundle args = new Bundle();
+            args.putSerializable("current_configuration", current_configuration);
+            NavOptions options = new NavOptions.Builder().setPopUpTo(R.id.configuratorMain, false).build();
+            navController.navigate(R.id.action_viewReadyConfigurationFragment_to_creatingConfigurationFragment, args, options);
         });
 
 
-        final viewReadyConfigurationAdapter viewReadyConfigurationAdapter = new viewReadyConfigurationAdapter(current_configuration, getActivity().getSupportFragmentManager(), fullPrice, getContext());
+        final viewReadyConfigurationAdapter viewReadyConfigurationAdapter = new viewReadyConfigurationAdapter(current_configuration, NavHostFragment.findNavController(this), fullPrice, getContext());
 
         // обработка списка
-        final RecyclerView rv = getActivity().findViewById(R.id.rv);
-        rv.setHasFixedSize(true);
+
+        final RecyclerView rv = getView().findViewById(R.id.rv);
         LinearLayoutManager llm = new LinearLayoutManager(getContext());
-        rv.setLayoutManager(llm);
-        rv.setAdapter(viewReadyConfigurationAdapter);
+
+        new Handler().postDelayed(()->{
+            rv.setHasFixedSize(true);
+            rv.setLayoutManager(llm);
+            rv.setAdapter(viewReadyConfigurationAdapter);
+        }, 200);
+
+
     }
 }

@@ -40,10 +40,6 @@ import java.util.concurrent.Callable;
 
 import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Observable;
-import io.reactivex.rxjava3.core.ObservableEmitter;
-import io.reactivex.rxjava3.core.ObservableOnSubscribe;
-import io.reactivex.rxjava3.core.Observer;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class componentListViewModel extends AndroidViewModel {
@@ -269,6 +265,7 @@ public class componentListViewModel extends AndroidViewModel {
                                 .subscribeOn(Schedulers.computation())
                                 .subscribe((components -> {
                                     componentListLiveData.postValue(components);
+                                    Log.d("AAA", "List LiveData updated");
                                 }));
                     }
                     else {
@@ -284,62 +281,10 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/Motherboards").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Mb> mbList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Mb mb = new Mb();
-
-                        mb.setProduct_code(Integer.parseInt(snap.getKey()));
-                        mb.setProducer(snap.child("Producer").getValue().toString());
-                        mb.setModel(snap.child("Model").getValue().toString());
-                        try {
-                            mb.setSocket(snap.child("Socket").getValue().toString());
-                        }
-                        catch (Exception e){
-                            Log.d("AAA", mb.getProduct_code() + "");
-                        }
-                        mb.setRefLink(snap.child("Url").getValue().toString());
-                        mb.setPictureLink(snap.child("Picture").getValue().toString());
-                        mb.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        mb.setChipset(snap.child("Chipset").getValue().toString());
-                        mb.setOzuType(snap.child("OzuType").getValue().toString());
-                        mb.setOzuSlotsQuantity(Integer.parseInt(snap.child("OzuSlots").getValue().toString()));
-                        mb.setMaxOzuSize(Integer.parseInt(snap.child("MaxOzuSize").getValue().toString()));
-                        mb.setOzuFrequencySpec(Integer.parseInt(snap.child("OzuFrequencySpec").getValue().toString()));
-                        mb.setPciE_x1(Integer.parseInt(snap.child("PciE_x1").getValue().toString()));
-                        mb.setPciEv3_x16(Integer.parseInt(snap.child("PciEv3_x16").getValue().toString()));
-                        mb.setPciEv4_x16(Integer.parseInt(snap.child("PciEv4_x16").getValue().toString()));
-                        mb.setSata3(Integer.parseInt(snap.child("Sata3").getValue().toString()));
-                        mb.setM2(Integer.parseInt(snap.child("M2").getValue().toString()));
-                        try {
-                            mb.setPs2(snap.child("PS2").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        mb.setUsb20(Integer.parseInt(snap.child("Usb20").getValue().toString()));
-                        mb.setUsb30(Integer.parseInt(snap.child("Usb30").getValue().toString()));
-                        mb.setUsb31(Integer.parseInt(snap.child("Usb31").getValue().toString()));
-                        mb.setUsbC(Integer.parseInt(snap.child("UsbC").getValue().toString()));
-                        mb.setDisplayPort(Integer.parseInt(snap.child("DisplayPort").getValue().toString()));
-                        mb.setVga(Integer.parseInt(snap.child("VGA").getValue().toString()));
-                        mb.setHdmi(Integer.parseInt(snap.child("HDMI").getValue().toString()));
-                        mb.setNetwork(snap.child("Network").getValue().toString());
-                        mb.setSound(snap.child("Sound").getValue().toString());
-                        mb.setFormFactor(snap.child("FormFactor").getValue().toString());
-
-                        try {
-                            mb.setPower(snap.child("Power").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        mbList.add(mb);
-                    }
-
                     Completable addMBsToRoom = Completable.fromRunnable(()->{
-                        for (Mb MB : mbList)
-                            db_components.getMotherboardsDao().addMB(MB);
-
-
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getMotherboardsDao().addMB(Mb.createFromSnapshot(snap));
+                        }
                     });
 
                     addMBsToRoom
@@ -362,79 +307,14 @@ public class componentListViewModel extends AndroidViewModel {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     List<Cpu> cpuList = new ArrayList<>();
+
                     for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Cpu cpu = new Cpu();
-
-                        cpu.setProduct_code(Integer.parseInt(snap.getKey()));
-                        cpu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        cpu.setProducer(snap.child("Producer").getValue().toString());
-                        cpu.setModel(snap.child("Model").getValue().toString());
-                        cpu.setSocket(snap.child("Socket").getValue().toString());
-                        cpu.setRefLink(snap.child("Url").getValue().toString());
-                        cpu.setPictureLink(snap.child("Picture").getValue().toString());
-                        cpu.setCores(Integer.parseInt(snap.child("Cores").getValue().toString()));
-                        cpu.setStreams(Integer.parseInt(snap.child("Streams").getValue().toString()));
-                        cpu.setBaseFrequency(Double.parseDouble(snap.child("BaseFrequency").getValue().toString()));
-                        cpu.setTurboFrequency(Double.parseDouble(snap.child("TurboFrequency").getValue().toString()));
-                        cpu.setCache(Integer.parseInt(snap.child("Cache").getValue().toString()));
-                        cpu.setTechprocess(Integer.parseInt(snap.child("Techprocess").getValue().toString()));
-                        cpu.setMultiplier(snap.child("Multiplier").getValue().toString());
-                        cpu.setTdp(Integer.parseInt(snap.child("Tdp").getValue().toString()));
-                        cpu.setOzuType(snap.child("OzuType").getValue().toString());
-                        cpu.setMaxOzuFrequency(Integer.parseInt(snap.child("MaxOzuFrequency").getValue().toString()));
-                        cpu.setOzuChannels(Integer.parseInt(snap.child("OzuChannels").getValue().toString()));
-                        cpu.setPciE_version(Double.parseDouble(snap.child("PciE_version").getValue().toString()));
-
-                        if (!snap.child("Graphics").getValue().toString().equals("null") && snap.child("Grpahics").getValue() != null) {
-                            cpu.setGraphics(snap.child("Graphics").getValue().toString());
-                            cpu.setGraphics_frequency(snap.child("GraphicsFrequency").getValue().toString());
-                        }
-
-                        try {
-                            cpu.setFamily(snap.child("Family").getValue().toString());
-                        }
-                        catch (Exception e){
-                        }
-                        cpu.setGeekbench_multi(Integer.parseInt(snap.child("Geekbench_multi").getValue().toString()));
-                        cpu.setGeekbench_single(Integer.parseInt(snap.child("Geekbench_single").getValue().toString()));
-                        cpu.setShipment(snap.child("Shipment").getValue().toString());
-                        cpuList.add(cpu);
+                        cpuList.add(Cpu.createFromSnapshot(snap, true));
                     }
 
                     Completable addCpusToRoom = Completable.fromRunnable(()->{
-
-
-                        // определение лучшей производительности, лучшего соотношения ц/к
-                        double maxCapacity = 0;
-                        double maxRatio = 0;
-
+                        Cpu.setCapacities(cpuList);
                         for (Cpu cpu : cpuList){
-
-                            double capacity = cpu.getGeekbench_multi() + cpu.getGeekbench_single();
-                            double ratio = capacity / cpu.getPrice();
-
-                            if (capacity > maxCapacity) maxCapacity = capacity;
-                            if (ratio > maxRatio) maxRatio = ratio;
-                        }
-
-                        for (Cpu cpu : cpuList) {
-
-                            double capacity = cpu.getGeekbench_multi() + cpu.getGeekbench_single();
-                            double ratio = capacity / cpu.getPrice();
-
-                            capacity = (capacity / maxCapacity) * 100;
-                            capacity = (double) Math.round(capacity * 10) / 10;
-
-                            ratio = ratio / maxRatio * 100;
-
-
-                            ratio = Math.round(ratio * 10);
-                            ratio /= 10;
-
-                            cpu.setCapacity(capacity);
-                            cpu.setRatio(ratio);
-
                             db_components.getProcessorsDao().addCPU(cpu);
                         }
                     });
@@ -458,132 +338,10 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/GPUs").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Gpu> gpuList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Gpu gpu = new Gpu();
-
-                        gpu.setProduct_code(Integer.parseInt(snap.getKey()));
-                        gpu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        gpu.setProducer(snap.child("Producer").getValue().toString());
-                        gpu.setModel(snap.child("Model").getValue().toString());
-                        gpu.setRefLink(snap.child("Url").getValue().toString());
-                        gpu.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        gpu.setGpProducer(snap.child("GpProducer").getValue().toString());
-                        gpu.setGpModel(snap.child("GpModel").getValue().toString());
-                        gpu.setBench(Integer.parseInt(snap.child("Bench").getValue().toString()));
-                        gpu.setBitDepth(Integer.parseInt(snap.child("BitDepth").getValue().toString()));
-
-                        try {
-                            if (snap.child("Interface").getValue() != null) gpu.setGpInterface(snap.child("Interface").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        try {
-                            gpu.setGpFrequency(Integer.parseInt(snap.child("GpFrequency").getValue().toString()));
-                        }catch (Exception e){
-                            Log.d("AAA", snap.getKey());
-                        }
-                        try {
-                            gpu.setGpBoostFrequency(Integer.parseInt(snap.child("GpBoostFrequency").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        try {
-                            gpu.setTechprocess(Integer.parseInt(snap.child("Techprocess").getValue().toString()));
-                        }catch (NullPointerException e){
-                            Log.d("AAA", snap.getKey());
-                        }
-
-                        try {
-                            gpu.setMaxResoultion(snap.child("MaxResolution").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setCoolingSystem(snap.child("CoolingSystem").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setDvi(Integer.parseInt(snap.child("Dvi").getValue().toString()));
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setHdmi(Integer.parseInt(snap.child("Hdmi").getValue().toString()));
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setHdmiVer(snap.child("HdmiVer").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setDisplayPort(Integer.parseInt(snap.child("DisplayPort").getValue().toString()));
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setDisplayPortVer(snap.child("DisplayPortVer").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setOptionalPower(snap.child("OptionalPower").getValue().toString());
-                        }catch (NullPointerException e){}
-
-                        gpu.setOzuType(snap.child("OzuType").getValue().toString());
-                        gpu.setOzuSize(Integer.parseInt(snap.child("OzuSize").getValue().toString()));
-                        gpu.setOzuFrequency(Integer.parseInt(snap.child("OzuFrequency").getValue().toString()));
-
-                        try {
-                            gpu.setMaxTdp(Integer.parseInt(snap.child("MaxTdp").getValue().toString()));
-                        }catch (NullPointerException e){
-                            Log.d("AAA", snap.getKey());
-                        }
-
-                        try {
-                            if (snap.child("DLSS").getValue().toString().equals("есть")) gpu.setDlss(true);
-                            else gpu.setDlss(false);
-                        }catch (NullPointerException e){}
-
-                        try {
-                            if (snap.child("RayTracing").getValue().toString().equals("есть"))
-                                gpu.setRayTracing(true);
-                            else gpu.setRayTracing(false);
-                        }catch (NullPointerException e){}
-
-                        try {
-                            gpu.setLength((int)Double.parseDouble(snap.child("Length").getValue().toString()));
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setDate(snap.child("Date").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setHeatPipes(snap.child("HeatPipes").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setMinBp(Integer.parseInt(snap.child("MinBp").getValue().toString()));
-                        }catch (NullPointerException e){}
-                        try {
-                            gpu.setMonitors(Integer.parseInt(snap.child("Monitors").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        if (snap.child("OverClockEdition").getValue().toString().equals("есть")) gpu.setOCEdition(true);
-                        else gpu.setOCEdition(false);
-
-                        try {
-                            gpu.setRTCores(Integer.parseInt(snap.child("RTCores").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        try {
-                            gpu.setTensorCores(Integer.parseInt(snap.child("TensorCores").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        try {
-                            gpu.setRasterizeBlocks(Integer.parseInt(snap.child("RasterizeBlocks").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        try {
-                            gpu.setTextureBlocks(Integer.parseInt(snap.child("TextureBlocks").getValue().toString()));
-                        }catch (NullPointerException e){}
-
-                        gpuList.add(gpu);
-                    }
 
                     Completable addGpusToRoom = Completable.fromRunnable(()->{
-
-                        for (Gpu gpu : gpuList){
-
-                            db_components.getVideocardsDao().addGPU(gpu);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getVideocardsDao().addGPU(Gpu.createFromSnapshot(snap));
                         }
                     });
 
@@ -606,46 +364,9 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/OZUs").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Ozu> ozuList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Ozu ozu = new Ozu();
-
-                        ozu.setProduct_code(Integer.parseInt(snap.getKey()));
-                        ozu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        ozu.setProducer(snap.child("Producer").getValue().toString());
-                        ozu.setModel(snap.child("Model").getValue().toString());
-                        try {
-                            ozu.setFamily(snap.child("Family").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        ozu.setRefLink(snap.child("Url").getValue().toString());
-                        ozu.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        ozu.setType(snap.child("Type").getValue().toString());
-                        ozu.setSingleCapacity(Integer.parseInt(snap.child("SingleCapacity").getValue().toString()));
-                        ozu.setModulesQuantity(Integer.parseInt(snap.child("ModulesQuantity").getValue().toString()));
-                        ozu.setFrequency(Integer.parseInt(snap.child("Frequency").getValue().toString()));
-
-                        try {
-                            ozu.setLatency(snap.child("Latency").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        if (snap.child("ECC").getValue().toString().equals("есть")) ozu.setECC(true);
-                        else ozu.setECC(false);
-
-                        if (snap.child("Radiator").getValue().toString().equals("есть")) ozu.setRadiator(true);
-                        else ozu.setRadiator(false);
-
-                        ozuList.add(ozu);
-                    }
-
                     Completable addOzusToRoom = Completable.fromRunnable(()->{
-
-                        for (Ozu ozu : ozuList){
-                            db_components.getOzusDao().addOZU(ozu);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getOzusDao().addOZU(Ozu.createFromSnapshot(snap));
                         }
                     });
 
@@ -668,55 +389,9 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/BPs").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Bp> bpList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Bp bp = new Bp();
-
-                        bp.setProduct_code(Integer.parseInt(snap.getKey()));
-                        bp.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        bp.setProducer(snap.child("Producer").getValue().toString());
-                        bp.setModel(snap.child("Model").getValue().toString());
-                        try {
-                            bp.setFamily(snap.child("Family").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        bp.setRefLink(snap.child("Url").getValue().toString());
-                        bp.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        if (snap.child("ActivePFC").getValue().toString().equals("есть"))
-                            bp.setActivePFC(true);
-                        else bp.setActivePFC(false);
-
-                        if (snap.child("Cables").getValue().toString().equals("есть"))
-                            bp.setDetachableCables(true);
-                        else bp.setDetachableCables(false);
-
-                        bp.setCapacity(Integer.parseInt(snap.child("Capacity").getValue().toString()));
-                        bp.setCertificate(snap.child("Certificate").getValue().toString());
-                        bp.setColor(snap.child("Color").getValue().toString());
-                        bp.setCpuPower(snap.child("CpuPower").getValue().toString());
-
-                        try {
-                            bp.setFanSize(Integer.parseInt(snap.child("FanSize").getValue().toString()));
-                        }
-                        catch (NullPointerException e){}
-                        bp.setGpuPower(snap.child("GpuPower").getValue().toString());
-                        bp.setMolex_ConnectorsQuantity(Integer.parseInt(snap.child("Molex").getValue().toString()));
-                        bp.setSata_ConnectorsQuantity(Integer.parseInt(snap.child("Sata").getValue().toString()));
-
-                        if (snap.child("RgbFan").getValue().toString().equals("есть"))
-                            bp.setRgbFan(true);
-                        else bp.setRgbFan(false);
-
-                        bpList.add(bp);
-                    }
-
                     Completable addBPsToRoom = Completable.fromRunnable(()->{
-
-                        for (Bp bp : bpList){
-                            db_components.getBpsDao().addBP(bp);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getBpsDao().addBP(Bp.createFromSnapshot(snap));
                         }
                     });
 
@@ -739,63 +414,11 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/Cases").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Case> caseList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-                        Case caseItem = new Case();
 
-                        caseItem.setProduct_code(Integer.parseInt(snap.getKey()));
-                        caseItem.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        caseItem.setProducer(snap.child("Producer").getValue().toString());
-                        caseItem.setModel(snap.child("Model").getValue().toString());
-
-                        caseItem.setRefLink(snap.child("Url").getValue().toString());
-                        caseItem.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        if (snap.child("Size").exists()) caseItem.setFormFactor(snap.child("Size").getValue().toString());
-                        if (snap.child("BpLocation").exists()) caseItem.setBpPosition(snap.child("BpLocation").getValue().toString());
-                        if (snap.child("Sections525").exists()) caseItem.setSections525(Integer.parseInt(snap.child("Sections525").getValue().toString()));
-                        if (snap.child("Hdd35").exists()) caseItem.setSections35(Integer.parseInt(snap.child("Hdd35").getValue().toString()));
-                        if (snap.child("Sections25").exists()) caseItem.setSections25(Integer.parseInt(snap.child("Sections25").getValue().toString()));
-                        if (snap.child("SlotsQuantity").exists()) caseItem.setSlotsQuantity(Integer.parseInt(snap.child("SlotsQuantity").getValue().toString()));
-                        if (snap.child("Usb20").exists()) caseItem.setUsb20(Integer.parseInt(snap.child("Usb20").getValue().toString()));
-                        if (snap.child("Usb30").exists()) caseItem.setUsb30(Integer.parseInt(snap.child("Usb30").getValue().toString()));
-                        if (snap.child("Audio").exists()) caseItem.setAudio(snap.child("Audio").getValue().toString());
-
-                        if (snap.child("FanFront").exists())  caseItem.setFanFront(snap.child("FanFront").getValue().toString());
-                        if (snap.child("FanBack").exists()) caseItem.setFanBack(snap.child("FanBack").getValue().toString());
-                        if (snap.child("FanOpp").exists()) caseItem.setFanOpp(snap.child("FanOpp").getValue().toString());
-
-                        if (snap.child("GpuLength").exists()) caseItem.setGpu_maxLength(Integer.parseInt(snap.child("GpuLength").getValue().toString()));
-                        if (snap.child("Weight").exists()) caseItem.setWeight(snap.child("Weight").getValue().toString());
-                        if (snap.child("Sizes").exists()) caseItem.setSizes(snap.child("Sizes").getValue().toString());
-                        if (snap.child("Material").exists()) caseItem.setMaterial(snap.child("Material").getValue().toString());
-                        if (snap.child("Walls").exists()) caseItem.setWalls(snap.child("Walls").getValue().toString());
-
-                        if (snap.child("SVO").exists()){
-                            if (snap.child("SVO").getValue().toString().equals("есть")) caseItem.setSVO(true);
-                            else caseItem.setSVO(false);
-                        }
-                        else {
-                            caseItem.setSVO(false);
-                        }
-
-                        if (snap.child("Color").exists()) caseItem.setColor(snap.child("Color").getValue().toString());
-                        if (snap.child("TranspSidePanel").exists()){
-                            if (snap.child("TranspSidePanel").getValue().toString().equals("есть")) caseItem.setTranspSidePanel(true);
-                            else caseItem.setTranspSidePanel(false);
-                        }
-                        else {
-                            caseItem.setTranspSidePanel(false);
-                        }
-
-                        caseList.add(caseItem);
-                    }
-
-                    Log.d("AAA", caseList.size() + "");
                     Completable addCasesToRoom = Completable.fromRunnable(()->{
 
-                        for (Case case1 : caseList){
-                            db_components.getCasesDao().addCASE(case1);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getCasesDao().addCASE(Case.createFromSnapshot(snap));
                         }
                     });
 
@@ -818,64 +441,11 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/Coolers").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Cooler> coolerList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-
-                        Cooler cooler = new Cooler();
-
-                        cooler.setProduct_code(Integer.parseInt(snap.getKey()));
-                        cooler.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        cooler.setProducer(snap.child("Producer").getValue().toString());
-                        cooler.setModel(snap.child("Model").getValue().toString());
-
-                        cooler.setRefLink(snap.child("Url").getValue().toString());
-                        cooler.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        cooler.setBacklight(snap.child("Backlight").getValue().toString());
-                        cooler.setTdp(Integer.parseInt(snap.child("MaxTdp").getValue().toString()));
-                        cooler.setFanQuantity(Integer.parseInt(snap.child("FanQuantity").getValue().toString()));
-                        try {
-                            cooler.setFanSize(Integer.parseInt(snap.child("FanSize").getValue().toString()));
-                        }
-                        catch (NumberFormatException e){
-                            Double d = Double.parseDouble(snap.child("FanSize").getValue().toString());
-                            cooler.setFanSize(d.intValue());
-                        }
-                        cooler.setRotationSpeed(snap.child("FanSpeed").getValue().toString());
-                        try {
-                            cooler.setHeatPipes(snap.child("HeatPipes").getValue().toString());
-                        }catch (NullPointerException e){}
-                        try {
-                            cooler.setHeatPipes_material(snap.child("HeatPipesMaterial").getValue().toString());
-                        }catch (NullPointerException e){}
-
-                        cooler.setNoiseLevel(snap.child("Noise").getValue().toString());
-
-                        if (snap.child("Paste").getValue().toString().equals("есть"))cooler.setPaste(true);
-                        else cooler.setPaste(false);
-
-                        cooler.setPower(snap.child("Power").getValue().toString());
-                        try {
-                            cooler.setRadiatorMaterial(snap.child("RadiatorMaterial").getValue().toString());
-                        }catch (NullPointerException e){}
-
-                        DataSnapshot sockets = snap.child("Sockets");
-                        if (sockets.child("AM4").getValue().equals("да")) cooler.setAM4(true);
-                        else cooler.setAM4(false);
-
-                        if (sockets.child("LGA 1200").getValue().equals("да")) cooler.setLga1200(true);
-                        else cooler.setLga1200(false);
-
-                        if (sockets.child("LGA 1700").getValue().equals("да")) cooler.setLga1700(true);
-                        else cooler.setLga1700(false);
-
-                        coolerList.add(cooler);
-                    }
 
                     Completable addCoolersToRoom = Completable.fromRunnable(()->{
 
-                        for (Cooler cooler : coolerList){
-                            db_components.getCoolersDao().addCOOLER(cooler);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getCoolersDao().addCOOLER(Cooler.createFromSnapshot(snap));
                         }
                     });
 
@@ -898,34 +468,11 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/HDDs").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Hdd> hddList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-                        Hdd hdd = new Hdd();
-
-                        hdd.setProduct_code(Integer.parseInt(snap.getKey()));
-                        hdd.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        hdd.setProducer(snap.child("Producer").getValue().toString());
-                        hdd.setModel(snap.child("Model").getValue().toString());
-                        try {
-                            hdd.setFamily(snap.child("Family").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        hdd.setRefLink(snap.child("Url").getValue().toString());
-                        hdd.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        hdd.setCapacity(Double.parseDouble(snap.child("Capacity").getValue().toString()));
-                        hdd.setFormFactor(snap.child("FormFactor").getValue().toString());
-                        hdd.setBufferMemory(Integer.parseInt(snap.child("Buffer").getValue().toString()));
-                        hdd.setRotationSpeed(Integer.parseInt(snap.child("Speed").getValue().toString()));
-
-                        hddList.add(hdd);
-                    }
 
                     Completable addHDDsToRoom = Completable.fromRunnable(()->{
 
-                        for (Hdd hdd : hddList){
-                            db_components.getHddsDao().addHDD(hdd);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getHddsDao().addHDD(Hdd.createFromSnapshot(snap));
                         }
                     });
 
@@ -948,47 +495,11 @@ public class componentListViewModel extends AndroidViewModel {
             FirebaseDatabase.getInstance().getReference("Data/Components/SSDs").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    List<Ssd> ssdList = new ArrayList<>();
-                    for (DataSnapshot snap : snapshot.getChildren()){
-                        Ssd ssd = new Ssd();
-
-                        ssd.setProduct_code(Integer.parseInt(snap.getKey()));
-                        ssd.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
-                        ssd.setProducer(snap.child("Producer").getValue().toString());
-                        ssd.setModel(snap.child("Model").getValue().toString());
-                        try {
-                            ssd.setFamily(snap.child("Family").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        ssd.setRefLink(snap.child("Url").getValue().toString());
-                        ssd.setPictureLink(snap.child("Picture").getValue().toString());
-
-                        ssd.setCapacity(Integer.parseInt(snap.child("Capacity").getValue().toString()));
-                        ssd.setFormFactor(snap.child("FormFactor").getValue().toString());
-                        ssd.setMaxSpeed_read(Integer.parseInt(snap.child("ReadSpeed").getValue().toString()));
-                        ssd.setMaxSpeed_write(Integer.parseInt(snap.child("WriteSpeed").getValue().toString()));
-
-                        try {
-                            ssd.setTBW((int)Double.parseDouble(snap.child("TBW").getValue().toString()));
-                        }
-                        catch (NullPointerException e){}
-                        try {
-                            ssd.setStorageType(snap.child("StorageType").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-                        try {
-                            ssd.setInterFace(snap.child("Interface").getValue().toString());
-                        }
-                        catch (NullPointerException e){}
-
-                        ssdList.add(ssd);
-                    }
 
                     Completable addSSDsToRoom = Completable.fromRunnable(()->{
 
-                        for (Ssd ssd : ssdList){
-                            db_components.getSsdsDao().addSSD(ssd);
+                        for (DataSnapshot snap : snapshot.getChildren()){
+                            db_components.getSsdsDao().addSSD(Ssd.createFromSnapshot(snap));
                         }
                     });
 

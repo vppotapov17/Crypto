@@ -58,7 +58,7 @@
         app:layout_constraintLeft_toLeftOf="@id/createAccountTitle"
         app:layout_constraintRight_toRightOf="@id/createAccountTitle"
         android:text="СОЗДАТЬ АККАУНТ"
-        android:id="@+id/create_account"
+        android:id="@+id/create_account_anonymous"
         android:textColor="@color/colorAccent"
         android:textSize="12.5sp"
         style="@style/Widget.MaterialComponents.Button.TextButton"/>

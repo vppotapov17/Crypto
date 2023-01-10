@@ -1,6 +1,7 @@
 package com.potapp.cyberhelper.adapters.ConfiguratorAdapters;
 
 import android.graphics.Color;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,8 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -45,12 +48,12 @@ public class componentListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     private int step;
 
-    FragmentManager fm;
+    NavController navController;
     Configuration current_configuration;
     Component current_component;
 
-    public componentListAdapter(List<Component> componentList, List<NativeAd> adList, FragmentManager fm, Configuration current_configuration){
-        this.fm = fm;
+    public componentListAdapter(List<Component> componentList, List<NativeAd> adList, NavController navController, Configuration current_configuration){
+        this.navController = navController;
         this.current_configuration = current_configuration;
 
         this.componentList = new ArrayList<>();
@@ -155,7 +158,7 @@ public class componentListAdapter extends RecyclerView.Adapter<RecyclerView.View
                 public void onClick(View view) {
 
                     Toast.makeText(image.getContext(), current_configuration.addComponent(componentList.get(position), image.getContext()), Toast.LENGTH_SHORT).show();
-                    fm.popBackStack();
+                    navController.popBackStack();
                 }
             });
 
@@ -176,7 +179,11 @@ public class componentListAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             cardView.setOnClickListener(view -> {
 
-                loadFragment(componentInfoFragment.newInstance(componentList.get(position), current_configuration));
+                Bundle args = new Bundle();
+                args.putSerializable("select_component", componentList.get(position));
+                Log.d("AAA", componentList.get(position).getName());
+                args.putSerializable("current_configuration", current_configuration);
+                navController.navigate(R.id.action_componentListFragment_to_componentInfoFragment, args);
             });
         }
         else if (getItemViewType(position) == 1){
@@ -216,11 +223,4 @@ public class componentListAdapter extends RecyclerView.Adapter<RecyclerView.View
     public int getItemCount(){
         return componentList.size();
     }
-    void loadFragment(Fragment fragment){
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.addToBackStack(null);
-        ft.replace(R.id.fragment_container, fragment);
-        ft.commit();
-    }
-
 }

@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
@@ -50,6 +52,7 @@ import java.util.List;
 public class discussionsMainFragment extends Fragment {
 
     private BannerAdView mBannerAdView;
+    private NavController navController;
 
     discussionsMainViewModel vm;
 
@@ -68,6 +71,7 @@ public class discussionsMainFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        navController = NavHostFragment.findNavController(this);
         vm = ViewModelProviders.of(this).get(discussionsMainViewModel.class);
         myQuestionList = new ArrayList<>();
         otherQuestionList = new ArrayList<>();
@@ -87,13 +91,11 @@ public class discussionsMainFragment extends Fragment {
 
         // задать вопрос
 
-        ImageView askQuestionImage = getActivity().findViewById(R.id.askQuestionImage);
+        ImageView askQuestionImage = getView().findViewById(R.id.askQuestionImage);
         askQuestionImage.setOnClickListener(view->{
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
-            ft.setCustomAnimations(R.animator.fade_open, R.animator.fade_close);
-            ft.replace(R.id.fragment_container, vm.OnAskQuestionImageFragment());
-            ft.addToBackStack(null);
-            ft.commit();
+            if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
+                navController.navigate(R.id.action_discussionsMain_to_loginFragment);
+            else navController.navigate(R.id.action_discussionsMain_to_questionCategories);
         });
 
 
@@ -101,9 +103,9 @@ public class discussionsMainFragment extends Fragment {
 
         // обработка списка моих вопросов
 
-        RecyclerView myQuestionsRV = getActivity().findViewById(R.id.myQuestionsRV);                // инициализация RecyclerView
-        ShimmerFrameLayout myQuestionsShimmer = getActivity().findViewById(R.id.shimmer);           // shimmer-layout
-        TextView myQuestionsTitle = getActivity().findViewById(R.id.myQuestionsTitle);              // заголовок
+        RecyclerView myQuestionsRV = getView().findViewById(R.id.myQuestionsRV);                // инициализация RecyclerView
+        ShimmerFrameLayout myQuestionsShimmer = getView().findViewById(R.id.shimmer);           // shimmer-layout
+        TextView myQuestionsTitle = getView().findViewById(R.id.myQuestionsTitle);              // заголовок
 
 
         // список моих вопросов
@@ -114,6 +116,8 @@ public class discussionsMainFragment extends Fragment {
             myQuestionsTitle.setVisibility(View.GONE);
             myQuestionsRV.setVisibility(View.GONE);
             myQuestionsShimmer.setVisibility(View.GONE);
+
+            Log.d("AAA", "Мои вопросы скрыты");
         }
         // если пользователь авторизован, подписываемся на livedata со списком моих вопросов
         else {
@@ -147,7 +151,7 @@ public class discussionsMainFragment extends Fragment {
                     snapHelper.attachToRecyclerView(myQuestionsRV);
 
                     if (myQuestionsRV.getAdapter() == null)
-                        myQuestionsRV.setAdapter(new myQuestionsAdapter(myQuestionList, getFragmentManager()));
+                        myQuestionsRV.setAdapter(new myQuestionsAdapter(myQuestionList, navController));
 
                     else myQuestionsRV.getAdapter().notifyDataSetChanged();
 
@@ -164,9 +168,9 @@ public class discussionsMainFragment extends Fragment {
 
         // обработка списка чужих вопросов
 
-        RecyclerView otherQuestionsRV = getActivity().findViewById(R.id.otherQuestionsRV);
-        ShimmerFrameLayout otherQuestionsShimmer = getActivity().findViewById(R.id.shimmer2);
-        TextView otherQuestionsTitle = getActivity().findViewById(R.id.otherQuestionsTitle);
+        RecyclerView otherQuestionsRV = getView().findViewById(R.id.otherQuestionsRV);
+        ShimmerFrameLayout otherQuestionsShimmer = getView().findViewById(R.id.shimmer2);
+        TextView otherQuestionsTitle = getView().findViewById(R.id.otherQuestionsTitle);
 
         otherQuestionsRV.setVisibility(View.GONE);
         otherQuestionsShimmer.startShimmerAnimation();
@@ -196,7 +200,7 @@ public class discussionsMainFragment extends Fragment {
                 snapHelper2.attachToRecyclerView(otherQuestionsRV);
 
                 if (otherQuestionsRV.getAdapter() == null)
-                    otherQuestionsRV.setAdapter(new otherQuestionsAdapter(otherQuestionList, getFragmentManager()));
+                    otherQuestionsRV.setAdapter(new otherQuestionsAdapter(otherQuestionList, navController));
                 else otherQuestionsRV.getAdapter().notifyDataSetChanged();
 
                 otherQuestionsTitle.setVisibility(View.VISIBLE);

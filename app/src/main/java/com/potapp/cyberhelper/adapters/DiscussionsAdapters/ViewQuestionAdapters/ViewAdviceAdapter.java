@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.potapp.cyberhelper.R;
@@ -31,14 +32,14 @@ public class ViewAdviceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private List<AdviceAnswer> answerList;
     private AdviceQuestion current_question;
-    private FragmentManager fm;
+    private NavController navController;
 
 
-    public ViewAdviceAdapter(List<AdviceAnswer> answerList, AdviceQuestion current_question, FragmentManager fm)
+    public ViewAdviceAdapter(List<AdviceAnswer> answerList, AdviceQuestion current_question, NavController navController)
     {
         this.answerList = answerList;
         this.current_question = current_question;
-        this.fm = fm;
+        this.navController = navController;
     }
 
     @Override
@@ -106,15 +107,7 @@ public class ViewAdviceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             configPrice.setText(current_question.getConfiguration().getFullPrice() + "");
 
             // нажатие на CardView
-            cardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    FragmentTransaction ft = fm.beginTransaction();
-                    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    ft.addToBackStack(null);
-                    ft.replace(R.id.fragment_container, viewReadyConfigurationFragment.newInstance(current_question.getConfiguration())).commit();
-                }
-            });
+            cardView.setOnClickListener(view -> navController.navigate(R.id.action_viewAdvice_to_viewReadyConfigurationFragment));
         }
         else if (getItemViewType(position) == 1)
         {
@@ -240,11 +233,7 @@ public class ViewAdviceAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         {
             ImageView addAnswer = holder.itemView.findViewById(R.id.add_answer);
             addAnswer.setOnClickListener(view -> {
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.fragment_container, AddAdvice.newInstance(current_question.getId()));
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                ft.addToBackStack(null);
-                ft.commit();
+                navController.navigate(R.id.action_viewAdvice_to_addAdvice);
             });
         }
     }

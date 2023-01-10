@@ -2,9 +2,11 @@ package com.potapp.cyberhelper.models.components;
 
 import androidx.room.Entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -383,5 +385,61 @@ public class Case extends Component{
 
         return specifications;
 
+    }
+
+    public static Case createFromSnapshot(DataSnapshot snap){
+        Case caseItem = new Case();
+
+        caseItem.setProduct_code(Integer.parseInt(snap.getKey()));
+        caseItem.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        caseItem.setProducer(snap.child("Producer").getValue().toString());
+        caseItem.setModel(snap.child("Model").getValue().toString());
+
+        caseItem.setRefLink(snap.child("Url").getValue().toString());
+        caseItem.setPictureLink(snap.child("Picture").getValue().toString());
+
+        if (snap.child("Size").exists()) caseItem.setFormFactor(snap.child("Size").getValue().toString());
+        if (snap.child("BpLocation").exists()) caseItem.setBpPosition(snap.child("BpLocation").getValue().toString());
+        if (snap.child("Sections525").exists()) caseItem.setSections525(Integer.parseInt(snap.child("Sections525").getValue().toString()));
+        if (snap.child("Hdd35").exists()) caseItem.setSections35(Integer.parseInt(snap.child("Hdd35").getValue().toString()));
+        if (snap.child("Sections25").exists()) caseItem.setSections25(Integer.parseInt(snap.child("Sections25").getValue().toString()));
+        if (snap.child("SlotsQuantity").exists()) caseItem.setSlotsQuantity(Integer.parseInt(snap.child("SlotsQuantity").getValue().toString()));
+        if (snap.child("Usb20").exists()) caseItem.setUsb20(Integer.parseInt(snap.child("Usb20").getValue().toString()));
+        if (snap.child("Usb30").exists()) caseItem.setUsb30(Integer.parseInt(snap.child("Usb30").getValue().toString()));
+        if (snap.child("Audio").exists()) caseItem.setAudio(snap.child("Audio").getValue().toString());
+
+        if (snap.child("FanFront").exists())  caseItem.setFanFront(snap.child("FanFront").getValue().toString());
+        if (snap.child("FanBack").exists()) caseItem.setFanBack(snap.child("FanBack").getValue().toString());
+        if (snap.child("FanOpp").exists()) caseItem.setFanOpp(snap.child("FanOpp").getValue().toString());
+
+        if (snap.child("GpuLength").exists()) caseItem.setGpu_maxLength(Integer.parseInt(snap.child("GpuLength").getValue().toString()));
+        if (snap.child("Weight").exists()) caseItem.setWeight(snap.child("Weight").getValue().toString());
+        if (snap.child("Sizes").exists()) caseItem.setSizes(snap.child("Sizes").getValue().toString());
+        if (snap.child("Material").exists()) caseItem.setMaterial(snap.child("Material").getValue().toString());
+        if (snap.child("Walls").exists()) caseItem.setWalls(snap.child("Walls").getValue().toString());
+
+        if (snap.child("SVO").exists()){
+            if (snap.child("SVO").getValue().toString().equals("есть")) caseItem.setSVO(true);
+            else caseItem.setSVO(false);
+        }
+        else {
+            caseItem.setSVO(false);
+        }
+
+        if (snap.child("Color").exists()) caseItem.setColor(snap.child("Color").getValue().toString());
+        if (snap.child("TranspSidePanel").exists()){
+            if (snap.child("TranspSidePanel").getValue().toString().equals("есть")) caseItem.setTranspSidePanel(true);
+            else caseItem.setTranspSidePanel(false);
+        }
+        else {
+            caseItem.setTranspSidePanel(false);
+        }
+
+        return caseItem;
+    }
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
     }
 }

@@ -1,16 +1,15 @@
 package com.potapp.cyberhelper.models.components;
 
 
-import android.content.Context;
 import android.util.Log;
 
 import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.Room;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -310,5 +309,124 @@ public class Cpu extends Component {
         }
 
         return specs;
+    }
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+
+        map.put("Code", getProduct_code() + "");
+        map.put("Price", getPrice() + "");
+        map.put("Producer", getProducer() + "");
+        map.put("Model", getModel() + "");
+        map.put("Socket", socket + "");
+        map.put("Url", getRefLink() + "");
+        map.put("Picture", getPictureLink() + "");
+
+        map.put("Cores", cores + "");
+        map.put("Streams", streams + "");
+        map.put("BaseFrequency", baseFrequency + "");
+        map.put("TurboFrequency", turboFrequency + "");
+        map.put("Cache", cache + "");
+        map.put("Techprocess", techprocess + "");
+        map.put("Multiplier", multiplier + "");
+
+        map.put("Tdp", tdp + "");
+        map.put("OzuType", ozuType + "");
+        map.put("MaxOzuFrequency", maxOzuFrequency + "");
+        map.put("OzuChannels", ozuChannels + "");
+        map.put("PciE_version", pciE_version + "");
+
+        if (graphics != null){
+            map.put("Graphics", graphics + "");
+            map.put("GraphicsFrequency", graphics_frequency + "");
+        }
+
+        if (family != null) map.put("Family", getFamily());
+        map.put("Geekbench_multi", geekbench_multi + "");
+        map.put("Geekbench_single", geekbench_single + "");
+        map.put("Shipment", shipment + "");
+
+        return map;
+    }
+
+    public static Cpu createFromSnapshot(DataSnapshot snap, boolean param){
+        Cpu cpu = new Cpu();
+
+        if (param) cpu.setProduct_code(Integer.parseInt(snap.getKey()));
+        else cpu.setProduct_code(Integer.parseInt(snap.child("Code").getValue().toString()));
+
+        cpu.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        cpu.setProducer(snap.child("Producer").getValue().toString());
+        cpu.setModel(snap.child("Model").getValue().toString());
+        cpu.setSocket(snap.child("Socket").getValue().toString());
+        cpu.setRefLink(snap.child("Url").getValue().toString());
+        cpu.setPictureLink(snap.child("Picture").getValue().toString());
+        cpu.setCores(Integer.parseInt(snap.child("Cores").getValue().toString()));
+        cpu.setStreams(Integer.parseInt(snap.child("Streams").getValue().toString()));
+        cpu.setBaseFrequency(Double.parseDouble(snap.child("BaseFrequency").getValue().toString()));
+        cpu.setTurboFrequency(Double.parseDouble(snap.child("TurboFrequency").getValue().toString()));
+        cpu.setCache(Integer.parseInt(snap.child("Cache").getValue().toString()));
+        cpu.setTechprocess(Integer.parseInt(snap.child("Techprocess").getValue().toString()));
+        cpu.setMultiplier(snap.child("Multiplier").getValue().toString());
+        cpu.setTdp(Integer.parseInt(snap.child("Tdp").getValue().toString()));
+        cpu.setOzuType(snap.child("OzuType").getValue().toString());
+        cpu.setMaxOzuFrequency(Integer.parseInt(snap.child("MaxOzuFrequency").getValue().toString()));
+        cpu.setOzuChannels(Integer.parseInt(snap.child("OzuChannels").getValue().toString()));
+        cpu.setPciE_version(Double.parseDouble(snap.child("PciE_version").getValue().toString()));
+
+        if (snap.child("Graphics").exists()){
+            if (!snap.child("Graphics").getValue().toString().equals("null") && snap.child("Grpahics").getValue() != null) {
+                cpu.setGraphics(snap.child("Graphics").getValue().toString());
+                cpu.setGraphics_frequency(snap.child("GraphicsFrequency").getValue().toString());
+            }
+        }
+
+
+        try {
+            cpu.setFamily(snap.child("Family").getValue().toString());
+        }
+        catch (Exception e){
+        }
+        cpu.setGeekbench_multi(Integer.parseInt(snap.child("Geekbench_multi").getValue().toString()));
+        cpu.setGeekbench_single(Integer.parseInt(snap.child("Geekbench_single").getValue().toString()));
+        cpu.setShipment(snap.child("Shipment").getValue().toString());
+
+
+        return cpu;
+    }
+
+    public static void setCapacities(List<Cpu> cpusWithoutCapacities){
+
+        // определение лучшей производительности, лучшего соотношения ц/к
+        double maxCapacity = 0;
+        double maxRatio = 0;
+
+        for (Cpu cpuWithoutCapacity : cpusWithoutCapacities){
+
+            double capacity = cpuWithoutCapacity.geekbench_multi + cpuWithoutCapacity.geekbench_single;
+            double ratio = capacity / cpuWithoutCapacity.getPrice();
+
+            if (capacity > maxCapacity) maxCapacity = capacity;
+            if (ratio > maxRatio) maxRatio = ratio;
+        }
+
+        // определение производительности, соотношения ц/к для каждого процессора
+
+        for (Cpu cpu : cpusWithoutCapacities){
+            double capacity = cpu.getGeekbench_multi() + cpu.getGeekbench_single();
+            double ratio = capacity / cpu.getPrice();
+
+            capacity = (capacity / maxCapacity) * 100;
+            capacity = (double) Math.round(capacity * 10) / 10;
+
+            ratio = ratio / maxRatio * 100;
+
+
+            ratio = Math.round(ratio * 10);
+            ratio /= 10;
+
+            cpu.setCapacity(capacity);
+            cpu.setRatio(ratio);
+        }
     }
 }

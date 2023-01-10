@@ -11,6 +11,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -106,14 +108,14 @@ public class componentListFragment extends Fragment {
         // инициализация элементов интерфейса
         DrawerLayout drawerLayout = getActivity().findViewById(R.id.drawer_layout);
 
-        ProgressBar progressBar = getActivity().findViewById(R.id.progressBar);
-        RecyclerView rv = getActivity().findViewById(R.id.rv);
-        ImageButton filterButton = getActivity().findViewById(R.id.filter_button);
-        MaterialToolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        ProgressBar progressBar = getView().findViewById(R.id.progressBar);
+        RecyclerView rv = getView().findViewById(R.id.rv);
+        ImageButton filterButton = getView().findViewById(R.id.filter_button);
+        MaterialToolbar toolbar = getView().findViewById(R.id.toolbar);
 
-        ConstraintLayout no_components = getActivity().findViewById(R.id.no_components);
+        ConstraintLayout no_components = getView().findViewById(R.id.no_components);
 
-        TextView title = getActivity().findViewById(R.id.title);
+        TextView title = getView().findViewById(R.id.title);
 
         title.setText(viewModel.getCurrentTitle());
 
@@ -131,6 +133,7 @@ public class componentListFragment extends Fragment {
 
         // подиска на обновление ViewModel
         viewModel.getComponentListLiveData().observe(this, components -> {
+
             new Handler().postDelayed(() -> {
 
 
@@ -142,12 +145,12 @@ public class componentListFragment extends Fragment {
                         viewModel.getAdListLiveData().observe(this, nativeAds -> {
                             progressBar.setVisibility(View.INVISIBLE);
                             adList = nativeAds;
-                            rv.setAdapter(new componentListAdapter(components, nativeAds, getFragmentManager(), current_configuration));
+                            rv.setAdapter(new componentListAdapter(components, nativeAds, NavHostFragment.findNavController(this), current_configuration));
                         });
                         viewModel.loadNativeAdList(getContext(), components.size());
                     }
                     else{
-                        rv.setAdapter(new componentListAdapter(components, adList, getFragmentManager(), current_configuration));
+                        rv.setAdapter(new componentListAdapter(components, adList, NavHostFragment.findNavController(this), current_configuration));
                         progressBar.setVisibility(View.INVISIBLE);
                     }
 
@@ -159,7 +162,7 @@ public class componentListFragment extends Fragment {
                 }
 
 
-            }, 150);
+            }, 250);
         });
 
 

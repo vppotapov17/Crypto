@@ -4,9 +4,11 @@ import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -321,5 +323,63 @@ public class Cooler extends Component{
         }
 
         return value;
+    }
+
+    public static Cooler createFromSnapshot(DataSnapshot snap){
+        Cooler cooler = new Cooler();
+
+        cooler.setProduct_code(Integer.parseInt(snap.getKey()));
+        cooler.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        cooler.setProducer(snap.child("Producer").getValue().toString());
+        cooler.setModel(snap.child("Model").getValue().toString());
+
+        cooler.setRefLink(snap.child("Url").getValue().toString());
+        cooler.setPictureLink(snap.child("Picture").getValue().toString());
+
+        cooler.setBacklight(snap.child("Backlight").getValue().toString());
+        cooler.setTdp(Integer.parseInt(snap.child("MaxTdp").getValue().toString()));
+        cooler.setFanQuantity(Integer.parseInt(snap.child("FanQuantity").getValue().toString()));
+        try {
+            cooler.setFanSize(Integer.parseInt(snap.child("FanSize").getValue().toString()));
+        }
+        catch (NumberFormatException e){
+            Double d = Double.parseDouble(snap.child("FanSize").getValue().toString());
+            cooler.setFanSize(d.intValue());
+        }
+        cooler.setRotationSpeed(snap.child("FanSpeed").getValue().toString());
+        try {
+            cooler.setHeatPipes(snap.child("HeatPipes").getValue().toString());
+        }catch (NullPointerException e){}
+        try {
+            cooler.setHeatPipes_material(snap.child("HeatPipesMaterial").getValue().toString());
+        }catch (NullPointerException e){}
+
+        cooler.setNoiseLevel(snap.child("Noise").getValue().toString());
+
+        if (snap.child("Paste").getValue().toString().equals("есть"))cooler.setPaste(true);
+        else cooler.setPaste(false);
+
+        cooler.setPower(snap.child("Power").getValue().toString());
+        try {
+            cooler.setRadiatorMaterial(snap.child("RadiatorMaterial").getValue().toString());
+        }catch (NullPointerException e){}
+
+        DataSnapshot sockets = snap.child("Sockets");
+        if (sockets.child("AM4").getValue().equals("да")) cooler.setAM4(true);
+        else cooler.setAM4(false);
+
+        if (sockets.child("LGA 1200").getValue().equals("да")) cooler.setLga1200(true);
+        else cooler.setLga1200(false);
+
+        if (sockets.child("LGA 1700").getValue().equals("да")) cooler.setLga1700(true);
+        else cooler.setLga1700(false);
+
+        return cooler;
+    }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
     }
 }

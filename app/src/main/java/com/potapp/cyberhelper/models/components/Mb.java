@@ -1,10 +1,14 @@
 package com.potapp.cyberhelper.models.components;
 
+import android.util.Log;
+
 import androidx.room.Entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -322,4 +326,57 @@ public class Mb extends Component {
         return specs;
     }
 
+    public static Mb createFromSnapshot(DataSnapshot snap){
+        Mb mb = new Mb();
+
+        mb.setProduct_code(Integer.parseInt(snap.getKey()));
+        mb.setProducer(snap.child("Producer").getValue().toString());
+        mb.setModel(snap.child("Model").getValue().toString());
+        try {
+            mb.setSocket(snap.child("Socket").getValue().toString());
+        }
+        catch (Exception e){
+            Log.d("AAA", mb.getProduct_code() + "");
+        }
+        mb.setRefLink(snap.child("Url").getValue().toString());
+        mb.setPictureLink(snap.child("Picture").getValue().toString());
+        mb.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        mb.setChipset(snap.child("Chipset").getValue().toString());
+        mb.setOzuType(snap.child("OzuType").getValue().toString());
+        mb.setOzuSlotsQuantity(Integer.parseInt(snap.child("OzuSlots").getValue().toString()));
+        mb.setMaxOzuSize(Integer.parseInt(snap.child("MaxOzuSize").getValue().toString()));
+        mb.setOzuFrequencySpec(Integer.parseInt(snap.child("OzuFrequencySpec").getValue().toString()));
+        mb.setPciE_x1(Integer.parseInt(snap.child("PciE_x1").getValue().toString()));
+        mb.setPciEv3_x16(Integer.parseInt(snap.child("PciEv3_x16").getValue().toString()));
+        mb.setPciEv4_x16(Integer.parseInt(snap.child("PciEv4_x16").getValue().toString()));
+        mb.setSata3(Integer.parseInt(snap.child("Sata3").getValue().toString()));
+        mb.setM2(Integer.parseInt(snap.child("M2").getValue().toString()));
+        try {
+            mb.setPs2(snap.child("PS2").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        mb.setUsb20(Integer.parseInt(snap.child("Usb20").getValue().toString()));
+        mb.setUsb30(Integer.parseInt(snap.child("Usb30").getValue().toString()));
+        mb.setUsb31(Integer.parseInt(snap.child("Usb31").getValue().toString()));
+        mb.setUsbC(Integer.parseInt(snap.child("UsbC").getValue().toString()));
+        mb.setDisplayPort(Integer.parseInt(snap.child("DisplayPort").getValue().toString()));
+        mb.setVga(Integer.parseInt(snap.child("VGA").getValue().toString()));
+        mb.setHdmi(Integer.parseInt(snap.child("HDMI").getValue().toString()));
+        mb.setNetwork(snap.child("Network").getValue().toString());
+        mb.setSound(snap.child("Sound").getValue().toString());
+        mb.setFormFactor(snap.child("FormFactor").getValue().toString());
+
+        try {
+            mb.setPower(snap.child("Power").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        return mb;
+    }
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
+    }
 }

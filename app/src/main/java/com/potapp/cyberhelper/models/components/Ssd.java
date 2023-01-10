@@ -2,9 +2,11 @@ package com.potapp.cyberhelper.models.components;
 
 import androidx.room.Entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -176,4 +178,45 @@ public class Ssd extends Component {
         return specifications;
     }
 
+    public static Ssd createFromSnapshot(DataSnapshot snap){
+        Ssd ssd = new Ssd();
+
+        ssd.setProduct_code(Integer.parseInt(snap.getKey()));
+        ssd.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        ssd.setProducer(snap.child("Producer").getValue().toString());
+        ssd.setModel(snap.child("Model").getValue().toString());
+        try {
+            ssd.setFamily(snap.child("Family").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        ssd.setRefLink(snap.child("Url").getValue().toString());
+        ssd.setPictureLink(snap.child("Picture").getValue().toString());
+
+        ssd.setCapacity(Integer.parseInt(snap.child("Capacity").getValue().toString()));
+        ssd.setFormFactor(snap.child("FormFactor").getValue().toString());
+        ssd.setMaxSpeed_read(Integer.parseInt(snap.child("ReadSpeed").getValue().toString()));
+        ssd.setMaxSpeed_write(Integer.parseInt(snap.child("WriteSpeed").getValue().toString()));
+
+        try {
+            ssd.setTBW((int)Double.parseDouble(snap.child("TBW").getValue().toString()));
+        }
+        catch (NullPointerException e){}
+        try {
+            ssd.setStorageType(snap.child("StorageType").getValue().toString());
+        }
+        catch (NullPointerException e){}
+        try {
+            ssd.setInterFace(snap.child("Interface").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        return ssd;
+    }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
+    }
 }

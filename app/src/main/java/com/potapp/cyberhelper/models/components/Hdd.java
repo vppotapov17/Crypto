@@ -2,9 +2,11 @@ package com.potapp.cyberhelper.models.components;
 
 import androidx.room.Entity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.potapp.cyberhelper.models.mainSpec;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Entity
@@ -127,5 +129,34 @@ public class Hdd extends Component{
         if (rotationSpeed != 0) specs.add(new String[]{"Скорость вращения", rotationSpeed + " об/мин"});
 
         return specs;
+    }
+
+    public static Hdd createFromSnapshot(DataSnapshot snap){
+        Hdd hdd = new Hdd();
+
+        hdd.setProduct_code(Integer.parseInt(snap.getKey()));
+        hdd.setPrice(Integer.parseInt(snap.child("Price").getValue().toString()));
+        hdd.setProducer(snap.child("Producer").getValue().toString());
+        hdd.setModel(snap.child("Model").getValue().toString());
+        try {
+            hdd.setFamily(snap.child("Family").getValue().toString());
+        }
+        catch (NullPointerException e){}
+
+        hdd.setRefLink(snap.child("Url").getValue().toString());
+        hdd.setPictureLink(snap.child("Picture").getValue().toString());
+
+        hdd.setCapacity(Double.parseDouble(snap.child("Capacity").getValue().toString()));
+        hdd.setFormFactor(snap.child("FormFactor").getValue().toString());
+        hdd.setBufferMemory(Integer.parseInt(snap.child("Buffer").getValue().toString()));
+        hdd.setRotationSpeed(Integer.parseInt(snap.child("Speed").getValue().toString()));
+
+        return hdd;
+    }
+
+
+    public HashMap<String, String> toFirebase(){
+        HashMap<String, String> map = new HashMap<>();
+        return map;
     }
 }

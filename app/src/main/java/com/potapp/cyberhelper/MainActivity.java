@@ -1,9 +1,19 @@
 package com.potapp.cyberhelper;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.NavDestination;
+import androidx.navigation.NavGraph;
+import androidx.navigation.NavOptions;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.navigation.ui.NavigationUI;
 
 
 import android.content.Context;
@@ -11,7 +21,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
+import com.google.android.material.navigation.NavigationBarView;
 import com.potapp.cyberhelper.models.User;
 import com.potapp.cyberhelper.screens.account.AuthorizedUser.AuthorizedUserFragment;
 import com.potapp.cyberhelper.screens.account.AnonymousUser.AnonymousAccountFragment;
@@ -27,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
 
     public static User current_user;
 
-
     public void loadFragment(Fragment fragment){
         FragmentManager fm = getSupportFragmentManager();
         final FragmentTransaction ft = fm.beginTransaction();
@@ -38,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         //ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 
-        ft.setCustomAnimations(R.animator.fade_open, R.animator.fade_close);
+        ft.setCustomAnimations(R.anim.fade_open, R.anim.fade_close);
         ft.replace(R.id.fragment_container, fragment);
         for (int i = 0; i < fm.getBackStackEntryCount(); ++i) {
             fm.popBackStack();
@@ -53,7 +65,13 @@ public class MainActivity extends AppCompatActivity {
         setTheme(R.style.AppTheme);
         setContentView(R.layout.activity_main);
 
-        Log.d("AAA", "Create");
+        BottomNavigationView bn = findViewById(R.id.navigation_bar);
+
+
+        NavHostFragment fragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        NavController navController = fragment.getNavController();
+
+        NavigationUI.setupWithNavController(bn, navController);
 
         MobileAds.initialize(this, new InitializationListener() {
             @Override
@@ -64,35 +82,9 @@ public class MainActivity extends AppCompatActivity {
 
         current_user = (User)getIntent().getSerializableExtra("current_user");
 
-        BottomNavigationView bn = findViewById(R.id.navigation_bar);
-
-        bn.setOnNavigationItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.navigation_configurator:
-                    loadFragment(configurationListFragment.newInstance());
-                    return true;
-//                case R.id.navigation_readyconfigurations:
-//                    loadFragment(MainReadyConfigurations.newInstance());
-//                    return true;
-                case R.id.navigation_questions:
-                    loadFragment(discussionsMainFragment.newInstance());
-                    return true;
-                case R.id.navigation_account:
-                    try {
-                        if (FirebaseAuth.getInstance().getCurrentUser().isAnonymous())
-                            loadFragment(AnonymousAccountFragment.newInstance());
-                        else loadFragment(AuthorizedUserFragment.newInstance());
-                        return true;
-                    }
-                    catch (NullPointerException e)
-                    {}
-                default: return false;
-            }
-        });
-
-        loadFragment(configurationListFragment.newInstance());
 
     }
+
 
     public static boolean isOnline(Context context){
         ConnectivityManager cm = (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
